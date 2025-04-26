@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:paddingTop="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/icLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_location"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        />
+
+    <TextView
+        android:id="@+id/locationTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tashkent, UZ"
+        app:layout_constraintTop_toTopOf="@id/icLocation"
+        app:layout_constraintBottom_toBottomOf="@id/icLocation"
+        app:layout_constraintStart_toEndOf="@id/icLocation"
+        android:layout_marginStart="6dp"
+        android:textColor="@color/text_color_bold"
+        android:fontFamily="@font/font_family"
+        android:drawableEnd="@drawable/ic_arrow"
+        android:drawablePadding="6dp"
+        android:textSize="16sp"
+        />
+
+    <ImageView
+        android:id="@+id/icNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_notif"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        />
+
+
+    <EditText
+        android:id="@+id/searchEdt"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edt_bg"
+        android:drawableStart="@drawable/ic_search"
+        android:padding="12dp"
+        android:text="Search Anything..."
+        android:textSize="12sp"
+        android:textColor="@color/back_search_text"
+        android:drawablePadding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icNotification" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="168dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchEdt" />
+
+    <TextView
+        android:id="@+id/magazineTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/font_family"
+        android:text="Magazine"
+        android:textColor="@color/magazine_txt"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewPager" />
+
+
+    <TextView
+        android:id="@+id/seeAllMagazine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/font_family"
+        android:text="See All"
+        android:padding="@dimen/_10sdp"
+        android:textColor="@color/see_all"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/magazineTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/magazineTxt" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMagazine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/seeAllMagazine"
+        tools:listitem="@layout/item_magazine"
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        />
+
+    <TextView
+        android:id="@+id/pharmacyTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/font_family"
+        android:text="Pharmacy"
+        android:textColor="@color/magazine_txt"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvMagazine" />
+
+
+    <TextView
+        android:id="@+id/seeAllPharmacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/font_family"
+        android:text="See All"
+        android:padding="@dimen/_10sdp"
+        android:textColor="@color/see_all"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/pharmacyTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pharmacyTxt" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPharmacy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/seeAllPharmacy"
+        tools:listitem="@layout/item_magazine"
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

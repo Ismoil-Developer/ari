@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        gradlePluginPortal()
+        maven { url = uri("https://maven.yandex.ru")
+
+        }
+        // Yandex repository
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.yandex.ru/' }
+    }
+}
+
+
+
+rootProject.name = "AriGo"
+include ':app'

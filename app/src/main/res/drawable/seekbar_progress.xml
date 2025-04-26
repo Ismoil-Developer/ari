@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Orqa fon (background) -->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <size android:height="4dp"/>
+            <solid android:color="@android:color/transparent"/> <!-- Yengil orange -->
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+
+    <!-- To‘ldirilayotgan progress -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <size android:height="4dp"/>
+                <solid android:color="#FF9800"/> <!-- Yorqin orange -->
+                <corners android:radius="2dp"/>
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

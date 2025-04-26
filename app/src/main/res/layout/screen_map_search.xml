@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:paddingTop="16dp">
+
+    <ImageView
+        android:id="@+id/icBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:drawablePadding="6dp"
+        android:fontFamily="@font/font_family"
+        android:text="Magazinlar"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/icBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/icBack" />
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/icBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="-20dp"
+        app:layout_constraintBottom_toTopOf="@id/searchContainer"
+        />
+
+    <ImageView
+        android:id="@+id/plus"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="20dp"
+        android:padding="10dp"
+        android:background="@drawable/back_map_btn"
+        />
+
+    <ImageView
+        android:id="@+id/minus"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_minus"
+        android:layout_marginEnd="20dp"
+        android:padding="10dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plus"
+        android:background="@drawable/back_map_btn"
+        />
+
+    <ImageView
+        android:id="@+id/gps"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_navigation"
+        app:layout_constraintTop_toBottomOf="@id/minus"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:padding="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/back_map_btn"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bottom_sheet_dialog"
+        >
+
+        <ImageView
+            android:id="@+id/ic_radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_radius"
+            android:layout_marginTop="17dp"
+            android:layout_marginStart="24dp"
+            />
+
+        <TextView
+            android:id="@+id/radiusCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/font_family_medium"
+            android:text="1"
+            android:textColor="@color/text_color_bold"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@id/ic_radius"
+            app:layout_constraintBottom_toBottomOf="@id/ic_radius"
+            app:layout_constraintStart_toEndOf="@id/ic_radius"
+            />
+
+        <TextView
+            android:id="@+id/radiusCountTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/font_family_medium"
+            android:text="km masofada qidirish"
+            android:textColor="@color/text_color_bold"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@id/ic_radius"
+            app:layout_constraintBottom_toBottomOf="@id/ic_radius"
+            app:layout_constraintStart_toEndOf="@id/radiusCount"
+            />
+
+        <SeekBar
+            android:id="@+id/seekBarCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="4dp"
+            android:maxHeight="4dp"
+            android:max="50"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/seekbar_thumb"
+            app:layout_constraintTop_toBottomOf="@id/radiusCount"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/seekBarCount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/item_search_location"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

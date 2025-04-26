@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/icBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:drawablePadding="6dp"
+        android:fontFamily="@font/font_family"
+        android:text="Profile"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/icBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/icBack" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="26dp"
+        android:src="@drawable/profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <ImageView
+        android:id="@+id/edtImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/edt_profile"
+        app:layout_constraintBottom_toBottomOf="@id/profileImg"
+        app:layout_constraintEnd_toEndOf="@id/profileImg" />
+
+
+    <TextView
+        android:id="@+id/profileInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="6dp"
+        android:fontFamily="@font/font_family"
+        android:text="Profile Info"
+        android:textColor="@color/text_color_bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileImg" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/conPrfInfo"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileInfo"
+        app:strokeColor="@android:color/transparent"
+        app:strokeWidth="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="6dp"
+                android:fontFamily="@font/font_family_medium"
+                android:text="Your name"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/textProfile"
+                android:textSize="16sp"
+                android:padding="16dp"
+                android:background="@drawable/edt_bg"
+                app:layout_constraintBottom_toTopOf="@id/edtNumber"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edtNumber"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="6dp"
+                android:padding="16dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/font_family_medium"
+                android:text="Phone number"
+                android:background="@drawable/edt_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtName"
+                android:textColor="@color/textProfile"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+    <LinearLayout
+        android:id="@+id/btnUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/conPrfInfo"
+        android:background="@drawable/back_style_button"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family_medium"
+            android:src="@drawable/ic_edit_btn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/font_family"
+            android:text="Edit"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

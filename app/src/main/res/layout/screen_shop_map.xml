@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:paddingTop="16dp">
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/transportSelector"
+        />
+
+    <RadioGroup
+        android:id="@+id/transportSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/startRouteButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbWalking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Piyoda"/>
+
+        <RadioButton
+            android:id="@+id/rbDriving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mashina"/>
+
+        <RadioButton
+            android:id="@+id/rbTransit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avtobus"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/startRouteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Marshrutni chizish"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

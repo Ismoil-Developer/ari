@@ -1,0 +1,40 @@
+package uz.mrx.arigo.presentation.ui.screen.fragment.detail.magazine
+
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import uz.mrx.arigo.R
+import uz.mrx.arigo.databinding.PageMagazineInfoBinding
+import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
+import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
+
+@AndroidEntryPoint
+class MagazineInfoPage(private val id: Int):Fragment(R.layout.page_magazine_info) {
+
+    private val binding:PageMagazineInfoBinding by viewBinding(PageMagazineInfoBinding::bind)
+    private val viewModel: MagazineDetailScreenViewModel by viewModels<MagazineDetailScreenViewModelImpl>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (id != -1){
+            viewModel.getFeaturesDetail(id)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.featuresDetailResponse.collectLatest {
+                binding.workTimerTxt.text = it.work_start + " - " + it.work_end
+                binding.workLocationTxt.text = it.locations
+                binding.workPhoneTxt.text = it.phone_number
+                binding.resAboutTxt.text = it.about
+            }
+        }
+
+    }
+}

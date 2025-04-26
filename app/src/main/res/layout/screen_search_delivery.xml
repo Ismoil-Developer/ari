@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imgDelivery"
+        android:layout_width="match_parent"
+        android:layout_height="411dp"
+        android:src="@drawable/picture_creera"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/searchDeliveryTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/font_family"
+        android:text="Sizga eng yaqin kuryer \nqidirilmoqda"
+        android:textColor="@color/text_color_bold"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/imgDelivery" />
+
+    <TextView
+        android:id="@+id/searchDeliveryTxtDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/font_family_medium"
+        android:text="We work on a crowdsourcing model.
+You place an order, the system selects
+the perfect courier for you."
+        android:textColor="@color/gray500"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/searchDeliveryTxt" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/back_style_button_delivery"
+        android:fontFamily="@font/font_family_medium"
+        android:text="Davom etish"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/icBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/font_family"
+        android:text="History"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/contract_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/font_family_medium"
+        android:text="21444-23213"
+        android:textColor="@color/text_color_medium"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <ImageView
+        android:id="@+id/icMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/shopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/font_family"
+        android:text="Baraka supermarketi"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contract_number" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/font_family_medium"
+        android:text="31 dekabr 20:00 Yetkazildi"
+        android:textColor="@color/text_color_medium"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shopName" />
+
+
+    <TextView
+        android:id="@+id/yetkazishTafsiloti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/font_family"
+        android:text="Yetkazish tafsilotlari"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date" />
+
+
+    <ImageView
+        android:id="@+id/deliveryBasket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_delivery_basket"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/yetkazishTafsiloti" />
+
+
+    <TextView
+        android:id="@+id/shopName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/font_family"
+        android:text="Baraka supermarketi"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/deliveryBasket"
+        app:layout_constraintTop_toTopOf="@id/deliveryBasket" />
+
+    <TextView
+        android:id="@+id/shopRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="1dp"
+        android:fontFamily="@font/font_family_medium"
+        android:text="Shayhontohur tumani"
+        android:textColor="@color/text_color_medium"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/deliveryBasket"
+        app:layout_constraintStart_toEndOf="@id/deliveryBasket" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#F2F4F7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/shopRegion"
+        app:layout_constraintTop_toBottomOf="@id/shopRegion" />
+
+
+    <ImageView
+        android:id="@+id/locationImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_delivery_location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+
+    <TextView
+        android:id="@+id/addressRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/font_family"
+        android:text="Baraka supermarketi"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/locationImg"
+        app:layout_constraintStart_toEndOf="@id/locationImg"
+        app:layout_constraintTop_toTopOf="@id/locationImg" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#F2F4F7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/shopRegion"
+        app:layout_constraintTop_toBottomOf="@id/locationImg" />
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#F2F4F7"
+        app:layout_constraintBottom_toTopOf="@id/locationImg"
+        app:layout_constraintEnd_toEndOf="@id/locationImg"
+        app:layout_constraintStart_toStartOf="@id/locationImg"
+        app:layout_constraintTop_toBottomOf="@id/deliveryBasket" />
+
+
+    <TextView
+        android:id="@+id/paymentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/font_family"
+        android:text="Yetkazish tafsilotlari"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+    <ImageView
+        android:id="@+id/payTypeImg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/paymentType" />
+
+    <TextView
+        android:id="@+id/typeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/font_family"
+        android:text="Uzum Bank"
+        android:textColor="@color/text_color_bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/payTypeImg"
+        app:layout_constraintTop_toTopOf="@id/payTypeImg" />
+
+    <TextView
+        android:id="@+id/typeInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="1dp"
+        android:fontFamily="@font/font_family_medium"
+        android:text="Batafsil"
+        android:textColor="@color/text_color_medium"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/payTypeImg"
+        app:layout_constraintStart_toEndOf="@id/payTypeImg" />
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#F2F4F7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/typeInfo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
