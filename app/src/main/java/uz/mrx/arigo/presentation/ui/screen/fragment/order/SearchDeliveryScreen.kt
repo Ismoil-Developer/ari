@@ -24,15 +24,12 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
     private val viewModel: SearchDeliveryScreenViewModel by viewModels<SearchDeliveryScreenViewModelImpl>()
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnContinue.setOnClickListener {
             viewModel.openFindDeliveryScreen()
         }
-
-
 
     }
 }

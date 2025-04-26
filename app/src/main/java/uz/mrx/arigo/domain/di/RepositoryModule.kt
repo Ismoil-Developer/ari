@@ -8,6 +8,8 @@ import uz.mrx.arigo.data.repository.feature.FeatureRepository
 import uz.mrx.arigo.data.repository.feature.impl.FeatureRepositoryImpl
 import uz.mrx.arigo.data.repository.location.LocationRepository
 import uz.mrx.arigo.data.repository.location.impl.LocationRepositoryImpl
+import uz.mrx.arigo.data.repository.order.OrderRepository
+import uz.mrx.arigo.data.repository.order.impl.OrderRepositoryImpl
 import uz.mrx.arigo.data.repository.profile.ProfileRepository
 import uz.mrx.arigo.data.repository.profile.impl.ProfileRepositoryImpl
 import uz.mrx.arigo.data.repository.register.RegisterRepository
@@ -29,6 +31,10 @@ interface RepositoryModule {
 
     @[Binds Singleton]
     fun bindProfileRepository(impl: ProfileRepositoryImpl): ProfileRepository
+
+    @[Binds Singleton]
+    fun bindOrderRepository(impl: OrderRepositoryImpl): OrderRepository
+
 
 
 }

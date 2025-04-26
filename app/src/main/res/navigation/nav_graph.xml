@@ -98,14 +98,13 @@
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.detail.MagazineDetailScreen"
         android:label="MagazineDetailScreen" >
 
-        <action
-            android:id="@+id/action_magazineDetailScreen_to_searchDeliveryScreen"
-            app:destination="@id/searchDeliveryScreen" />
-
         <argument
             android:name="id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_magazineDetailScreen_to_orderUpdateScreen"
+            app:destination="@id/orderUpdateScreen" />
 
     </fragment>
     <fragment
@@ -169,14 +168,29 @@
             android:id="@+id/action_profileInfoScreen_to_screenMain"
             app:destination="@id/screenMain" />
     </fragment>
+
     <fragment
         android:id="@+id/notificationScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.notification.NotificationScreen"
         android:label="NotificationScreen" />
+
     <fragment
         android:id="@+id/findDeliveryScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.delivery.FindDeliveryScreen"
         android:label="FindDeliveryScreen" />
+
+    <fragment
+        android:id="@+id/orderUpdateScreen"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderUpdateScreen"
+        android:label="OrderUpdateScreen" >
+        <action
+            android:id="@+id/action_orderUpdateScreen_to_searchDeliveryScreen"
+            app:destination="@id/searchDeliveryScreen" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
 
 </navigation>

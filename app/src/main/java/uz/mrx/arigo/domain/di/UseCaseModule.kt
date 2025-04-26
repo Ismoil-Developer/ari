@@ -8,6 +8,8 @@ import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.feature.impl.FeatureUseCaseImpl
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
 import uz.mrx.arigo.domain.usecase.location.impl.LocationUseCaseImpl
+import uz.mrx.arigo.domain.usecase.order.OrderUseCase
+import uz.mrx.arigo.domain.usecase.order.impl.OrderUseCaseImpl
 import uz.mrx.arigo.domain.usecase.profile.ProfileUseCase
 import uz.mrx.arigo.domain.usecase.profile.impl.ProfileUseCaseImpl
 import uz.mrx.arigo.domain.usecase.register.RegisterUseCase
@@ -33,5 +35,8 @@ interface UseCaseModule {
 
     @Binds
     fun bindProfileUseCase(impl: ProfileUseCaseImpl): ProfileUseCase
+
+    @Binds
+    fun bindOrderUseCase(impl: OrderUseCaseImpl): OrderUseCase
 
 }

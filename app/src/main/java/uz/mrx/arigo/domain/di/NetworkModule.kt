@@ -12,6 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import uz.mrx.arigo.data.remote.api.FeatureApi
 import uz.mrx.arigo.data.remote.api.LocationApi
+import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.api.ProfileApi
 import uz.mrx.arigo.data.remote.api.RegisterApi
 import uz.mrx.arigo.utils.RequestInterceptor
@@ -81,5 +82,9 @@ class NetworkModule {
     fun provideProfileApi(retrofit: Retrofit): ProfileApi =
         retrofit.create(ProfileApi::class.java)
 
+    @Provides
+    @Singleton
+    fun provideOrderApi(retrofit: Retrofit): OrderApi =
+        retrofit.create(OrderApi::class.java)
 
 }

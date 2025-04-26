@@ -11,9 +11,9 @@ class MagazineViewPager(fm: FragmentActivity, private val id:Int) : FragmentStat
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> MagazineInfoPage(id)
-            1 -> ListPage()
-            else -> MagazineInfoPage(id)
+            0 -> ListPage()
+            1 -> MagazineInfoPage(id)
+            else -> ListPage()
         }
     }
 }

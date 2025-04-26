@@ -4,24 +4,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
+import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
+import uz.mrx.arigo.domain.usecase.order.OrderUseCase
 import uz.mrx.arigo.presentation.direction.magazinedetail.MagazineDetailScreenDirection
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.utils.flow
 import javax.inject.Inject
 
 @HiltViewModel
-class MagazineDetailScreenViewModelImpl @Inject constructor(private val direction: MagazineDetailScreenDirection, private val useCase: FeatureUseCase):MagazineDetailScreenViewModel, ViewModel() {
+class MagazineDetailScreenViewModelImpl @Inject constructor(private val direction: MagazineDetailScreenDirection, private val useCase: FeatureUseCase, private val orderUseCase: OrderUseCase):MagazineDetailScreenViewModel, ViewModel() {
 
-    override fun openSearchDeliveryScreen() {
-
+    override fun openUpdateOrderScreen(id: Int) {
         viewModelScope.launch {
-            direction.openSearchDeliveryScreen()
+            direction.openUpdateOrderScreen(id)
         }
-
     }
 
     override fun getFeaturesDetail(id: Int) {
@@ -40,5 +42,22 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
     }
 
     override val featuresDetailResponse = flow<FeatureDetailResponse>()
+
+    override val createOrderResponse = flow<OrderResponse>()
+
+    override fun createOrder(id: Int, orderRequest: OrderRequest) {
+
+        viewModelScope.launch {
+            orderUseCase.createOrder(id, orderRequest).collectLatest {
+                it.onSuccess {
+                    createOrderResponse.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
 
 }

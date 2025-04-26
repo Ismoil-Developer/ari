@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,31 +25,18 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
     private val binding:ScreenMagazineDetailBinding by viewBinding(ScreenMagazineDetailBinding::bind)
     private val viewModel: MagazineDetailScreenViewModel by viewModels<MagazineDetailScreenViewModelImpl>()
 
-    private lateinit var imageList: ArrayList<Int>
-    private lateinit var magazineIndicatorAdapter: MagazineIndicatorAdapter
 
     private val args: MagazineDetailScreenArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadData()
-
         binding.backRes.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        magazineIndicatorAdapter =
-            MagazineIndicatorAdapter(imageList, requireActivity().supportFragmentManager)
-
-
-        binding.viewPagerRes.adapter = magazineIndicatorAdapter
-
-
-        binding.tabLayoutResIndicator.setupWithViewPager(binding.viewPagerRes)
-
         val list = arrayListOf(
-            "Magazin haqida ma'lumot", "Ro'yhat"
+             "Ro'yhat", "Magazin haqida ma'lumot"
         )
 
         viewModel.getFeaturesDetail(args.id)
@@ -56,8 +44,12 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.featuresDetailResponse.collect{
                 binding.textRestaurant.text = it.title
+                if (it.image.isNotEmpty()){
+                    Glide.with(requireContext()).load(it.image).into(binding.viewPagerRes)
+                }
             }
         }
+
 
         binding.viewPager.adapter = MagazineViewPager(requireActivity(), args.id)
 
@@ -73,13 +65,5 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
     }
 
 
-    private fun loadData() {
-        imageList = ArrayList()
-        imageList.add(R.drawable.baraka)
-        imageList.add(R.drawable.baraka)
-        imageList.add(R.drawable.baraka)
-        imageList.add(R.drawable.baraka)
-        imageList.add(R.drawable.baraka)
-    }
 
 }

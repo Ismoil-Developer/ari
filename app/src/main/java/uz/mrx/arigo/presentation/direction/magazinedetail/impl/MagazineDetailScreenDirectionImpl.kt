@@ -6,7 +6,9 @@ import uz.mrx.arigo.presentation.ui.screen.fragment.detail.MagazineDetailScreenD
 import javax.inject.Inject
 
 class MagazineDetailScreenDirectionImpl @Inject constructor(private val navigator: Navigator) : MagazineDetailScreenDirection  {
-    override suspend fun openSearchDeliveryScreen() {
-        navigator.navigateTo(MagazineDetailScreenDirections.actionMagazineDetailScreenToSearchDeliveryScreen())
+
+    override suspend fun openUpdateOrderScreen(id:Int) {
+        navigator.navigateTo(MagazineDetailScreenDirections.actionMagazineDetailScreenToOrderUpdateScreen(id))
     }
+
 }

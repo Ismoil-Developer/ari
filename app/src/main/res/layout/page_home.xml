@@ -23,7 +23,7 @@
         android:id="@+id/locationTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Tashkent, UZ"
+        android:text=""
         app:layout_constraintTop_toTopOf="@id/icLocation"
         app:layout_constraintBottom_toBottomOf="@id/icLocation"
         app:layout_constraintStart_toEndOf="@id/icLocation"
