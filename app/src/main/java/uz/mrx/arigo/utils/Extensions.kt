@@ -9,3 +9,4 @@ fun <T> flow() = MutableSharedFlow<T>(replay = 1, onBufferOverflow = BufferOverf
 
 fun Fragment.toast(it: String) =
     Toast.makeText(this.requireContext(), it, Toast.LENGTH_SHORT).show()
+//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
