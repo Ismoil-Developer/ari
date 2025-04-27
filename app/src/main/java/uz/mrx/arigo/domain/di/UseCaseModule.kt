@@ -21,11 +21,12 @@ import uz.mrx.arigo.domain.usecase.searchmap.impl.SearchMapUseCaseImpl
 @InstallIn(ViewModelComponent::class)
 interface UseCaseModule {
 
-    @Binds
-    fun bindSearchMapUseCase(impl: SearchMapUseCaseImpl): SearchMapUseCase
 
     @Binds
     fun bindRegisterUseCase(impl: RegisterUseCaseImpl): RegisterUseCase
+
+    @Binds
+    fun bindSearchMapUseCase(impl: SearchMapUseCaseImpl): SearchMapUseCase
 
     @Binds
     fun bindFeatureUseCase(impl: FeatureUseCaseImpl): FeatureUseCase

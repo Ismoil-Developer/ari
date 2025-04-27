@@ -29,11 +29,6 @@ class RegisterScreenViewModelImpl @Inject constructor(
     override val toastMessage: Flow<String> get() = _toastMessage
 
 
-    override fun openLoginScreen() {
-        viewModelScope.launch {
-            direction.openLoginScreen()
-        }
-    }
 
     override fun openConfirmScreen(phoneNumber:String, code:String) {
         viewModelScope.launch {

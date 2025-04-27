@@ -30,6 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AriGo"
         tools:targetApi="31">
+
         <meta-data
             android:name="com.yandex.android.maps.apikey"
             android:value="79fb340d-f68a-4f8b-b729-8f19f413786d"/>
@@ -37,11 +38,15 @@
         <activity
             android:name=".presentation.ui.screen.activity.MainActivity"
             android:exported="true">
+
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
         </activity>
     </application>
 

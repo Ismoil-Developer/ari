@@ -6,7 +6,6 @@ import uz.mrx.arigo.data.remote.response.register.RegisterResponse
 
 interface RegisterScreenViewModel {
 
-    fun openLoginScreen()
 
     fun openConfirmScreen(phoneNumber:String, code:String)
 

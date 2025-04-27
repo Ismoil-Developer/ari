@@ -41,7 +41,6 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
                 viewModel.updateOrder(args.id, UpdateOrderRequest(houseNumber, appartmentNumer, floor.toInt(), damophone, otherMessage))
             }
 
-
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

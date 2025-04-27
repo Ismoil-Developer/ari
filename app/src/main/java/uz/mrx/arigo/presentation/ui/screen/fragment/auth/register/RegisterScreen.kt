@@ -47,10 +47,6 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
 
         })
 
-        binding.loginTxt.setOnClickListener {
-            viewModel.openLoginScreen()
-        }
-
         binding.btnContinue.setOnClickListener {
 
             val phoneNumber = binding.phoneNumberEditText.text.toString()
@@ -60,6 +56,7 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.registerResponse.collectLatest {
+
             }
         }
 
