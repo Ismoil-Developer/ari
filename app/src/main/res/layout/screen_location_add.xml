@@ -18,7 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -33,8 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/icBack" />
-
-
 
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapView"
@@ -57,7 +54,6 @@
         app:layout_constraintEnd_toEndOf="@id/mapView"
         android:src="@drawable/ic_pin"
         />
-
 
     <ImageView
         android:id="@+id/plus"
@@ -85,7 +81,6 @@
         android:background="@drawable/back_map_btn"
         />
 
-
     <ImageView
         android:id="@+id/gps"
         android:layout_width="48dp"
@@ -98,7 +93,6 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/back_map_btn"
         />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/location"

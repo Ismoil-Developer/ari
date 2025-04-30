@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.PointF
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.ScreenPoint
 import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.*
@@ -93,11 +95,12 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
         // "Saqlash" tugmasi bosilganda APIga yuborish
         binding.btnContinueLn.setOnClickListener {
-            val centerPoint = mapView.map.cameraPosition.target
-            val coordinates = "POINT(${centerPoint.longitude} ${centerPoint.latitude})"
+            val markerBottomPoint = getMarkerBottomPointCoordinates()
+            val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
             val request = LocationCreateRequest(
                 custom_name = binding.edtLocName.text.toString(),
                 coordinates = coordinates,
+                address = binding.edtYourLoc.text.toString(),
                 active = true
             )
             viewModel.addLocation(request)
@@ -186,6 +189,22 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
     }
 
+
+    private fun getMarkerBottomPointCoordinates(): Point? {
+        val markerView = binding.marker
+        val mapView = binding.mapView
+
+        // Markerning pastki markaz nuqtasi (ekran koordinatalari)
+        val markerBottomX = (markerView.x + markerView.width / 2).toDouble()
+        val markerBottomY = (markerView.y + markerView.height).toDouble()
+
+        // ScreenPoint yaratish (Yandex MapKit uchun)
+        val screenPoint = ScreenPoint(markerBottomX.toFloat(), markerBottomY.toFloat())
+
+        // Ekran koordinatasidan geografik koordinataga o'tkazish
+        return mapView.mapWindow.screenToWorld(screenPoint)
+    }
+
     private fun getLastKnownLocation(callback: (android.location.Location?) -> Unit) {
         val fusedLocationClient =
             com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(
@@ -239,17 +258,15 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         p2: CameraUpdateReason,
         finished: Boolean
     ) {
-        if (!isMarkerRaised) {
-            raiseMarker()
-        }
+        if (!isMarkerRaised) raiseMarker()
 
         if (finished) {
             lowerMarker()
-            val targetPoint = cameraPosition.target
-            val point = Point(targetPoint.latitude, targetPoint.longitude)
-            getAddressFromCoordinates(point)
+            val markerPoint = getMarkerBottomPointCoordinates()
+            getAddressFromCoordinates(markerPoint!!)
         }
     }
+
 
 
     private fun raiseMarker() {

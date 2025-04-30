@@ -18,9 +18,6 @@ class OrderPage:Fragment(R.layout.page_order) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.icBack.setOnClickListener {
-//            findNavController().popBackStack()
-//        }
 
     }
 }
