@@ -3,7 +3,6 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,9 +23,9 @@ import uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl.HomePageViewModelImp
 import uz.mrx.arigo.utils.ViewPagerExtensions.addCarouselEffect
 
 @AndroidEntryPoint
-class HomePage:Fragment(R.layout.page_home) {
+class HomePage : Fragment(R.layout.page_home) {
 
-    private val binding:PageHomeBinding by viewBinding(PageHomeBinding::bind)
+    private val binding: PageHomeBinding by viewBinding(PageHomeBinding::bind)
     private val viewModel: HomePageViewModel by viewModels<HomePageViewModelImpl>()
 
     private val handler = Handler(Looper.getMainLooper())
@@ -35,7 +34,7 @@ class HomePage:Fragment(R.layout.page_home) {
             (binding.viewPager.currentItem + 1) % carouselAdapter.itemCount
     }
 
-    lateinit var carouselAdapter:CarouselAdapter
+    lateinit var carouselAdapter: CarouselAdapter
 
     lateinit var list: ArrayList<IntroData>
 
@@ -44,14 +43,13 @@ class HomePage:Fragment(R.layout.page_home) {
 
         loadData()
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {
-                val shortAddress = it.address.substringBefore(",")
-                binding.locationTxt.text = shortAddress
+                val address = it.address
+                binding.locationTxt.text = address
+
             }
         }
-
 
         carouselAdapter = CarouselAdapter()
 
@@ -90,12 +88,11 @@ class HomePage:Fragment(R.layout.page_home) {
         })
 
 
-
-        val magazineAdapter = MagazineAdapter{
+        val magazineAdapter = MagazineAdapter {
             viewModel.openMagazineDetailScreen(it.id)
         }
 
-        val pharmacyAdapter = PharmacyAdapter{
+        val pharmacyAdapter = PharmacyAdapter {
 
         }
 
@@ -135,7 +132,7 @@ class HomePage:Fragment(R.layout.page_home) {
         startAutoSlide()
     }
 
-    fun loadData(){
+    fun loadData() {
         list = ArrayList()
         list.add(IntroData(R.drawable.reklamaa))
         list.add(IntroData(R.drawable.reklamaa))

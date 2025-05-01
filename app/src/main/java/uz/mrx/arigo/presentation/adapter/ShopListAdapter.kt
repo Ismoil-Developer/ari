@@ -1,7 +1,12 @@
 package uz.mrx.arigo.presentation.adapter
 
+import android.app.Activity
+import android.content.ContextWrapper
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,11 +14,9 @@ import com.bumptech.glide.Glide
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
 import uz.mrx.arigo.databinding.ItemPlaceCardBinding
 
-class ShopListAdapter(private var onItemClickListener: (ShopListResponse) -> Unit) :
-    ListAdapter<ShopListResponse, ShopListAdapter.ViewHolder>(ShopListResponseDiffUtilCallback) {
+class ShopListAdapter(private var onItemClickListener: (ShopListResponse) -> Unit) : ListAdapter<ShopListResponse, ShopListAdapter.ViewHolder>(ShopListResponseDiffUtilCallback) {
 
-    inner class ViewHolder(private val binding: ItemPlaceCardBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemPlaceCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind() {
 
             val newsData = getItem(absoluteAdapterPosition)
@@ -25,10 +28,27 @@ class ShopListAdapter(private var onItemClickListener: (ShopListResponse) -> Uni
 
             binding.textAddress.text = newsData.locations
 
-
             itemView.setOnClickListener {
                 onItemClickListener.invoke(newsData)
             }
+
+            val context = itemView.context
+            val activity = when (context) {
+                is FragmentActivity -> context
+                is ContextWrapper -> context.baseContext as? FragmentActivity
+                else -> null
+            }
+
+            if (activity != null) {
+                val decorView = activity.window.decorView
+                val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+                val windowBackground = decorView.background
+
+                binding.blurView.setupWith(rootView)
+                    .setFrameClearDrawable(windowBackground)
+                    .setBlurRadius(10f)
+            }
+
         }
     }
 

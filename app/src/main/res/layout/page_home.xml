@@ -30,13 +30,15 @@
 
             <TextView
                 android:id="@+id/locationTxt"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:drawableEnd="@drawable/ic_arrow"
                 android:drawablePadding="6dp"
                 android:fontFamily="@font/font_family"
                 android:text=""
+                android:maxLength="20"
+                android:ellipsize="end"
                 android:textColor="@color/text_color_bold"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/icLocation"
@@ -97,7 +99,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#DEDFE0">
+                        android:background="@color/back_edt_google">
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -149,15 +151,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="0dp"
-                android:layout_height="168dp"
+                android:layout_height="140dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:paddingStart="40dp"
                 android:paddingEnd="40dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/shopPharmacy" />

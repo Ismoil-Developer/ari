@@ -17,6 +17,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://maven.yandex.ru/' }
+        mavenCentral {
+            url("https://jitpack.io/")
+        }
     }
 }
 

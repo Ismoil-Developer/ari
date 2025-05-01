@@ -86,6 +86,10 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
             null
         )
 
+        binding.seekBarCount.progress = 10
+        binding.radiusCount.text = "10"
+        viewModel.getMapList(args.id, 10)
+
         binding.seekBarCount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Harakat paytida hech narsa qilmaymiz

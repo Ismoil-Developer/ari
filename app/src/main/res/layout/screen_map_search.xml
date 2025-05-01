@@ -41,6 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="-20dp"
+        android:background="@drawable/log_in_bottom_shet"
         app:layout_constraintBottom_toTopOf="@id/searchContainer"
         />
 
@@ -111,7 +112,7 @@
             android:layout_marginStart="6dp"
             android:drawablePadding="6dp"
             android:fontFamily="@font/font_family_medium"
-            android:text="1"
+            android:text="10"
             android:textColor="@color/text_color_bold"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="@id/ic_radius"
@@ -141,6 +142,7 @@
             android:minHeight="4dp"
             android:maxHeight="4dp"
             android:max="50"
+            android:progress="10"
             android:progressDrawable="@drawable/seekbar_progress"
             android:thumb="@drawable/seekbar_thumb"
             app:layout_constraintTop_toBottomOf="@id/radiusCount"

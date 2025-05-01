@@ -4,10 +4,10 @@
     android:layout_height="220dp"
     android:layout_marginHorizontal="24dp"
     android:layout_marginTop="24dp"
-    android:orientation="vertical"
-    app:strokeWidth="0dp"
     android:background="@color/mainBgColor"
-    app:cardCornerRadius="16dp">
+    android:orientation="vertical"
+    app:cardCornerRadius="16dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_container"
@@ -23,7 +23,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="89dp"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@android:color/transparent"
             app:cardCornerRadius="12dp"
@@ -32,18 +32,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:strokeWidth="0dp">
 
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/blur_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:blurOverlayColor="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <LinearLayout
                     android:id="@+id/container_res"
                     android:layout_width="match_parent"
-                    android:layout_height="89dp"
-                    android:backgroundTint="@color/blurBack"
-                    app:cardCornerRadius="12dp">
+                    android:layout_height="89dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#66000000">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:id="@+id/shopName"
@@ -151,7 +156,7 @@
 
                 </LinearLayout>
 
-
+            </eightbitlab.com.blurview.BlurView>
 
         </com.google.android.material.card.MaterialCardView>
 
