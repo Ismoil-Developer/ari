@@ -1,18 +1,24 @@
 package uz.mrx.arigo.data.repository.order.impl
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
+import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
+import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.data.repository.order.OrderRepository
 import uz.mrx.arigo.utils.ResultData
 import javax.inject.Inject
 
 class OrderRepositoryImpl @Inject constructor(
-    private val api: OrderApi
+    private val api: OrderApi,
+    private val client: ClientWebSocketClient
 ) : OrderRepository {
 
     override suspend fun createOrder(id: Int, request: OrderRequest) = channelFlow<ResultData<OrderResponse>> {
@@ -53,5 +59,20 @@ class OrderRepositoryImpl @Inject constructor(
             trySend(ResultData.error(e))
         }
     }
+
+
+    override fun observeMessages(): Flow<WebSocketGooEvent> {
+        return merge(
+            client.deliveryAccepted.onEach { event ->
+                Log.d("GooWebSocket", "Received accepted order: $event")
+            },
+            client.courierNotFound.onEach { event ->
+                Log.d("GooWebSocket", "Received courier notFound timeout: $event")
+            }
+        ).onEach { event ->
+            Log.d("GooWebSocket", "Merged event: $event")
+        }
+    }
+
 
 }

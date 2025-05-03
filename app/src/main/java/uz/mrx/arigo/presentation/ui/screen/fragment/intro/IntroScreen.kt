@@ -51,9 +51,6 @@ class IntroScreen : Fragment(R.layout.screen_intro) {
 
         startAutoSlide()
 
-        binding.btnRegister.setOnClickListener {
-            viewModel.openRegister()
-        }
 
         binding.btnLogin.setOnClickListener {
             viewModel.openLogin()

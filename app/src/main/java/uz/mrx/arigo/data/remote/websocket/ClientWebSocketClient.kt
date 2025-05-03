@@ -2,6 +2,7 @@ package uz.mrx.arigo.data.remote.websocket
 
 import android.util.Log
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.map
 import okhttp3.*
 import org.json.JSONObject
 import uz.mrx.arigo.utils.ResultData
@@ -44,14 +45,21 @@ class ClientWebSocketClient @Inject constructor() {
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                Log.d("GooWebSocket", "Message received: $text")
                 parseMessage(text).onSuccess { event ->
                     when (event) {
                         is WebSocketGooEvent.CourierNotFound -> {
+                            Log.d("GooWebSocket", "Parsed CourierNotFound: orderId=${event.orderId}, details=${event.details}")
                             _courierNotFound.tryEmit(event)
+                            Log.d("GooWebSocket", "Message courierNotFound: $_courierNotFound")
+
                         }
                         is WebSocketGooEvent.DeliveryAccepted -> {
+                            Log.d("GooWebSocket", "Parsed CourierNotFound: orderId=${event.orderId}, details=${event.latestCoords}")
+
                             _deliveryAccepted.tryEmit(event)
+                            Log.d("GooWebSocket", "Message delevery2: ${_deliveryAccepted.map { it
+                                .orderId}}")
+
                         }
                         is WebSocketGooEvent.UnknownMessage -> {
                             Log.d("GooWebSocket", "Unknown message: $event")

@@ -26,8 +26,6 @@ import uz.mrx.arigo.presentation.direction.order.UpdateOrderScreenDirection
 import uz.mrx.arigo.presentation.direction.order.impl.UpdateOrderScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.profile.ProfileScreenDirection
 import uz.mrx.arigo.presentation.direction.profile.impl.ProfileScreenDirectionImpl
-import uz.mrx.arigo.presentation.direction.register.RegisterScreenDirection
-import uz.mrx.arigo.presentation.direction.register.impl.RegisterScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.searchdelivery.SearchDeliveryScreenDirection
 import uz.mrx.arigo.presentation.direction.searchdelivery.impl.SearchDeliveryScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.shop.ShopListScreenDirection
@@ -53,9 +51,6 @@ interface DirectionModule {
 
     @[Binds]
     fun bindLoginDirection(impl: LoginScreenDirectionImpl): LoginScreenDirection
-
-    @[Binds]
-    fun bindRegisterDirection(impl: RegisterScreenDirectionImpl): RegisterScreenDirection
 
     @[Binds]
     fun bindMainScreenDirection(impl: MainScreenDirectionImpl): MainScreenDirection

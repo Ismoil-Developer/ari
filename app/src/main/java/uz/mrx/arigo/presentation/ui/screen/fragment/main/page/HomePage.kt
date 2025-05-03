@@ -59,6 +59,14 @@ class HomePage : Fragment(R.layout.page_home) {
             viewModel.openShopListScreen(1)
         }
 
+        binding.shopContainer.setOnClickListener {
+            viewModel.openShopListScreen(1)
+        }
+
+        binding.pharmacyContainer.setOnClickListener {
+            viewModel.openShopListScreen(2)
+        }
+
         binding.seeAllPharmacy.setOnClickListener {
             viewModel.openShopListScreen(2)
         }

@@ -49,9 +49,6 @@ class LoginScreen : Fragment(R.layout.screen_login) {
         })
 
 
-        binding.loginTxt.setOnClickListener {
-            viewModel.openRegisterScreen()
-        }
 
         binding.btnContinue.setOnClickListener {
 
@@ -62,6 +59,7 @@ class LoginScreen : Fragment(R.layout.screen_login) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.registerResponse.collectLatest {
+
             }
         }
 

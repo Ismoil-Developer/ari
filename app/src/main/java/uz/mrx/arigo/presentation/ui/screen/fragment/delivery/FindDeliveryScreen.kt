@@ -22,7 +22,9 @@ class FindDeliveryScreen:Fragment(R.layout.screen_find_delevery) {
     private val binding:ScreenFindDeleveryBinding by viewBinding(ScreenFindDeleveryBinding::bind)
 
     private lateinit var mapView: MapView
+
     private lateinit var mapObjects: MapObjectCollection
+
     private var userLocationLayer: UserLocationLayer? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

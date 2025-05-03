@@ -12,7 +12,6 @@ class LoginScreenDirectionImpl @Inject constructor(private val navigator: Naviga
     }
 
     override suspend fun openRegisterScreen() {
-        navigator.navigateTo(LoginScreenDirections.actionLoginScreenToRegisterScreen())
     }
 
 }

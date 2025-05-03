@@ -24,13 +24,11 @@
             android:id="@+id/action_languageScreen_to_introScreen"
             app:destination="@id/introScreen" />
     </fragment>
+
     <fragment
         android:id="@+id/introScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.intro.IntroScreen"
         android:label="IntroScreen" >
-        <action
-            android:id="@+id/action_introScreen_to_registerScreen"
-            app:destination="@id/registerScreen" />
         <action
             android:id="@+id/action_introScreen_to_loginScreen"
             app:destination="@id/loginScreen" />
@@ -56,25 +54,12 @@
             app:destination="@id/notificationScreen" />
     </fragment>
 
-    <fragment
-        android:id="@+id/registerScreen"
-        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.auth.register.RegisterScreen"
-        android:label="RegisterScreen" >
-        <action
-            android:id="@+id/action_registerScreen_to_loginScreen"
-            app:destination="@id/loginScreen" />
-        <action
-            android:id="@+id/action_registerScreen_to_confirmScreen"
-            app:destination="@id/confirmScreen" />
-    </fragment>
+
 
     <fragment
         android:id="@+id/loginScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.auth.login.LoginScreen"
         android:label="LoginScreen" >
-        <action
-            android:id="@+id/action_loginScreen_to_registerScreen"
-            app:destination="@id/registerScreen" />
         <action
             android:id="@+id/action_loginScreen_to_confirmScreen"
             app:destination="@id/confirmScreen" />
@@ -92,6 +77,9 @@
         <argument
             android:name="code"
             app:argType="string" />
+        <action
+            android:id="@+id/action_confirmScreen_to_loginScreen"
+            app:destination="@id/loginScreen" />
     </fragment>
     <fragment
         android:id="@+id/magazineDetailScreen"

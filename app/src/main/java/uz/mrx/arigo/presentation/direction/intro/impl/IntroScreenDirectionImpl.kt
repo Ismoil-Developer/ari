@@ -10,7 +10,6 @@ class IntroScreenDirectionImpl @Inject constructor(
 ) : IntroScreenDirection {
 
     override suspend fun openRegisterScreen() {
-        navigator.navigateTo(IntroScreenDirections.actionIntroScreenToRegisterScreen())
     }
 
     override suspend fun openLoginScreen() {
