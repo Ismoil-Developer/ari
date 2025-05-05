@@ -41,17 +41,19 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
                 viewModel.updateOrder(args.id, UpdateOrderRequest(houseNumber, appartmentNumer, floor.toInt(), damophone, otherMessage))
             }
 
-        }
+            viewLifecycleOwner.lifecycleScope.launch {
 
-        viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.updateResponse.collectLatest {
 
-            viewModel.updateResponse.collectLatest {
+                    viewModel.openSearchScreenViewModel()
 
-                viewModel.openSearchScreenViewModel()
+                }
 
             }
 
+
         }
+
 
 
     }

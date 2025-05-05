@@ -40,4 +40,5 @@ class App : Application() {
             webSocketClient.connect(url, token)
         }
     }
+
 }

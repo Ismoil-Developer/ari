@@ -2,6 +2,9 @@ package uz.mrx.arigo.data.repository.order.impl
 
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.merge
@@ -20,6 +23,12 @@ class OrderRepositoryImpl @Inject constructor(
     private val api: OrderApi,
     private val client: ClientWebSocketClient
 ) : OrderRepository {
+
+
+    private val _webSocketEvents = MutableSharedFlow<WebSocketGooEvent>()
+    val webSocketEvents: SharedFlow<WebSocketGooEvent> = _webSocketEvents.asSharedFlow()
+
+
 
     override suspend fun createOrder(id: Int, request: OrderRequest) = channelFlow<ResultData<OrderResponse>> {
         try {
@@ -62,17 +71,21 @@ class OrderRepositoryImpl @Inject constructor(
 
 
     override fun observeMessages(): Flow<WebSocketGooEvent> {
-        return merge(
-            client.deliveryAccepted.onEach { event ->
-                Log.d("GooWebSocket", "Received accepted order: $event")
-            },
-            client.courierNotFound.onEach { event ->
-                Log.d("GooWebSocket", "Received courier notFound timeout: $event")
-            }
-        ).onEach { event ->
-            Log.d("GooWebSocket", "Merged event: $event")
+        Log.d("WebSocketRepo", "observeMessages() called")
+
+        val acceptedFlow = client.deliveryAccepted.onEach {
+            Log.d("WebSocketRepo", "DeliveryAccepted received: $it")
+            _webSocketEvents.tryEmit(it)  // Emit event to flow
         }
+
+        val notFoundFlow = client.courierNotFound.onEach {
+            Log.d("WebSocketRepo", "CourierNotFound received: $it")
+            _webSocketEvents.tryEmit(it)  // Emit event to flow
+        }
+
+        return merge(acceptedFlow, notFoundFlow)  // Combine the flows
     }
+
 
 
 }

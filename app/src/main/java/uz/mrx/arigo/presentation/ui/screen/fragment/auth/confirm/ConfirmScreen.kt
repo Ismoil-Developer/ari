@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +49,11 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
             }
         }
 
+        binding.changeNumber.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+
         binding.resend.setOnClickListener {
             startCountdown()
         }
@@ -70,7 +76,9 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
             })
         }
 

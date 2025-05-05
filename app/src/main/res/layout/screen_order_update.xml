@@ -130,7 +130,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:hint="Podyezd"
-                            android:inputType="number"
+                            android:inputType="phone"
                             android:textSize="16sp"
                             android:textColor="@color/text_color_bold"/>
 
@@ -149,7 +149,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:hint="Damofon"
-                            android:inputType="numberPassword"
+
+                            android:inputType="phone"
                             android:textSize="16sp"
                             android:textColor="@color/text_color_bold"/>
 
@@ -159,7 +160,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:hint="Qavat"
-                            android:inputType="datetime"
+                            android:inputType="phone"
                             android:textSize="16sp"
                             android:textColor="@color/text_color_bold"
                             />

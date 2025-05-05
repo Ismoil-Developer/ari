@@ -26,6 +26,10 @@ class ListPage : Fragment(R.layout.page_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        binding.edtOrder.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance())
+
+
         binding.repeatBtn.setOnClickListener {
             val orderItems = binding.edtOrder.text.toString()
 

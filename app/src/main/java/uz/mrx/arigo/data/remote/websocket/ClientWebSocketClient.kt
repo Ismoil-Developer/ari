@@ -3,12 +3,16 @@ package uz.mrx.arigo.data.remote.websocket
 import android.util.Log
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import okhttp3.*
 import org.json.JSONObject
 import uz.mrx.arigo.utils.ResultData
 import uz.mrx.arigo.utils.flow
 import javax.inject.Inject
 import javax.inject.Singleton
+// Top part importlarni to'g'ri saqlab qoling
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 
 @Singleton
 class ClientWebSocketClient @Inject constructor() {
@@ -19,11 +23,11 @@ class ClientWebSocketClient @Inject constructor() {
 
     private var webSocket: WebSocket? = null
 
-    private val _deliveryAccepted = flow<WebSocketGooEvent.DeliveryAccepted>()
-    val deliveryAccepted = _deliveryAccepted.asSharedFlow()
+    private val _deliveryAccepted = MutableSharedFlow<WebSocketGooEvent.DeliveryAccepted>(replay = 1)
+    val deliveryAccepted: SharedFlow<WebSocketGooEvent.DeliveryAccepted> = _deliveryAccepted
 
-    private val _courierNotFound = flow<WebSocketGooEvent.CourierNotFound>()
-    val courierNotFound = _courierNotFound.asSharedFlow()
+    private val _courierNotFound = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>(replay = 1)
+    val courierNotFound: SharedFlow<WebSocketGooEvent.CourierNotFound> = _courierNotFound
 
     private var currentUrl: String? = null
     private var currentToken: String? = null
@@ -48,29 +52,19 @@ class ClientWebSocketClient @Inject constructor() {
                 parseMessage(text).onSuccess { event ->
                     when (event) {
                         is WebSocketGooEvent.CourierNotFound -> {
-                            Log.d("GooWebSocket", "Parsed CourierNotFound: orderId=${event.orderId}, details=${event.details}")
+                            Log.d("GooWebSocket", "Parsed CourierNotFound: ${event.order_id}")
                             _courierNotFound.tryEmit(event)
-                            Log.d("GooWebSocket", "Message courierNotFound: $_courierNotFound")
-
                         }
+
                         is WebSocketGooEvent.DeliveryAccepted -> {
-                            Log.d("GooWebSocket", "Parsed CourierNotFound: orderId=${event.orderId}, details=${event.latestCoords}")
-
+                            Log.d("GooWebSocket", "Parsed Delivery Accepted: ${event.order_id}")
                             _deliveryAccepted.tryEmit(event)
-                            Log.d("GooWebSocket", "Message delevery2: ${_deliveryAccepted.map { it
-                                .orderId}}")
-
-                        }
-                        is WebSocketGooEvent.UnknownMessage -> {
-                            Log.d("GooWebSocket", "Unknown message: $event")
                         }
 
-                        else -> {
-
-                        }
+                        else -> Log.d("GooWebSocket", "Unknown message: $event")
                     }
-                }.onError { error ->
-                    Log.e("GooWebSocket", "Parsing error: ${error.localizedMessage}")
+                }.onError {
+                    Log.e("GooWebSocket", "Parsing error: ${it.localizedMessage}")
                 }
             }
 
@@ -98,10 +92,8 @@ class ClientWebSocketClient @Inject constructor() {
     }
 
     private fun reconnect() {
-        currentUrl?.let { url ->
-            currentToken?.let { token ->
-                connect(url, token)
-            }
+        if (currentUrl != null && currentToken != null) {
+            connect(currentUrl!!, currentToken!!)
         }
     }
 
@@ -109,14 +101,12 @@ class ClientWebSocketClient @Inject constructor() {
         return try {
             val json = JSONObject(text)
             val type = json.getString("type")
-
             when (type) {
                 "kuryer_topilmadi" -> {
                     val orderId = json.getInt("order_id")
                     val details = json.getString("details")
                     ResultData.success(WebSocketGooEvent.CourierNotFound(orderId, details))
                 }
-
                 "zakaz_qabul_qilindi" -> {
                     val orderId = json.getInt("order_id")
                     val deliverId = json.getString("deliver_id")
@@ -126,18 +116,11 @@ class ClientWebSocketClient @Inject constructor() {
                     val latestCoords = listOf(coords.getDouble(0), coords.getDouble(1))
                     ResultData.success(
                         WebSocketGooEvent.DeliveryAccepted(
-                            orderId,
-                            deliverId,
-                            deliverName,
-                            deliverPhone,
-                            latestCoords
+                            orderId, deliverId, deliverName, deliverPhone, latestCoords
                         )
                     )
                 }
-
-                else -> {
-                    ResultData.success(WebSocketGooEvent.UnknownMessage(text))
-                }
+                else -> ResultData.success(WebSocketGooEvent.UnknownMessage(text))
             }
         } catch (e: Exception) {
             ResultData.error(e)

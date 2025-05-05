@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.order
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,12 +12,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
-import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
+import uz.mrx.arigo.data.local.shp.MySharedPreference
+import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.databinding.ScreenSearchDeliveryBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.SearchDeliveryScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.impl.SearchDeliveryScreenViewModelImpl
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
@@ -25,36 +29,54 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
 
     private val viewModel: SearchDeliveryScreenViewModel by viewModels<SearchDeliveryScreenViewModelImpl>()
 
+    @Inject
+    lateinit var clientWebSocketClient: ClientWebSocketClient
+
+    @Inject
+    lateinit var sharedPreference: MySharedPreference
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val token = sharedPreference.token
+        val url = "http://ari.uzfati.uz/ws/goo/connect/"
+
+        clientWebSocketClient.connect(url, token)
+
+        observeWebSocketEvents()
+
         binding.btnContinue.setOnClickListener {
-            // Do nothing here, will react to websocket
+            Toast.makeText(requireContext(), "Kutish rejimi...", Toast.LENGTH_SHORT).show()
         }
-
-        // Observe WebSocket DeliveryAccepted
-        observeIncomingOrders()
-
     }
 
-    private fun observeIncomingOrders() {
+    private fun observeWebSocketEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.deliveryAcceptedFlow.collect { event ->
-                    when (event) {
-                        is WebSocketGooEvent.DeliveryAccepted -> {
-                            Log.d("HomePage", "New order received: $event")
-                            viewModel.openFindDeliveryScreen()
-                        }
+                launch {
+                    clientWebSocketClient.deliveryAccepted.collectLatest { event ->
+                        Log.d("SearchDeliveryScreen", "Delivery Accepted: ${event.order_id}")
+                        Toast.makeText(
+                            requireContext(),
+                            "Buyurtma qabul qilindi: ${event.order_id}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        viewModel.openFindDeliveryScreen()
+                    }
+                }
 
-                        else -> {
-                            // Boshqa holatlar kerak bo'lsa shu yerga yozamiz
-                        }
+                launch {
+                    clientWebSocketClient.courierNotFound.collectLatest { event ->
+                        Log.d("SearchDeliveryScreen", "Courier Not Found: ${event.order_id}")
+                        Toast.makeText(
+                            requireContext(),
+                            "Kuryer topilmadi: ${event.details}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
-
-
         }
     }
 }
