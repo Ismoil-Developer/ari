@@ -2,6 +2,7 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -57,9 +59,26 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
 
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.setText(list[position])
+            val tabView = layoutInflater.inflate(R.layout.item_custom_tab, null)
+            val titleText = tabView.findViewById<AppCompatTextView>(R.id.tabTitle)
+            titleText.text = list[position]
+            tab.customView = tabView
         }.attach()
 
+// Tab tanlanganda matn rangini yangilash:
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val text = tab.customView?.findViewById<AppCompatTextView>(R.id.tabTitle)
+                text?.setTextColor(resources.getColor(android.R.color.white))
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val text = tab.customView?.findViewById<AppCompatTextView>(R.id.tabTitle)
+                text?.setTextColor(resources.getColor(R.color.buttonBgColor))
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
 
 
     }

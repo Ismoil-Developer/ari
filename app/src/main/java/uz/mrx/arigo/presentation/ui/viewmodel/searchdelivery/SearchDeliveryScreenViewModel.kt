@@ -1,11 +1,12 @@
 package uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery
 
 import kotlinx.coroutines.flow.SharedFlow
+import uz.mrx.arigo.data.remote.response.location.Coordinates
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 
 interface SearchDeliveryScreenViewModel {
 
-    fun openFindDeliveryScreen()
+    fun openFindDeliveryScreen(coordinates: String)
 
     val deliveryAcceptedFlow: SharedFlow<WebSocketGooEvent.DeliveryAccepted>
     val courierNotFoundFlow: SharedFlow<WebSocketGooEvent.CourierNotFound>

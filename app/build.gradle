@@ -116,9 +116,10 @@ dependencies {
     implementation 'com.hbb20:ccp:2.5.1'
 
     // yandex map
-    implementation 'com.yandex.android:maps.mobile:4.5.0-full'
+    implementation 'com.yandex.android:maps.mobile:4.3.1-full'
 
     //BlurView
     implementation 'com.github.Dimezis:BlurView:version-2.0.6'
+
 
 }

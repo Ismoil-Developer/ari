@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 class SearchDeliveryScreenDirectionImpl @Inject constructor(private val navigator: Navigator):SearchDeliveryScreenDirection  {
 
-    override suspend fun openFinDeliveryScreen() {
+    override suspend fun openFinDeliveryScreen(coordinates: String) {
 
-        navigator.navigateTo(SearchDeliveryScreenDirections.actionSearchDeliveryScreenToFindDeliveryScreen())
+        navigator.navigateTo(SearchDeliveryScreenDirections.actionSearchDeliveryScreenToFindDeliveryScreen(coordinates))
 
     }
 

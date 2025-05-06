@@ -28,4 +28,8 @@ class MainScreenDirectionImpl @Inject constructor(private val navigator: Navigat
         navigator.navigateTo(MainScreenDirections.actionScreenMainToNotificationScreen())
     }
 
+    override suspend fun openHistoryDetailScreen() {
+        navigator.navigateTo(MainScreenDirections.actionScreenMainToHistoryDetailScreen())
+    }
+
 }

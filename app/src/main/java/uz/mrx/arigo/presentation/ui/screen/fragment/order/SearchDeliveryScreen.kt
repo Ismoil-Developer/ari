@@ -35,7 +35,6 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
     @Inject
     lateinit var sharedPreference: MySharedPreference
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,11 +48,13 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
         binding.btnContinue.setOnClickListener {
             Toast.makeText(requireContext(), "Kutish rejimi...", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun observeWebSocketEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                 launch {
                     clientWebSocketClient.deliveryAccepted.collectLatest { event ->
                         Log.d("SearchDeliveryScreen", "Delivery Accepted: ${event.order_id}")
@@ -62,7 +63,7 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
                             "Buyurtma qabul qilindi: ${event.order_id}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        viewModel.openFindDeliveryScreen()
+                        viewModel.openFindDeliveryScreen(event.latest_coords.toString())
                     }
                 }
 
@@ -76,6 +77,7 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
                         ).show()
                     }
                 }
+
             }
         }
     }

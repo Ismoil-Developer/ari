@@ -7,9 +7,6 @@
     android:paddingTop="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
-
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -44,8 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/icBack" />
-    
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
@@ -106,7 +102,6 @@
             android:layout_marginTop="16dp"
             />
 
-
         <ImageView
             android:id="@+id/customerImg"
             android:layout_width="wrap_content"
@@ -141,7 +136,6 @@
             app:layout_constraintStart_toEndOf="@id/customerImg"
             />
 
-
         <TextView
             android:id="@+id/customerStreet"
             android:layout_width="wrap_content"
@@ -155,7 +149,6 @@
             app:layout_constraintTop_toBottomOf="@id/customerAddress"
             app:layout_constraintStart_toEndOf="@id/customerImg"
             />
-
 
         <ImageView
             android:id="@+id/deliveryImg"
@@ -179,7 +172,6 @@
             app:layout_constraintTop_toTopOf="@id/deliveryImg"
             app:layout_constraintStart_toEndOf="@id/deliveryImg"
             />
-
 
         <TextView
             android:id="@+id/deliveryStreet"
@@ -206,7 +198,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
             />
-
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImg"
@@ -248,7 +239,6 @@
             app:layout_constraintStart_toEndOf="@id/profileImg"
             />
 
-
         <ImageView
             android:id="@+id/messageImg"
             android:layout_width="40dp"
@@ -261,7 +251,6 @@
             android:padding="8dp"
             android:background="@drawable/back_contacts"
             />
-
 
         <ImageView
             android:id="@+id/callImg"
@@ -276,8 +265,6 @@
             android:padding="8dp"
             />
 
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
