@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -26,9 +27,11 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
         }
     }
 
+    override val featuresDetailResponse = flow<FeatureDetailResponse>()
+
     override fun getFeaturesDetail(id: Int) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             useCase.getFeaturesDetail(id).collectLatest {
                 it.onSuccess {
                     featuresDetailResponse.emit(it)
@@ -41,7 +44,6 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
 
     }
 
-    override val featuresDetailResponse = flow<FeatureDetailResponse>()
 
     override val createOrderResponse = flow<OrderResponse>()
 

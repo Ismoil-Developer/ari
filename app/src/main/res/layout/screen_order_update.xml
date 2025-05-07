@@ -47,12 +47,13 @@
 
             <TextView
                 android:id="@+id/addressTxt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:fontFamily="@font/font_family"
-                android:text="Samarqand darvoza"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="40dp"
                 app:layout_constraintStart_toEndOf="@id/imvHome"
                 app:layout_constraintTop_toTopOf="@id/imvHome" />
 
@@ -62,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:fontFamily="@font/font_family_medium"
-                android:text="Toshkent"
                 android:textSize="15sp"
                 app:layout_constraintStart_toEndOf="@id/imvHome"
                 app:layout_constraintTop_toBottomOf="@id/addressTxt" />

@@ -16,4 +16,5 @@ interface MagazineDetailScreenViewModel {
     fun createOrder(id: Int, request: OrderRequest)
 
     val createOrderResponse: Flow<OrderResponse>
+
 }

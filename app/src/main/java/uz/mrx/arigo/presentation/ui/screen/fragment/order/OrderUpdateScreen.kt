@@ -29,6 +29,35 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
         super.onViewCreated(view, savedInstanceState)
 
 
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getActiveAddress.collectLatest { response ->
+                val fullAddress = response.address ?: ""
+                val parts = fullAddress.split(",").map { it.trim() }
+
+                // Default values
+                var region = ""
+                var street = ""
+
+                // street: oxirgi qism (ko‘cha)
+                if (parts.size >= 3) {
+                    street = parts.subList(2, parts.size).joinToString(", ")
+                } else if (parts.size == 2) {
+                    street = parts[1]
+                } else if (parts.size == 1) {
+                    street = parts[0]
+                }
+
+                // region: 2-chi qism, ya'ni [1]-index (agar mavjud bo‘lsa)
+                if (parts.size >= 2) {
+                    region = parts[1]
+                }
+
+                binding.addressTxt.text = street
+                binding.addressRegion.text = region
+            }
+        }
+
         binding.btnContinueLn.setOnClickListener {
 
             val houseNumber = binding.houseNumber.text.toString()

@@ -1,6 +1,7 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenMagazineDetailBinding
@@ -43,15 +45,18 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
 
         viewModel.getFeaturesDetail(args.id)
 
+        Log.d("IIIIIIIII", "onViewCreated: ${args.id}")
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.featuresDetailResponse.collect{
+            viewModel.featuresDetailResponse.collectLatest{
                 binding.textRestaurant.text = it.title
+                Log.d("YYYYYY", "onViewCreated: ${it.image}")
                 if (it.image.isNotEmpty()){
                     Glide.with(requireContext()).load(it.image).into(binding.viewPagerRes)
+                    Log.d("IIIII", "image: ${it.image}")
                 }
             }
         }
-
 
         binding.viewPager.adapter = MagazineViewPager(requireActivity(), args.id)
 

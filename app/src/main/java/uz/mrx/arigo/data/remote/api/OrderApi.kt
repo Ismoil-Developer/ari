@@ -20,5 +20,4 @@ interface OrderApi {
     @PATCH("/goo/orders/{id}/update/")
     suspend fun putOrder(@Path("id") id: Int, @Body updateOrder: UpdateOrderRequest):Response<OrderResponse>
 
-
 }
