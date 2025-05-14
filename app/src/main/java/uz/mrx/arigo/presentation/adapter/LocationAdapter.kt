@@ -12,7 +12,7 @@ import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.databinding.ItemLocationBinding
 import uz.mrx.arigo.databinding.ItemMagazineBinding
 
-class LocationAdapter(private var onItemClickListener: (LocationCreateResponse) -> Unit) :
+class LocationAdapter(private var onItemClickListener: (LocationCreateResponse) -> Unit, ) :
     ListAdapter<LocationCreateResponse, LocationAdapter.ViewHolder>(LocationCreateResponseDiffUtilCallback) {
 
     private var selectedItemId: Int? = null

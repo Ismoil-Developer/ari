@@ -7,7 +7,7 @@ data class FeatureDetailResponse(
     val work_start: String,
     val work_end: String,
     val phone_number: String,
-    val rating: Int,
+    val rating: Double,
     val about: String,
     val coordinates: Coordinates,
     val is_active: Boolean,

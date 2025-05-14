@@ -1,5 +1,6 @@
 package uz.mrx.arigo.data.repository.feature.impl
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
@@ -62,28 +63,26 @@ class FeatureRepositoryImpl @Inject constructor(private val api: FeatureApi):Fea
 
 
     override suspend fun getFeaturesDetail(id: Int) = channelFlow<ResultData<FeatureDetailResponse>> {
-
         try {
-
             val response = api.getFeaturesDetail(id)
-
-            if (response.isSuccessful){
-
-                val responseDetail = response.body() as FeatureDetailResponse
-
-                if (responseDetail != null){
-
+            Log.d("RRRRRRRR", "getFeaturesDetail: $id")
+            if (response.isSuccessful) {
+                val responseDetail = response.body()
+                if (responseDetail != null) {
+                    Log.d("RRRRRRRR", "getFeaturesDetail: $responseDetail")
                     trySend(ResultData.success(responseDetail))
-                }else{
-                    trySend(ResultData.messageText(response.message()))
+                } else {
+                    trySend(ResultData.messageText("Bo‘sh ma’lumot qaytdi"))
                 }
             } else {
-                trySend(ResultData.messageText(response.message()))
+                trySend(ResultData.messageText("Xatolik: ${response.message()}"))
             }
         } catch (e: Exception) {
-            trySend(ResultData.messageText(e.message.toString()))
+            trySend(ResultData.messageText("Exception: ${e.localizedMessage}"))
         }
     }.catch { emit(ResultData.error(it)) }
+
+
 
 
     override suspend fun getShopsAll(id: Int) = channelFlow<ResultData<List<ShopAllResponse>>> {

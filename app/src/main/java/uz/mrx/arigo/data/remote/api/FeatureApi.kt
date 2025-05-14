@@ -16,8 +16,8 @@ interface FeatureApi {
     @GET("shop/shop-featured-list/")
     suspend fun getFeatures(): Response<List<RoleResponse>>
 
-    @GET("/shop/shop-detail/{id}/")
-    suspend fun getFeaturesDetail(@Path("id") id:Int):Response<FeatureDetailResponse>
+    @GET("shop/shop-detail/{id}/")
+    suspend fun getFeaturesDetail(@Path("id") id: Int): Response<FeatureDetailResponse>
 
     @GET("/shop/shop-role-list/")
     suspend fun getRole():Response<List<ShopRoleResponse>>
@@ -33,7 +33,6 @@ interface FeatureApi {
         @Path("id") id: Int,
         @Query("search") query: String
     ): Response<List<ShopListResponse>>
-
 
     @GET("/shop/shop-map-list/{id}/")
     suspend fun getMapList(

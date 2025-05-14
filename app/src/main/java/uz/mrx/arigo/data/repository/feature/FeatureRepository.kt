@@ -11,11 +11,11 @@ import uz.mrx.arigo.utils.ResultData
 
 interface FeatureRepository {
 
+    suspend fun getFeaturesDetail(id:Int):Flow<ResultData<FeatureDetailResponse>>
+
     suspend fun getFeatures():Flow<ResultData<List<RoleResponse>>>
 
     suspend fun getRole():Flow<ResultData<List<ShopRoleResponse>>>
-
-    suspend fun getFeaturesDetail(id:Int):Flow<ResultData<FeatureDetailResponse>>
 
     suspend fun getShopsAll(id:Int):Flow<ResultData<List<ShopAllResponse>>>
 

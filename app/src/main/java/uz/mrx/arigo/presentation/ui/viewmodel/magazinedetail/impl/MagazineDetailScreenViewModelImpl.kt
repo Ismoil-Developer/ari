@@ -44,7 +44,6 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
 
     }
 
-
     override val createOrderResponse = flow<OrderResponse>()
 
     override fun createOrder(id: Int, orderRequest: OrderRequest) {
@@ -60,6 +59,5 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
             }
         }
     }
-
 
 }

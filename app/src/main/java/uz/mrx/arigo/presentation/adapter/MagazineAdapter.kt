@@ -1,33 +1,44 @@
 package uz.mrx.arigo.presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import uz.mrx.arigo.data.model.MagazineData
 import uz.mrx.arigo.data.remote.response.feature.ShopData
 import uz.mrx.arigo.databinding.ItemMagazineBinding
 
 class MagazineAdapter(private var onItemClickListener: (ShopData) -> Unit) :
-ListAdapter<ShopData, MagazineAdapter.ViewHolder>(ShopDataDiffUtilCallback) {
+    ListAdapter<ShopData, MagazineAdapter.ViewHolder>(ShopDataDiffUtilCallback) {
 
     inner class ViewHolder(private val binding: ItemMagazineBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun onBind() {
+            val shop = getItem(absoluteAdapterPosition)
 
-            val newsData = getItem(absoluteAdapterPosition)
-            Glide.with(binding.root.context).load(newsData.image).into(binding.imageView)
+            // Rasmni yuklash
+            Glide.with(binding.root.context).load(shop.image).into(binding.imageView)
 
-            binding.title.text = newsData.title
+            // Nomi
+            binding.title.text = shop.title
 
-
-            itemView.setOnClickListener {
-                onItemClickListener.invoke(newsData)
+            // Qulf belgisini ko‘rsatish (faqat is_active = false bo‘lsa)
+            if (shop.is_active) {
+                binding.lock.visibility = View.GONE
+                itemView.setOnClickListener {
+                    onItemClickListener.invoke(shop)
+                }
+            } else {
+                binding.lock.visibility = View.VISIBLE
+                itemView.setOnClickListener(null) // bosilmaydi
             }
         }
+
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

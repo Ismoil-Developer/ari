@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
     >
 
     <ImageView
@@ -74,7 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line"
         />
-
 
     <TextView
         android:id="@+id/listTitle"
@@ -170,16 +168,8 @@
                 android:textSize="16sp"
                 android:textColor="@color/white"/>
 
-
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

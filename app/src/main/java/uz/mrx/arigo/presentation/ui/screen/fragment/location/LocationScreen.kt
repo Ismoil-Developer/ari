@@ -66,5 +66,6 @@ class LocationScreen : Fragment(R.layout.screen_location) {
                 locations.find { it.active }?.let { adapter.setSelectedItem(it.id) }
             }
         }
+
     }
 }

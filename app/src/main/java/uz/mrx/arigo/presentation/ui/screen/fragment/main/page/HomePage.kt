@@ -29,6 +29,7 @@ class HomePage : Fragment(R.layout.page_home) {
     private val viewModel: HomePageViewModel by viewModels<HomePageViewModelImpl>()
 
     private val handler = Handler(Looper.getMainLooper())
+
     private val slideRunnable = Runnable {
         binding.viewPager.currentItem =
             (binding.viewPager.currentItem + 1) % carouselAdapter.itemCount
@@ -47,7 +48,6 @@ class HomePage : Fragment(R.layout.page_home) {
             viewModel.getActiveAddress.collectLatest {
                 val address = it.address
                 binding.locationTxt.text = address
-
             }
         }
 
