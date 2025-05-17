@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import uz.mrx.arigo.data.remote.api.FeatureApi
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
+import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
@@ -26,6 +27,29 @@ class FeatureRepositoryImpl @Inject constructor(private val api: FeatureApi):Fea
 
                 if (response != null) {
                     val responseObject = response.body() as List<RoleResponse>
+
+                    trySend(ResultData.success(responseObject))
+                } else {
+                    trySend(ResultData.error(Throwable(response.message())))
+                }
+            } else {
+                trySend(ResultData.messageText(response.message()))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.messageText(e.message.toString()))
+        }
+    }.catch { emit(ResultData.error(it)) }
+
+
+    override suspend fun getAdvertising() = channelFlow<ResultData<List<AdvertisingResponse>>> {
+        try {
+
+            val response = api.getAdvertising()
+
+            if (response.isSuccessful) {
+
+                if (response != null) {
+                    val responseObject = response.body() as List<AdvertisingResponse>
 
                     trySend(ResultData.success(responseObject))
                 } else {

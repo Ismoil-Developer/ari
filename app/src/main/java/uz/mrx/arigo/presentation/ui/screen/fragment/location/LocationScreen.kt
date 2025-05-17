@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenLocationBinding
 import uz.mrx.arigo.presentation.adapter.LocationAdapter
+import uz.mrx.arigo.presentation.ui.dialog.LocationEdtDialog
 import uz.mrx.arigo.presentation.ui.viewmodel.location.LocationScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.location.impl.LocationScreenViewModelImpl
 @AndroidEntryPoint
@@ -36,19 +37,37 @@ class LocationScreen : Fragment(R.layout.screen_location) {
             }
         })
 
-
         binding.btnContinueLn.setOnClickListener {
             viewModel.openMainScreen()
         }
 
-        val adapter = LocationAdapter {
-            viewModel.postLocationIdActive(it.id)
+        val adapter = LocationAdapter(
+            onItemClickListener = { viewModel.postLocationIdActive(it.id) },
+            edtClickListener = { location ->
+                val dialog = LocationEdtDialog(
+                    location = location,
+                    onBackClick = { /* optional: dialog yopildi */ },
+                    onDeleteClick = { deletedLocation ->
+                        viewModel.deleteLocation(deletedLocation.id)
+                        // delete qilmoqchi bo'lgan logikani bu yerda yozing
+                    }
+                )
+                dialog.show(parentFragmentManager, "LocationEdtDialog")
+            }
+        )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.deleteLocation.collectLatest {
+                if (it.status == "success delete") {
+                    Toast.makeText(requireContext(), "O'chirildi", Toast.LENGTH_SHORT).show()
+                    viewModel.getLocations() // faqat shu kerak
+                }
+            }
         }
 
         binding.icBack.setOnClickListener {
             viewModel.openMainScreen()
         }
-
 
         binding.rvLocation.adapter = adapter
 

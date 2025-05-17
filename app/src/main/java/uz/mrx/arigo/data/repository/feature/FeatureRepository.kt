@@ -2,6 +2,7 @@ package uz.mrx.arigo.data.repository.feature
 
 import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
+import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
@@ -14,6 +15,8 @@ interface FeatureRepository {
     suspend fun getFeaturesDetail(id:Int):Flow<ResultData<FeatureDetailResponse>>
 
     suspend fun getFeatures():Flow<ResultData<List<RoleResponse>>>
+
+    suspend fun getAdvertising():Flow<ResultData<List<AdvertisingResponse>>>
 
     suspend fun getRole():Flow<ResultData<List<ShopRoleResponse>>>
 

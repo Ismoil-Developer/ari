@@ -2,6 +2,7 @@ package uz.mrx.arigo.presentation.ui.viewmodel.homepage
 
 import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
+import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 
 interface HomePageViewModel {
@@ -17,5 +18,7 @@ interface HomePageViewModel {
     fun openNotification()
 
     val getActiveAddress:Flow<ActiveAddressResponse>
+
+    val getAdvertisingResponse:Flow<List<AdvertisingResponse>>
 
 }

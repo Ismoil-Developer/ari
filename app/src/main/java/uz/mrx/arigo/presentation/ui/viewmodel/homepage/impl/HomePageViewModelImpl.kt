@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
+import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
@@ -40,6 +41,21 @@ class HomePageViewModelImpl @Inject constructor(private val direction: MainScree
 
     override val getActiveAddress = flow<ActiveAddressResponse>()
 
+    override val getAdvertisingResponse = flow<List<AdvertisingResponse>>()
+
+
+    init {
+        viewModelScope.launch {
+            useCase.getAdvertising().collectLatest {
+                it.onSuccess {
+                    getAdvertisingResponse.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
 
     init {
         viewModelScope.launch {

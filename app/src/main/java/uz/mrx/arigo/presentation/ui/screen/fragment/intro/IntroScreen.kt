@@ -62,6 +62,7 @@ class IntroScreen : Fragment(R.layout.screen_intro) {
                 restartAutoSlide()
             }
         })
+
     }
 
     private fun startAutoSlide() {

@@ -8,6 +8,7 @@ import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.data.remote.response.location.LocationActiveResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.location.LocationDeleteResponse
 import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 import uz.mrx.arigo.data.repository.location.LocationRepository
 import uz.mrx.arigo.utils.ResultData
@@ -119,6 +120,26 @@ class LocationRepositoryImpl @Inject constructor(private val api: LocationApi) :
     }.catch { e ->
         emit(ResultData.error(e))
     }
+
+
+    override suspend fun deleteLocation(id: Int) = channelFlow<ResultData<LocationDeleteResponse>> {
+        try {
+            val response = api.deleteLocation(id)
+            if (response.isSuccessful) {
+                val mainData = response.body()
+                if (mainData != null) {
+                    trySend(ResultData.success(mainData))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }.catch { emit(ResultData.error(it)) }
+
 
 
 }

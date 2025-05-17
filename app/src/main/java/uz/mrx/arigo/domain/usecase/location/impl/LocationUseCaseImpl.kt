@@ -5,6 +5,7 @@ import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.data.remote.response.location.LocationActiveResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.location.LocationDeleteResponse
 import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 import uz.mrx.arigo.data.repository.location.LocationRepository
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
@@ -22,5 +23,7 @@ class LocationUseCaseImpl @Inject constructor(private val repository: LocationRe
     override suspend fun getLocationDetail(id: Int): Flow<ResultData<LocationDetailResponse>> = repository.getLocationDetail(id)
 
     override suspend fun getActiveAddress(): Flow<ResultData<ActiveAddressResponse>> = repository.getActiveAddress()
+
+    override suspend fun deleteLocation(id: Int): Flow<ResultData<LocationDeleteResponse>> = repository.deleteLocation(id)
 
 }

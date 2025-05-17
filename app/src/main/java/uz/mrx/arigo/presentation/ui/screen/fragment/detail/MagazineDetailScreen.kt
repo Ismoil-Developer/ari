@@ -29,7 +29,6 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
     private val binding:ScreenMagazineDetailBinding by viewBinding(ScreenMagazineDetailBinding::bind)
     private val viewModel: MagazineDetailScreenViewModel by viewModels<MagazineDetailScreenViewModelImpl>()
 
-
     private val args: MagazineDetailScreenArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -9,14 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="5dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="0dp"
-        app:cardElevation="5dp"
-        android:layout_marginVertical="5dp"
-        >
+        app:strokeWidth="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,14 +27,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:fontFamily="@font/font_family"
-                android:text="Home"
                 android:layout_marginEnd="56dp"
-                android:textSize="18sp"
-                android:maxLines="1"
                 android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/font_family"
+                android:maxLines="1"
+                android:text="Home"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@id/yourLocation"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,51 +44,60 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="56dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:ellipsize="end"
                 android:fontFamily="@font/font_family"
+                android:maxLines="1"
                 android:text="Tashkent shahahr, Yunsobod sms"
                 android:textSize="18sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/locationName" />
+
+
+            <View
+                android:id="@+id/save"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_unselected_bookmark"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <ImageView
                 android:id="@+id/ic_unselected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_unselected_bookmark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/ic_unselected_bookmark"
-                android:layout_marginStart="15dp"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/ic_selected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_selected_bookmark"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/ic_selected_bookmark"
-                android:layout_marginStart="15dp"
-                android:visibility="gone"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/icEdt"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="15dp"
+                android:padding="3dp"
+                android:src="@drawable/ic_edt_location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_edt_location"
-                android:layout_marginEnd="15dp"
-                app:tint="@color/gray500"
-                android:padding="3dp"
-                />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray500" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

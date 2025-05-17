@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.model.IntroData
 import uz.mrx.arigo.databinding.PageHomeBinding
+import uz.mrx.arigo.presentation.adapter.AdvertisingAdapter
 import uz.mrx.arigo.presentation.adapter.CarouselAdapter
 import uz.mrx.arigo.presentation.adapter.MagazineAdapter
 import uz.mrx.arigo.presentation.adapter.PharmacyAdapter
@@ -32,17 +33,15 @@ class HomePage : Fragment(R.layout.page_home) {
 
     private val slideRunnable = Runnable {
         binding.viewPager.currentItem =
-            (binding.viewPager.currentItem + 1) % carouselAdapter.itemCount
+            (binding.viewPager.currentItem + 1) % advertisingAdapter.itemCount
     }
 
-    lateinit var carouselAdapter: CarouselAdapter
+    lateinit var advertisingAdapter: AdvertisingAdapter
 
-    lateinit var list: ArrayList<IntroData>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadData()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {
@@ -51,9 +50,14 @@ class HomePage : Fragment(R.layout.page_home) {
             }
         }
 
-        carouselAdapter = CarouselAdapter()
+        advertisingAdapter = AdvertisingAdapter()
 
-        carouselAdapter.submitList(list)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getAdvertisingResponse.collectLatest {
+                advertisingAdapter.submitList(it)
+            }
+        }
 
         binding.seeAllMagazine.setOnClickListener {
             viewModel.openShopListScreen(1)
@@ -84,7 +88,7 @@ class HomePage : Fragment(R.layout.page_home) {
         }
 
         binding.viewPager.apply {
-            adapter = carouselAdapter
+            adapter = advertisingAdapter
             addCarouselEffect()
         }
 
@@ -95,15 +99,13 @@ class HomePage : Fragment(R.layout.page_home) {
             }
         })
 
-
         val magazineAdapter = MagazineAdapter {
             viewModel.openMagazineDetailScreen(it.id)
         }
 
         val pharmacyAdapter = PharmacyAdapter {
-
+            viewModel.openMagazineDetailScreen(it.id)
         }
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.featureResponse.collectLatest { response ->
@@ -140,12 +142,6 @@ class HomePage : Fragment(R.layout.page_home) {
         startAutoSlide()
     }
 
-    fun loadData() {
-        list = ArrayList()
-        list.add(IntroData(R.drawable.reklamaa))
-        list.add(IntroData(R.drawable.reklamaa))
-        list.add(IntroData(R.drawable.reklamaa))
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

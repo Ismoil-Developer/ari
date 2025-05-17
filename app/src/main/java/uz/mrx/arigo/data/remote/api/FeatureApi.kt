@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
+import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
@@ -39,5 +40,12 @@ interface FeatureApi {
         @Path("id") id: Int,
         @Query("radius") radius: Int
     ): Response<List<MapListResponse>>
+
+    @GET("/shop/advertising/")
+    suspend fun getAdvertising():Response<List<AdvertisingResponse>>
+
+
+
+
 
 }

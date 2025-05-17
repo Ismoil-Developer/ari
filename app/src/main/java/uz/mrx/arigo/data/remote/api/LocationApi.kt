@@ -2,6 +2,7 @@ package uz.mrx.arigo.data.remote.api
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -11,6 +12,7 @@ import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.data.remote.response.location.LocationActiveResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.location.LocationDeleteResponse
 import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 
 interface LocationApi {
@@ -33,6 +35,8 @@ interface LocationApi {
 //    @GET("/shop/shop-map-list/{id}/")
 //    suspend fun getMapListFilter(@Path("id") id: Int):Response<List<MapListResponse>>
 
+    @DELETE("/goo/locations/{id}/delete/")
+    suspend fun deleteLocation(@Path("id") id: Int): Response<LocationDeleteResponse>
 
 
 }

@@ -12,7 +12,7 @@ import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.databinding.ItemLocationBinding
 import uz.mrx.arigo.databinding.ItemMagazineBinding
 
-class LocationAdapter(private var onItemClickListener: (LocationCreateResponse) -> Unit, ) :
+class LocationAdapter(private var onItemClickListener: (LocationCreateResponse) -> Unit, private val edtClickListener: (LocationCreateResponse) -> Unit) :
     ListAdapter<LocationCreateResponse, LocationAdapter.ViewHolder>(LocationCreateResponseDiffUtilCallback) {
 
     private var selectedItemId: Int? = null
@@ -33,7 +33,11 @@ class LocationAdapter(private var onItemClickListener: (LocationCreateResponse) 
                 binding.icUnselected.visibility = View.VISIBLE
             }
 
-            itemView.setOnClickListener {
+            binding.icEdt.setOnClickListener {
+                edtClickListener.invoke(newsData)
+            }
+
+            binding.save.setOnClickListener {
                 selectedItemId = newsData.id
                 onItemClickListener.invoke(newsData)
                 notifyDataSetChanged() // Adapterni yangilash

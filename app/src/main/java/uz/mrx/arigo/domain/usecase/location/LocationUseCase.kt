@@ -5,6 +5,7 @@ import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.data.remote.response.location.LocationActiveResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.location.LocationDeleteResponse
 import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 import uz.mrx.arigo.utils.ResultData
 
@@ -19,5 +20,7 @@ interface LocationUseCase {
     suspend fun getLocationDetail(id: Int): Flow<ResultData<LocationDetailResponse>>
 
     suspend fun getActiveAddress():Flow<ResultData<ActiveAddressResponse>>
+
+    suspend fun deleteLocation(id: Int): Flow<ResultData<LocationDeleteResponse>>
 
 }
