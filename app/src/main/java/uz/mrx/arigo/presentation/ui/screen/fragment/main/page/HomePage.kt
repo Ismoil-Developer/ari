@@ -142,7 +142,6 @@ class HomePage : Fragment(R.layout.page_home) {
         startAutoSlide()
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(slideRunnable)

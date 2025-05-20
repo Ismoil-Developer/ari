@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="@font/font_family_medium"
-        android:text="What is Lorem Ipsum?"
+        android:text="Boshqa magazinlardan harid qilish"
         android:textColor="@color/text_color_bold"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
@@ -49,10 +49,36 @@
         android:layout_height="24dp"
         android:src="@drawable/ic_selected_lan"
         android:layout_marginEnd="20dp"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="@id/imageQuestions"
+        app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageQuestionsUnCheck"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_unselected_lan"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="@id/imageQuestions"
+        app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <View
+        android:id="@+id/circle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintTop_toTopOf="@id/imageQuestions"
         app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
 
     <View
         android:id="@+id/line"
@@ -61,7 +87,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="15dp"
         android:background="@color/line_back"
-        app:layout_constraintTop_toBottomOf="@id/imageQuestionsCheck" />
+        app:layout_constraintTop_toBottomOf="@id/circle" />
 
     <ImageView
         android:id="@+id/imageList"
@@ -136,14 +162,15 @@
         android:layout_height="56dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="#B3F37828"
         app:cardCornerRadius="16dp"
         android:paddingBottom="10dp"
         android:layout_marginTop="50dp"
         app:layout_constraintTop_toBottomOf="@id/example"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeWidth="0dp">
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="@color/buttonBgColorFalse">
+        >
 
         <LinearLayout
             android:id="@+id/resend"

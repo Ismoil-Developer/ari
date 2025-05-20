@@ -69,16 +69,23 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
             tab.customView = tabView
         }.attach()
 
+
+
+
+
 // Tab tanlanganda matn rangini yangilash:
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val text = tab.customView?.findViewById<AppCompatTextView>(R.id.tabTitle)
                 text?.setTextColor(resources.getColor(android.R.color.white))
+                tab.customView?.isSelected = true
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
                 val text = tab.customView?.findViewById<AppCompatTextView>(R.id.tabTitle)
                 text?.setTextColor(resources.getColor(R.color.buttonBgColor))
+                tab.customView?.isSelected = false
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {}
