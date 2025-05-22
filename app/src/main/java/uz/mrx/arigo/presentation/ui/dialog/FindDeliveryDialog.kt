@@ -19,7 +19,7 @@ class FindDeliveryDialog(private val viewModel: SearchDeliveryScreenViewModel) :
         builder.setView(binding.root)
 
         binding.yes.setOnClickListener {
-            viewModel.openFindDeliveryScreen("")
+            viewModel.openOrderDeliveryScreen("")
             dismiss()
         }
 

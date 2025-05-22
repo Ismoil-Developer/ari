@@ -20,15 +20,12 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(private val directio
     val _deliveryAcceptedFlow = MutableSharedFlow<WebSocketGooEvent.DeliveryAccepted>()
     override val deliveryAcceptedFlow: SharedFlow<WebSocketGooEvent.DeliveryAccepted> = _deliveryAcceptedFlow
 
-
-
     val _courierNotFoundFlow = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>()
     override val courierNotFoundFlow: SharedFlow<WebSocketGooEvent.CourierNotFound> = _courierNotFoundFlow
 
-
-    override fun openFindDeliveryScreen(coordinates: String) {
+    override fun openOrderDeliveryScreen(coordinates: String) {
         viewModelScope.launch {
-            direction.openFinDeliveryScreen(coordinates)
+            direction.openOrderDeliveryScreen(coordinates)
         }
     }
 

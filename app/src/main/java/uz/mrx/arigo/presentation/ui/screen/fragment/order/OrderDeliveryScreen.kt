@@ -1,14 +1,11 @@
-package uz.mrx.arigo.presentation.ui.screen.fragment.delivery
+package uz.mrx.arigo.presentation.ui.screen.fragment.order
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.RequestPoint
@@ -27,12 +24,12 @@ import com.yandex.runtime.image.ImageProvider
 import com.yandex.runtime.network.NetworkError
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mrx.arigo.R
-import uz.mrx.arigo.databinding.ScreenFindDeleveryBinding
+import uz.mrx.arigo.databinding.ScreenOrderDeliveryBinding
 
 @AndroidEntryPoint
-class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSession.DrivingRouteListener {
+class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSession.DrivingRouteListener {
 
-    private val binding: ScreenFindDeleveryBinding by viewBinding(ScreenFindDeleveryBinding::bind)
+    private val binding:ScreenOrderDeliveryBinding by viewBinding(ScreenOrderDeliveryBinding::bind)
 
     private lateinit var mapView: MapView
     private var userLocationLayer: UserLocationLayer? = null
@@ -40,7 +37,6 @@ class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSessi
     private lateinit var drivingRouter: DrivingRouter
     private var drivingSession: DrivingSession? = null
 
-    // Start and end coordinates
     private val startPoint = Point(41.2995, 69.2401) // Tashkent
     private val endPoint = Point(41.3112, 69.2797)
 
@@ -70,7 +66,6 @@ class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSessi
         addIcons()
 
         buildRoute()
-
 
     }
 
@@ -134,5 +129,6 @@ class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSessi
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
+
 
 }

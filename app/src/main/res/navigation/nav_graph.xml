@@ -103,8 +103,8 @@
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.SearchDeliveryScreen"
         android:label="SearchDeliveryScreen" >
         <action
-            android:id="@+id/action_searchDeliveryScreen_to_findDeliveryScreen"
-            app:destination="@id/findDeliveryScreen" />
+            android:id="@+id/action_searchDeliveryScreen_to_orderDeliveryScreen"
+            app:destination="@id/orderDeliveryScreen" />
     </fragment>
     <fragment
         android:id="@+id/locationScreen"
@@ -166,15 +166,6 @@
         android:label="NotificationScreen" />
 
     <fragment
-        android:id="@+id/findDeliveryScreen"
-        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.delivery.FindDeliveryScreen"
-        android:label="FindDeliveryScreen" >
-        <argument
-            android:name="coordinat"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
         android:id="@+id/orderUpdateScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderUpdateScreen"
         android:label="OrderUpdateScreen" >
@@ -190,6 +181,14 @@
         android:id="@+id/historyDetailScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.history.HistoryDetailScreen"
         android:label="HistoryDetailScreen" />
+    <fragment
+        android:id="@+id/orderDeliveryScreen"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderDeliveryScreen"
+        android:label="OrderDeliveryScreen" >
+        <argument
+            android:name="coordinates"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

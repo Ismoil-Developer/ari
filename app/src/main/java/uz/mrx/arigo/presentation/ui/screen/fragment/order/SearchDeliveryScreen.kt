@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.local.shp.MySharedPreference
@@ -63,7 +62,7 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
                             "Buyurtma qabul qilindi: ${event.order_id}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        viewModel.openFindDeliveryScreen(event.latest_coords.toString())
+                        viewModel.openOrderDeliveryScreen(event.latest_coords.toString())
                     }
                 }
 
