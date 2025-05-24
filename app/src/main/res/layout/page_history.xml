@@ -17,7 +17,9 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_color_bold"
+        />
 
     <TextView
         android:id="@+id/title"
@@ -33,9 +35,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/icBack" />
-
-
-
 
 
     <ImageView

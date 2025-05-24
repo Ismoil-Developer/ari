@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/mainBgColor"
     android:fitsSystemWindows="true"
     android:paddingTop="16dp">
 
@@ -14,7 +14,9 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_color_bold"
+        />
 
     <TextView
         android:id="@+id/title"
@@ -70,7 +72,7 @@
         android:id="@+id/orderContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/log_in_bottom_shet"
+        android:background="@drawable/bottom_navogation"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/mainBgColor"
     android:fitsSystemWindows="true"
     android:paddingTop="16dp">
 
@@ -174,7 +174,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/font_family"
                 android:text="Magazine"
-                android:textColor="@color/magazine_txt"
+                android:textColor="@color/text_color_bold"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewPager" />
@@ -188,7 +188,7 @@
                 android:fontFamily="@font/font_family"
                 android:padding="@dimen/_10sdp"
                 android:text="See All"
-                android:textColor="@color/see_all"
+                android:textColor="@color/text_color_bold"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/magazineTxt"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -215,7 +215,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/font_family"
                 android:text="Pharmacy"
-                android:textColor="@color/magazine_txt"
+                android:textColor="@color/text_color_bold"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvMagazine" />
@@ -229,7 +229,7 @@
                 android:fontFamily="@font/font_family"
                 android:padding="@dimen/_10sdp"
                 android:text="See All"
-                android:textColor="@color/see_all"
+                android:textColor="@color/text_color_bold"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="@id/pharmacyTxt"
                 app:layout_constraintEnd_toEndOf="parent"

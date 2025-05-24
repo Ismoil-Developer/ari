@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/mainBgColor"
     >
 
     <ImageView
@@ -24,7 +24,7 @@
         android:layout_marginStart="12dp"
         android:fontFamily="@font/font_family_medium"
         android:text="So’rovnoma"
-        android:textColor="@color/gray500"
+        android:textColor="@color/text_color_medium"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/questionTxt"
         app:layout_constraintStart_toEndOf="@id/imageQuestions"
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/font_family_medium"
         android:text="Royhat"
-        android:textColor="@color/gray500"
+        android:textColor="@color/text_color_bold"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/imageList"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,6 +134,7 @@
         android:padding="10dp"
         android:inputType="textMultiLine"
         android:maxLines="10"
+        android:textColor="@color/text_color_bold"
         android:scrollbars="vertical"
         android:overScrollMode="always"
         app:layout_constraintTop_toBottomOf="@id/line2"
@@ -150,7 +151,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         android:gravity="start|center_vertical"
-        android:textColor="@color/gray500"
+        android:textColor="@color/text_color_bold"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

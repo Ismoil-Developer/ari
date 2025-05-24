@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@color/back_edt_google">
 
             <TextView
                 android:id="@+id/locationName"
@@ -32,6 +32,7 @@
                 android:fontFamily="@font/font_family"
                 android:maxLines="1"
                 android:text="Home"
+                android:textColor="@color/text_color_bold"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@id/yourLocation"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +50,7 @@
                 android:maxLines="1"
                 android:text="Tashkent shahahr, Yunsobod sms"
                 android:textSize="18sp"
+                android:textColor="@color/text_color_bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +76,9 @@
                 android:src="@drawable/ic_unselected_bookmark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/text_color_bold"
+                />
 
             <ImageView
                 android:id="@+id/ic_selected"
@@ -97,7 +101,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/gray500" />
+                app:tint="@color/text_color_bold"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
