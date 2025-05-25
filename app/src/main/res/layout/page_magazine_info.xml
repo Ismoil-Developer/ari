@@ -47,7 +47,7 @@
         android:layout_height="1dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="23dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/imageTimerRes" />
 
 
@@ -94,7 +94,7 @@
         android:layout_height="1dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="23dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/imageLocationRes" />
 
     <ImageView
@@ -140,7 +140,7 @@
         android:layout_height="1dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="23dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/imagePhoneRes" />
 
 
@@ -191,7 +191,7 @@
         android:layout_height="1dp"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="16dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintTop_toBottomOf="@id/resAllAbout" />
 
     <TextView

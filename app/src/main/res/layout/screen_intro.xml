@@ -47,7 +47,7 @@
         android:fontFamily="@font/font_family_medium"
         android:gravity="center"
         android:text="Kerakli bo’lgan manzillarni biz bilan toping"
-        android:textColor="@color/gray500"
+        android:textColor="@color/text_color_medium"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintEnd_toEndOf="@id/containerMake"
         app:layout_constraintStart_toStartOf="@id/containerMake"
         app:layout_constraintTop_toBottomOf="@id/containerMake" />
@@ -150,7 +150,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintEnd_toEndOf="@id/containerLocationInfo"
         app:layout_constraintStart_toStartOf="@id/containerLocationInfo"
         app:layout_constraintTop_toBottomOf="@id/containerLocationInfo" />
@@ -202,7 +202,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/line_back"
+        android:background="@color/line"
         app:layout_constraintEnd_toEndOf="@id/containerLocationWithMap"
         app:layout_constraintStart_toStartOf="@id/containerLocationWithMap"
         app:layout_constraintTop_toBottomOf="@id/containerLocationWithMap" />

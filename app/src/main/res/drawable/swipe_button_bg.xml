@@ -6,7 +6,7 @@
     <solid android:color="@android:color/white" />
 
     <!-- Tugma burchaklarini yumaloqlashtirish -->
-    <corners android:radius="12dp" />
+    <corners android:radius="25dp" />
 
     <!-- Soyali effekt (ixtiyoriy, API 21+ uchun) -->
     <padding

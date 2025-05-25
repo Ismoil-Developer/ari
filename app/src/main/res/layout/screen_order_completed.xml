@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="@color/mainBgColor"
+    android:paddingTop="16dp">
 
     <ImageView
         android:id="@+id/imvCompleted"
         android:layout_width="match_parent"
         android:layout_height="370dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="-70dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/back_order_completed"
         android:scaleType="centerCrop"
-        />
+        android:src="@drawable/back_order_completed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imv"
         android:layout_width="172dp"
         android:layout_height="162dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="179dp"
+        android:src="@drawable/order_cancelled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/order_cancelled"
-        android:layout_marginTop="179dp"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/thankTxt"
@@ -49,107 +47,102 @@ Order Completed"
         android:id="@+id/writeRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="56dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/font_family_medium"
+        android:gravity="center"
         android:text="Please rate your last Driver"
         android:textColor="@color/gray500"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="56dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/thankTxt" />
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:numStars="5"
-        android:stepSize="1.0"
-        android:rating="0"
         android:layout_marginHorizontal="24dp"
-        android:isIndicator="false"
-        android:progressDrawable="@drawable/star_selector"
-        android:background="?android:attr/selectableItemBackground"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/writeRating"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:progressDrawable="@drawable/star_selector"
+        android:rating="0"
+        android:stepSize="1.0"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/writeRating" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/edtNumber"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginHorizontal="20dp"
-        android:text="Phone number"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/textProfile"
-        app:layout_constraintBottom_toTopOf="@id/containerBtn"
-        android:textSize="16sp"
-        app:strokeColor="#F6F6F6"
         android:layout_marginBottom="20dp"
-        app:layout_constraintStart_toStartOf="parent">
+        android:text="Phone number"
+        android:textColor="@color/textProfile"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/containerBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="#F6F6F6">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            >
+            android:background="@color/back_item_order">
 
             <ImageView
                 android:id="@+id/edtFeedBack"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/feedback_edt"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="15dp"
-                />
+                android:src="@drawable/feedback_edt"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="24dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/edtFeedBack"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="35dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/text_color_bold"
                 android:textSize="14sp"
-                />
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/edtFeedBack"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-    
-    
+
+
     <LinearLayout
         android:id="@+id/containerBtn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="20dp"
-        android:orientation="horizontal"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        >
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="54dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:background="@drawable/back_style_button"
             android:fontFamily="@font/font_family_medium"
             android:text="Davom etish"
-            android:layout_marginEnd="10dp"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
@@ -158,14 +151,13 @@ Order Completed"
             android:id="@+id/btn_skip"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_weight="3"
             android:layout_marginStart="10dp"
+            android:layout_weight="3"
             android:background="@drawable/back_style_button_white"
             android:fontFamily="@font/font_family_medium"
             android:text="Skip"
             android:textAllCaps="false"
             android:textColor="@color/buttonBgColor" />
-
 
 
     </LinearLayout>

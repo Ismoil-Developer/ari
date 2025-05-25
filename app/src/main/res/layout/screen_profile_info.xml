@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="16dp"
-    android:background="@color/white"
+    android:background="@color/mainBgColor"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -14,6 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_back"
+        app:tint="@color/text_color_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +82,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="@color/mainBgColor"
             >
 
             <EditText
@@ -92,7 +93,7 @@
                 android:fontFamily="@font/font_family_medium"
                 android:text="Your name"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@color/textProfile"
+                android:textColor="@color/text_color_bold"
                 android:textSize="16sp"
                 android:padding="16dp"
                 android:background="@drawable/edt_bg"
@@ -112,7 +113,7 @@
                 android:background="@drawable/edt_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtName"
-                android:textColor="@color/textProfile"
+                android:textColor="@color/text_color_bold"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

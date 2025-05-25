@@ -244,7 +244,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="60dp"
             android:layout_height="25dp"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@id/myOrderTxt"
             app:layout_constraintEnd_toEndOf="@id/btn_continue"
             app:layout_constraintTop_toTopOf="@id/myOrderTxt"

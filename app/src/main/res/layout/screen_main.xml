@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/log_in_bottom_shet"
+        android:background="@drawable/bottom_navogation"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -41,6 +41,7 @@
             app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
             app:itemTextColor="@color/bottom_nav_selector"
             app:labelVisibilityMode="labeled"
+            android:background="@android:color/transparent"
             app:menu="@menu/menu" />
 
     </LinearLayout>

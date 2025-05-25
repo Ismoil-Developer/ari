@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/mainBgColor"
     android:fitsSystemWindows="true"
     android:paddingTop="16dp"
     >
@@ -15,6 +15,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_back"
+        app:tint="@color/text_color_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,6 +67,7 @@
         android:layout_marginEnd="20dp"
         android:padding="10dp"
         android:background="@drawable/back_map_btn"
+        app:tint="@color/text_color_bold"
         />
 
     <ImageView
@@ -79,6 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/plus"
         android:background="@drawable/back_map_btn"
+        app:tint="@color/text_color_bold"
         />
 
     <ImageView
@@ -91,7 +94,6 @@
         android:layout_marginEnd="20dp"
         android:padding="10dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/back_map_btn"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,7 +112,7 @@
             android:layout_height="4dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="#33000000"
+            android:background="@color/line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

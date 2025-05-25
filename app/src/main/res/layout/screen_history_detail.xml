@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_16sdp"
-    android:background="@color/white">
+    android:background="@color/mainBgColor">
 
     <ImageView
         android:id="@+id/icBack"
@@ -14,7 +14,9 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_color_bold"
+        />
 
     <TextView
         android:id="@+id/title"
@@ -51,7 +53,9 @@
         android:padding="10dp"
         android:src="@drawable/ic_message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/text_color_bold"
+        />
 
 
     <TextView
@@ -138,7 +142,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="#F2F4F7"
+        android:background="@color/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/shopRegion"
         app:layout_constraintTop_toBottomOf="@id/shopRegion" />
@@ -184,7 +188,7 @@
         android:layout_height="0dp"
         android:layout_marginVertical="10dp"
         android:layout_marginTop="10dp"
-        android:background="#F2F4F7"
+        android:background="@color/line"
         app:layout_constraintBottom_toTopOf="@id/locationImg"
         app:layout_constraintEnd_toEndOf="@id/locationImg"
         app:layout_constraintStart_toStartOf="@id/locationImg"
@@ -246,7 +250,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"
-        android:background="#F2F4F7"
+        android:background="@color/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/typeInfo" />
