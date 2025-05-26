@@ -34,6 +34,7 @@ class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSessi
 
     private val binding: ScreenFindDeleveryBinding by viewBinding(ScreenFindDeleveryBinding::bind)
 
+
     private lateinit var mapView: MapView
     private var userLocationLayer: UserLocationLayer? = null
 

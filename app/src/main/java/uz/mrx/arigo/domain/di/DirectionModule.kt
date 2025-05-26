@@ -4,8 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import uz.mrx.arigo.presentation.direction.chat.ChatScreenDirection
+import uz.mrx.arigo.presentation.direction.chat.impl.ChatScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.confirm.ConfirmScreenDirection
 import uz.mrx.arigo.presentation.direction.confirm.impl.ConfirmScreenDirectionImpl
+import uz.mrx.arigo.presentation.direction.delivery.FindDeliveryScreenDirection
+import uz.mrx.arigo.presentation.direction.delivery.impl.FindDeliveryScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.intro.IntroScreenDirection
 import uz.mrx.arigo.presentation.direction.intro.impl.IntroScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.language.LanguageScreenDirection
@@ -22,7 +26,9 @@ import uz.mrx.arigo.presentation.direction.magazinedetail.MagazineDetailScreenDi
 import uz.mrx.arigo.presentation.direction.magazinedetail.impl.MagazineDetailScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.main.MainScreenDirection
 import uz.mrx.arigo.presentation.direction.main.impl.MainScreenDirectionImpl
+import uz.mrx.arigo.presentation.direction.order.OrderDeliveryScreenDirection
 import uz.mrx.arigo.presentation.direction.order.UpdateOrderScreenDirection
+import uz.mrx.arigo.presentation.direction.order.impl.OrderDeliveryScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.UpdateOrderScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.profile.ProfileScreenDirection
 import uz.mrx.arigo.presentation.direction.profile.impl.ProfileScreenDirectionImpl
@@ -78,5 +84,14 @@ interface DirectionModule {
 
     @[Binds]
     fun bindUpdateOrderScreenDirection(impl: UpdateOrderScreenDirectionImpl): UpdateOrderScreenDirection
+
+    @[Binds]
+    fun bindFindDeliveryScreenDirection(impl: FindDeliveryScreenDirectionImpl): FindDeliveryScreenDirection
+
+    @[Binds]
+    fun bindOrderDeliveryScreenDirection(impl: OrderDeliveryScreenDirectionImpl): OrderDeliveryScreenDirection
+
+    @[Binds]
+    fun bindChatScreenDirection(impl: ChatScreenDirectionImpl): ChatScreenDirection
 
 }

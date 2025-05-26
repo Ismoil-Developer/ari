@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.MapKitFactory
@@ -25,11 +26,15 @@ import com.yandex.runtime.network.NetworkError
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenOrderDeliveryBinding
+import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderDeliveryScreenViewModel
+import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.OrderDeliveryScreenViewModelImpl
+import uz.mrx.arigo.utils.SwipeToRevealView
 
 @AndroidEntryPoint
 class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSession.DrivingRouteListener {
 
     private val binding:ScreenOrderDeliveryBinding by viewBinding(ScreenOrderDeliveryBinding::bind)
+    private val viewModel:OrderDeliveryScreenViewModel by viewModels<OrderDeliveryScreenViewModelImpl>()
 
     private lateinit var mapView: MapView
     private var userLocationLayer: UserLocationLayer? = null
@@ -63,6 +68,19 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
             findNavController().popBackStack()
         }
 
+        binding.message.setOnClickListener {
+            viewModel.openChatScreen()
+        }
+
+
+        binding.swipeView.setOnSwipeCompleteListener(object : SwipeToRevealView.OnSwipeCompleteListener {
+            override fun onSwipeCompleted() {
+                viewModel.openFindDeliveryScreen() // ✅ Swipe bo‘lganda chaqiriladi
+            }
+        })
+
+
+          
         addIcons()
 
         buildRoute()

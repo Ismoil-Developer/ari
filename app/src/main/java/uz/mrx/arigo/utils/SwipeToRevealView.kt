@@ -9,15 +9,20 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import uz.mrx.arigo.R
 
-
 class SwipeToRevealView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
+    interface OnSwipeCompleteListener {
+        fun onSwipeCompleted()
+    }
+
     private var swipeText: String = "Yetib keldim"
     private lateinit var swipeButton: View
     private lateinit var swipeLabel: TextView
+
+    private var listener: OnSwipeCompleteListener? = null
 
     init {
         initView()
@@ -49,7 +54,8 @@ class SwipeToRevealView @JvmOverloads constructor(
                         if (view.x >= width * 0.6) {
                             swipeLabel.text = "✔ Yetib keldim"
                             view.animate().x(width.toFloat()).withEndAction {
-                                visibility = View.GONE // o‘chadi
+                                visibility = View.GONE
+                                listener?.onSwipeCompleted() // 💡 Callback shu yerda chaqiriladi
                             }.start()
                         } else {
                             view.animate().x(0f).start()
@@ -64,5 +70,9 @@ class SwipeToRevealView @JvmOverloads constructor(
     fun setText(text: String) {
         swipeText = text
         swipeLabel.text = text
+    }
+
+    fun setOnSwipeCompleteListener(listener: OnSwipeCompleteListener) {
+        this.listener = listener
     }
 }
