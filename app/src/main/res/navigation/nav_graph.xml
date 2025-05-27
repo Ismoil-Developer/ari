@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashScreen">
+    app:startDestination="@id/orderCompletedScreen">
 
     <fragment
         android:id="@+id/splashScreen"
@@ -203,7 +203,15 @@
     <fragment
         android:id="@+id/findDeliveryScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.delivery.FindDeliveryScreen"
-        android:label="FindDeliveryScreen" />
+        android:label="FindDeliveryScreen" >
+        <action
+            android:id="@+id/action_findDeliveryScreen_to_orderCompletedScreen"
+            app:destination="@id/orderCompletedScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCompletedScreen"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderCompletedScreen"
+        android:label="OrderCompletedScreen" />
 
 
 </navigation>

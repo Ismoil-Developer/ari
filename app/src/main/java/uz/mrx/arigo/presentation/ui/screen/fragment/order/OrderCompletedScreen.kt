@@ -16,7 +16,9 @@ class OrderCompletedScreen:Fragment(R.layout.screen_order_completed) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
+            println("Tanlangan yulduzlar soni: $rating")
+        }
 
     }
 }

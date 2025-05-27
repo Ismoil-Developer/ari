@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -28,12 +29,14 @@ import com.yandex.runtime.network.NetworkError
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenFindDeleveryBinding
+import uz.mrx.arigo.presentation.ui.viewmodel.delivery.FindDeliveryScreenViewModel
+import uz.mrx.arigo.presentation.ui.viewmodel.delivery.impl.FindDeliveryScreenViewModelImpl
 
 @AndroidEntryPoint
 class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSession.DrivingRouteListener {
 
     private val binding: ScreenFindDeleveryBinding by viewBinding(ScreenFindDeleveryBinding::bind)
-
+    private val viewModel:FindDeliveryScreenViewModel by viewModels<FindDeliveryScreenViewModelImpl>()
 
     private lateinit var mapView: MapView
     private var userLocationLayer: UserLocationLayer? = null
@@ -55,7 +58,13 @@ class FindDeliveryScreen : Fragment(R.layout.screen_find_delevery), DrivingSessi
             CameraPosition(startPoint, 14.0f, 0.0f, 0.0f)
         )
 
+
+        binding.wentBtn.setOnClickListener {
+            viewModel.openOrderCompletedScreen()
+        }
+
         val mapKit = MapKitFactory.getInstance()
+
         userLocationLayer = mapKit.createUserLocationLayer(mapView.mapWindow).apply {
             isVisible = true
             isHeadingEnabled = true

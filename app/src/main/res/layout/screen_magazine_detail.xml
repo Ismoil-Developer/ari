@@ -44,7 +44,7 @@
             app:tabGravity="center"
             android:backgroundTint="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@id/viewPagerRes"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@android:color/transparent"
             app:tabTextColor="@color/black"
             app:tabRippleColor="@android:color/transparent"
             />

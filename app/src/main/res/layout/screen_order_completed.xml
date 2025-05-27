@@ -58,21 +58,22 @@ Order Completed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/thankTxt" />
 
+
     <RatingBar
         android:id="@+id/ratingBar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:isIndicator="false"
         android:numStars="5"
-        android:progressDrawable="@drawable/star_selector"
-        android:rating="0"
-        android:stepSize="1.0"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:stepSize="1"
+        android:progressDrawable="@drawable/rating_star_layer"
+        android:isIndicator="false"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/writeRating"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/writeRating" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/edtNumber"

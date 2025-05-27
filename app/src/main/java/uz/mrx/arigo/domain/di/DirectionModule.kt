@@ -95,3 +95,16 @@ interface DirectionModule {
     fun bindChatScreenDirection(impl: ChatScreenDirectionImpl): ChatScreenDirection
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
