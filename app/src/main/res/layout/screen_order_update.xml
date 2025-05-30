@@ -78,7 +78,9 @@
                 android:src="@drawable/ic_next"
                 app:layout_constraintBottom_toBottomOf="@id/addressRegion"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/addressTxt" />
+                app:layout_constraintTop_toTopOf="@id/addressTxt"
+                app:tint="@color/text_color_bold"
+                />
 
             <View
                 android:id="@+id/line"

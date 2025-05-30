@@ -17,7 +17,7 @@ interface OrderApi {
         @Body orderRequest: OrderRequest
     ): Response<OrderResponse>
 
-    @PATCH("/goo/orders/{id}/update/")
+    @PATCH("/goo/orders/{id}/address/")
     suspend fun putOrder(@Path("id") id: Int, @Body updateOrder: UpdateOrderRequest):Response<OrderResponse>
 
 }
