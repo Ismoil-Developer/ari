@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.viewmodel.location
 import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 
 interface AddLocationScreenViewModel {
 
@@ -11,5 +12,9 @@ interface AddLocationScreenViewModel {
     fun addLocation(createRequest: LocationCreateRequest)
 
     val addLocationResponse:Flow<LocationCreateResponse>
+
+    fun locationDetail(id:Int)
+
+    val locationDetail:Flow<LocationDetailResponse>
 
 }

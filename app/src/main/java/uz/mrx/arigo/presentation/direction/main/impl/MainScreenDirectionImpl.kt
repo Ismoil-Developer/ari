@@ -32,4 +32,8 @@ class MainScreenDirectionImpl @Inject constructor(private val navigator: Navigat
         navigator.navigateTo(MainScreenDirections.actionScreenMainToHistoryDetailScreen())
     }
 
+    override suspend fun openChatScreen() {
+        navigator.navigateTo(MainScreenDirections.actionScreenMainToChatScreen())
+    }
+
 }

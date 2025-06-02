@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
+import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.utils.ResultData
 
@@ -17,5 +18,6 @@ interface OrderRepository {
     fun observeMessages(): Flow<WebSocketGooEvent>
 
 
+    suspend fun retryOrder(id: Int):Flow<ResultData<RetryOrderResponse>>
 
 }

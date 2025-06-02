@@ -46,6 +46,7 @@ class ProfilePage:Fragment(R.layout.page_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.logOut.setOnClickListener {
             val dialog = LogoutDialog()
             dialog.show(parentFragmentManager, "LogoutDialog")
@@ -65,7 +66,27 @@ class ProfilePage:Fragment(R.layout.page_profile) {
         }
 
         binding.edtContactUs.setOnClickListener {
-            val dialog = ContactDialog()
+            val dialog = ContactDialog(
+                onCallClick = { number ->
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
+                    startActivity(intent)
+                },
+                onTelegramClick = { link ->
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                    startActivity(intent)
+                },
+                onChatClick = {
+                    viewModel.openChatScreen()
+                }
+            )
+
+            // ViewModel orqali maʼlumot olib, dialogga yuboriladi
+            lifecycleScope.launch {
+                viewModel.getContact.collectLatest { response ->
+                    dialog.setContactData(response.phone_number, response.telegram_link)
+                }
+            }
+
             dialog.show(parentFragmentManager, "ContactDialog")
         }
 

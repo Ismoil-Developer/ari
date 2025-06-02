@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.Part
+import uz.mrx.arigo.data.remote.response.profile.ContactResponse
 import uz.mrx.arigo.data.remote.response.profile.ProfileResponse
 
 interface ProfileApi {
@@ -27,5 +28,8 @@ interface ProfileApi {
     suspend fun updateProfilePhoto(
         @Part avatar: MultipartBody.Part?
     ):Response<ProfileResponse>
+
+    @GET("/goo/contact/")
+    suspend fun getContact():Response<ContactResponse>
 
 }

@@ -13,6 +13,7 @@ import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
+import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
 import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.data.repository.order.OrderRepository
@@ -85,6 +86,31 @@ class OrderRepositoryImpl @Inject constructor(
 
         return merge(acceptedFlow, notFoundFlow)  // Combine the flows
     }
+
+
+    override suspend fun retryOrder(id: Int) = channelFlow<ResultData<RetryOrderResponse>> {
+        try {
+
+            val response = api.retryOrder(id)
+
+            if (response.isSuccessful){
+
+                val body = response.body()
+                if (body != null){
+                    trySend(ResultData.success(body))
+                }else{
+                    trySend(ResultData.messageText("Response bodi is null"))
+                }
+
+            }else{
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+
+        }catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
 
 
 

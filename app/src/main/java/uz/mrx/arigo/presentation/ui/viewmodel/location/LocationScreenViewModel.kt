@@ -7,7 +7,7 @@ import uz.mrx.arigo.data.remote.response.location.LocationDeleteResponse
 
 interface LocationScreenViewModel {
 
-     fun openAddLocationScreen()
+     fun openAddLocationScreen(id: Int)
 
      val getLocation:Flow<List<LocationCreateResponse>>
 

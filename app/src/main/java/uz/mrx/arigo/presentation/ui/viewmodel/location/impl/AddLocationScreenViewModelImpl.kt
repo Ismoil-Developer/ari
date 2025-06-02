@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
 import uz.mrx.arigo.presentation.direction.location.AddLocationScreenDirection
 import uz.mrx.arigo.presentation.ui.viewmodel.location.AddLocationScreenViewModel
@@ -38,5 +39,20 @@ class AddLocationScreenViewModelImpl @Inject constructor(private val direction:A
     }
 
     override val addLocationResponse = flow<LocationCreateResponse>()
+
+    override fun locationDetail(id: Int) {
+        viewModelScope.launch {
+            useCase.getLocationDetail(id).collectLatest {
+                it.onError {
+
+                }
+                it.onSuccess {
+                    locationDetail.tryEmit(it)
+                }
+            }
+        }
+    }
+
+    override val locationDetail = flow<LocationDetailResponse>()
 
 }

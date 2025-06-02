@@ -8,6 +8,7 @@ import retrofit2.http.Path
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
+import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
 
 interface OrderApi {
 
@@ -19,5 +20,11 @@ interface OrderApi {
 
     @PATCH("/goo/orders/{id}/address/")
     suspend fun putOrder(@Path("id") id: Int, @Body updateOrder: UpdateOrderRequest):Response<OrderResponse>
+
+
+    @POST("/goo/orders/{id}/retry/")
+    suspend fun retryOrder(@Path("id") id: Int):Response<RetryOrderResponse>
+
+
 
 }

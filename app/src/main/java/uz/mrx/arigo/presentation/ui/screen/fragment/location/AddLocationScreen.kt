@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
@@ -43,6 +44,8 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     private val binding: ScreenLocationAddBinding by viewBinding(ScreenLocationAddBinding::bind)
     private val viewModel: AddLocationScreenViewModel by viewModels<AddLocationScreenViewModelImpl>()
 
+    private val args:AddLocationScreenArgs by navArgs()
+
     private var isMarkerRaised = false
 
 
@@ -55,6 +58,19 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        if (args.id != -1){
+            viewModel.locationDetail(args.id)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.locationDetail.collectLatest {
+                if (it.id != -1){
+                    binding.edtYourLoc.text = it.address
+                    binding.edtLocName.setText(it.custom_name)
+                }
+            }
+        }
 
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()

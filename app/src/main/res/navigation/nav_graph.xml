@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_screenMain_to_historyDetailScreen"
             app:destination="@id/historyDetailScreen" />
+        <action
+            android:id="@+id/action_screenMain_to_chatScreen"
+            app:destination="@id/chatScreen" />
     </fragment>
 
 
@@ -123,6 +126,10 @@
         <action
             android:id="@+id/action_addLocationScreen_to_locationScreen"
             app:destination="@id/locationScreen" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/searchMapScreen"

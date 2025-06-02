@@ -11,6 +11,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import uz.mrx.arigo.data.remote.api.ProfileApi
+import uz.mrx.arigo.data.remote.response.profile.ContactResponse
 import uz.mrx.arigo.data.remote.response.profile.ProfileResponse
 import uz.mrx.arigo.data.repository.profile.ProfileRepository
 import uz.mrx.arigo.utils.ResultData
@@ -72,6 +73,28 @@ class ProfileRepositoryImpl @Inject constructor(private val api: ProfileApi, @Ap
             trySend(ResultData.error(e))
         }
     }.catch { emit(ResultData.error(it)) }
+
+    override suspend fun getContact() = channelFlow<ResultData<ContactResponse>> {
+        try {
+            val response = api.getContact()
+
+            if (response.isSuccessful){
+                val baseResponse = response.body()
+                if (baseResponse != null) {
+
+                    trySend(ResultData.success(baseResponse))
+                } else {
+                    trySend(ResultData.messageText("Unknown error"))
+                }
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Not load"
+                trySend(ResultData.error(Throwable(errorMessage)))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }.catch { emit(ResultData.error(it)) }
+
 
     override suspend fun putProfile(
         fullName: String,

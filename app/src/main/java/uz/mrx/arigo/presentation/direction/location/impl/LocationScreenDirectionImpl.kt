@@ -6,9 +6,9 @@ import uz.mrx.arigo.presentation.ui.screen.fragment.location.LocationScreenDirec
 import javax.inject.Inject
 
 class LocationScreenDirectionImpl @Inject constructor(private val navigator: Navigator):LocationScreenDirection {
-    override suspend fun openAddLocationScreen() {
+    override suspend fun openAddLocationScreen(id:Int) {
 
-        navigator.navigateTo(LocationScreenDirections.actionLocationScreenToAddLocationScreen())
+        navigator.navigateTo(LocationScreenDirections.actionLocationScreenToAddLocationScreen(id))
 
     }
 

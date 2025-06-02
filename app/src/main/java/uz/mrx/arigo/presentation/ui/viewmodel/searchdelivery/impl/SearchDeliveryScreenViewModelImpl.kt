@@ -8,10 +8,12 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
 import uz.mrx.arigo.presentation.direction.searchdelivery.SearchDeliveryScreenDirection
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.SearchDeliveryScreenViewModel
+import uz.mrx.arigo.utils.flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,6 +41,24 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(private val directio
         }
 
     }
+
+
+    override val retryOrder = flow<RetryOrderResponse>()
+
+    override fun retryOrder(id: Int) {
+        viewModelScope.launch {
+            useCase.retryOrder(id).collectLatest {
+                it.onSuccess {
+                    retryOrder.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
+
 
     private suspend fun handleIncomingMessage(message: WebSocketGooEvent) {
         when (message) {

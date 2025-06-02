@@ -33,7 +33,7 @@ class LocationAdapter(private var onItemClickListener: (LocationCreateResponse) 
                 binding.icUnselected.visibility = View.VISIBLE
             }
 
-            binding.icEdt.setOnClickListener {
+            binding.root.setOnClickListener {
                 edtClickListener.invoke(newsData)
             }
 

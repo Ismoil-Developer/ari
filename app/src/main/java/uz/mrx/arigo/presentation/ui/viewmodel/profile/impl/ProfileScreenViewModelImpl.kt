@@ -4,10 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequest
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequestPhoto
+import uz.mrx.arigo.data.remote.response.profile.ContactResponse
 import uz.mrx.arigo.data.remote.response.profile.ProfileResponse
 import uz.mrx.arigo.domain.usecase.profile.ProfileUseCase
 import uz.mrx.arigo.presentation.direction.main.MainScreenDirection
@@ -74,6 +77,21 @@ class ProfileScreenViewModelImpl @Inject constructor(
         }
     }
 
+    override val getContact = flow<ContactResponse>()
+
+    init {
+        viewModelScope.launch {
+            profileUseCase.getContact().collectLatest {
+                it.onSuccess {
+                    getContact.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
     override fun openMainScreen() {
         viewModelScope.launch {
             profileDirection.openMainScreen()
@@ -83,6 +101,12 @@ class ProfileScreenViewModelImpl @Inject constructor(
     override fun openProfileScreen() {
         viewModelScope.launch {
             direction.openProfileInfoScreen()
+        }
+    }
+
+    override fun openChatScreen() {
+        viewModelScope.launch {
+            direction.openChatScreen()
         }
     }
 

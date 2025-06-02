@@ -73,8 +73,8 @@ class LocationScreenViewModelImpl @Inject constructor(
         }
     }
 
-    override fun openAddLocationScreen() {
-        viewModelScope.launch { direction.openAddLocationScreen() }
+    override fun openAddLocationScreen(id: Int) {
+        viewModelScope.launch { direction.openAddLocationScreen(id) }
     }
 
     override fun openMainScreen() {

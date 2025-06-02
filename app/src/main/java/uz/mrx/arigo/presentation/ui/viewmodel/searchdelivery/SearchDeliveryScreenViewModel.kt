@@ -1,6 +1,8 @@
 package uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
+import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 
 interface SearchDeliveryScreenViewModel {
@@ -13,5 +15,8 @@ interface SearchDeliveryScreenViewModel {
 
     fun openOrderUpdateScreen()
 
+    fun retryOrder(id:Int)
+
+    val retryOrder:Flow<RetryOrderResponse>
 
 }

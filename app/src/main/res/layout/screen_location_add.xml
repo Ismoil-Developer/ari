@@ -93,6 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="20dp"
         android:padding="10dp"
+        android:background="@drawable/back_map_btn"
         android:layout_marginTop="12dp"
         />
 
@@ -132,7 +133,7 @@
             app:layout_constraintTop_toBottomOf="@id/view" />
 
 
-        <EditText
+        <TextView
             android:id="@+id/edtYourLoc"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -141,7 +142,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/edt_bg"
             android:layout_marginHorizontal="24dp"
-            android:textColor="@color/black"
+            android:gravity="start|center_vertical"
+            android:textColor="@color/text_color_bold"
             android:textSize="16sp"
             android:hint="Your Location"
             android:paddingStart="15dp"
@@ -150,7 +152,7 @@
             android:paddingEnd="10dp"
             />
 
-        <TextView
+        <EditText
             android:id="@+id/edtLocName"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -159,7 +161,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/edt_bg"
             android:layout_marginHorizontal="24dp"
-            android:textColor="@color/black"
+            android:textColor="@color/text_color_bold"
             android:textSize="16sp"
             android:gravity="center_vertical|start"
             android:hint="Location Name"

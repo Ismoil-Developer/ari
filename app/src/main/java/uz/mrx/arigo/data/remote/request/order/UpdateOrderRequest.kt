@@ -3,6 +3,7 @@ package uz.mrx.arigo.data.remote.request.order
 import com.google.gson.annotations.SerializedName
 
 data class UpdateOrderRequest(
+
     @SerializedName("house_number")
     val houseNumber: String,
 

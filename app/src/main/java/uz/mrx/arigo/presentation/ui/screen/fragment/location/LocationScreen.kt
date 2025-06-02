@@ -17,6 +17,9 @@ import uz.mrx.arigo.presentation.adapter.LocationAdapter
 import uz.mrx.arigo.presentation.ui.dialog.LocationEdtDialog
 import uz.mrx.arigo.presentation.ui.viewmodel.location.LocationScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.location.impl.LocationScreenViewModelImpl
+
+
+
 @AndroidEntryPoint
 class LocationScreen : Fragment(R.layout.screen_location) {
 
@@ -28,7 +31,7 @@ class LocationScreen : Fragment(R.layout.screen_location) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.containerAddLocation.setOnClickListener {
-            viewModel.openAddLocationScreen()
+            viewModel.openAddLocationScreen(-1)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -46,15 +49,18 @@ class LocationScreen : Fragment(R.layout.screen_location) {
             edtClickListener = { location ->
                 val dialog = LocationEdtDialog(
                     location = location,
-                    onBackClick = { /* optional: dialog yopildi */ },
+                    onBackClick = { /* optional */ },
                     onDeleteClick = { deletedLocation ->
                         viewModel.deleteLocation(deletedLocation.id)
-                        // delete qilmoqchi bo'lgan logikani bu yerda yozing
+                    },
+                    onEditClick = { id ->
+                        viewModel.openAddLocationScreen(id) // ID ni yuborish
                     }
                 )
                 dialog.show(parentFragmentManager, "LocationEdtDialog")
             }
         )
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.deleteLocation.collectLatest {

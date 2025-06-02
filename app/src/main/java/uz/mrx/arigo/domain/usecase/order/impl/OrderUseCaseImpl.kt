@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
+import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.data.repository.order.OrderRepository
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
@@ -24,5 +25,7 @@ class OrderUseCaseImpl @Inject constructor(
     ): Flow<ResultData<OrderResponse>> = repository.updateOrder(id, request)
 
     override fun observeMessages(): Flow<WebSocketGooEvent> = repository.observeMessages()
+
+    override suspend fun retryOrder(id: Int): Flow<ResultData<RetryOrderResponse>> = repository.retryOrder(id)
 
 }

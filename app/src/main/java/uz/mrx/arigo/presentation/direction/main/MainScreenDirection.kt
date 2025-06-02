@@ -14,4 +14,6 @@ interface MainScreenDirection {
 
     suspend fun openHistoryDetailScreen()
 
+    suspend fun openChatScreen()
+
 }

@@ -1,16 +1,30 @@
 package uz.mrx.arigo.presentation.ui.dialog
 
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import uz.mrx.arigo.databinding.DialogContactBinding
 
-class ContactDialog : DialogFragment() {
+class ContactDialog(
+    private val onCallClick: (String) -> Unit,
+    private val onTelegramClick: (String) -> Unit,
+    private val onChatClick: () -> Unit
+) : DialogFragment() {
 
     private var _binding: DialogContactBinding? = null
     private val binding get() = _binding!!
+
+    private var phoneNumber: String? = null
+    private var telegramLink: String? = null
+
+    fun setContactData(phone: String?, telegram: String?) {
+        phoneNumber = phone
+        telegramLink = telegram
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -22,29 +36,37 @@ class ContactDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.escImg.setOnClickListener {
-            dismiss()
-        }
+        binding.escImg.setOnClickListener { dismiss() }
 
         binding.contactCall.setOnClickListener {
-            Toast.makeText(requireContext(), "Qo'ng'iroq qilindi", Toast.LENGTH_SHORT).show()
+            phoneNumber?.let { number ->
+                onCallClick(number)
+                dismiss()
+            } ?: Toast.makeText(requireContext(), "Telefon raqami mavjud emas", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.chatCall.setOnClickListener {
+            onChatClick()
             dismiss()
         }
 
         binding.contactTelegram.setOnClickListener {
-            Toast.makeText(requireContext(), "Telegramga o'tildi", Toast.LENGTH_SHORT).show()
-            dismiss()
+            telegramLink?.let { link ->
+                onTelegramClick(link)
+                dismiss()
+            } ?: Toast.makeText(requireContext(), "Telegram havolasi mavjud emas", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onStart() {
         super.onStart()
         dialog?.window?.let { window ->
-            // Dialogni to‘liq ekran qilish
-            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            window.setBackgroundDrawableResource(android.R.color.transparent) // Fonni shaffof qilish
-            window.setWindowAnimations(android.R.style.Animation_Dialog) // Animatsiya qo‘shish (ixtiyoriy)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setWindowAnimations(android.R.style.Animation_Dialog)
         }
     }
 

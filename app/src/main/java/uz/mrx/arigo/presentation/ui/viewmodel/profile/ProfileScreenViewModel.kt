@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.viewmodel.profile
 import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequest
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequestPhoto
+import uz.mrx.arigo.data.remote.response.profile.ContactResponse
 import uz.mrx.arigo.data.remote.response.profile.ProfileResponse
 
 interface ProfileScreenViewModel {
@@ -20,5 +21,9 @@ interface ProfileScreenViewModel {
     fun openMainScreen()
 
     fun openProfileScreen()
+
+    val getContact:Flow<ContactResponse>
+
+    fun openChatScreen()
 
 }

@@ -17,6 +17,7 @@ import uz.mrx.arigo.R
 import uz.mrx.arigo.data.local.shp.MySharedPreference
 import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.databinding.ScreenSearchDeliveryBinding
+import uz.mrx.arigo.presentation.ui.dialog.OrderDialogRetry
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.SearchDeliveryScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.impl.SearchDeliveryScreenViewModelImpl
 import javax.inject.Inject
@@ -48,6 +49,7 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
             Toast.makeText(requireContext(), "Kutish rejimi...", Toast.LENGTH_SHORT).show()
         }
 
+
     }
 
     private fun observeWebSocketEvents() {
@@ -69,15 +71,24 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
                 launch {
                     clientWebSocketClient.courierNotFound.collectLatest { event ->
                         Log.d("SearchDeliveryScreen", "Courier Not Found: ${event.order_id}")
-                        Toast.makeText(
-                            requireContext(),
-                            "Kuryer topilmadi: ${event.details}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+
+                        val dialog = OrderDialogRetry(requireContext()) {
+                            viewModel.retryOrder(event.order_id)
+                        }
+                        dialog.show()
+
+                        // Retry natijasini kuzatish
+                        lifecycleScope.launch {
+                            viewModel.retryOrder.collectLatest { response ->
+                                dialog.dismiss()
+                                Toast.makeText(requireContext(), response.detail, Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }
                 }
 
             }
         }
     }
+
 }
