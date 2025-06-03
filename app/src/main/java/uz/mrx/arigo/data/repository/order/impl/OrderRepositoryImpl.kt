@@ -12,8 +12,12 @@ import kotlinx.coroutines.flow.onEach
 import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
+import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
+import uz.mrx.arigo.data.remote.response.order.UpdateOrderRetryResponse
 import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.data.repository.order.OrderRepository
@@ -88,6 +92,27 @@ class OrderRepositoryImpl @Inject constructor(
     }
 
 
+    override suspend fun updateOrderRetry(
+        id: Int,
+        request: UpdateOrderRetryRequest
+    ) = channelFlow<ResultData<UpdateOrderRetryResponse>> {
+        try {
+            val response = api.retryUpdateOrder(id, request)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    trySend(ResultData.success(body))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
     override suspend fun retryOrder(id: Int) = channelFlow<ResultData<RetryOrderResponse>> {
         try {
 
@@ -112,6 +137,21 @@ class OrderRepositoryImpl @Inject constructor(
     }
 
 
+    override suspend fun getOrderPendingSearch() = channelFlow<ResultData<List<OrderPendingSearchResponse>>> {
+        try {
+            val response = api.getOrderPendingSearch()
+            if (response.isSuccessful) {
+                val newsResponse = response.body() as List<OrderPendingSearchResponse>
+
+                trySend(ResultData.success(newsResponse))
+
+            } else {
+                trySend(ResultData.messageText(response.message()))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.messageText(e.message.toString()))
+        }
+    }.catch { emit(ResultData.error(it)) }
 
 
 }

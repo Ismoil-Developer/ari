@@ -38,10 +38,23 @@ class HomePage : Fragment(R.layout.page_home) {
 
     lateinit var advertisingAdapter: AdvertisingAdapter
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.orderContainer.visibility = View.GONE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getPendingSearchResponse.collectLatest {
+                it.map {
+
+                    if (it.shop_id.isNotEmpty()){
+                        binding.orderContainer.visibility = View.VISIBLE
+                        binding.textView.text = it.order_code
+                        binding.textView2.text = it.items
+                    }
+                }
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {

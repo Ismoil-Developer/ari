@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
+import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 
 interface HomePageViewModel {
 
@@ -20,5 +21,7 @@ interface HomePageViewModel {
     val getActiveAddress:Flow<ActiveAddressResponse>
 
     val getAdvertisingResponse:Flow<List<AdvertisingResponse>>
+
+    val getPendingSearchResponse:Flow<List<OrderPendingSearchResponse>>
 
 }
