@@ -16,4 +16,6 @@ interface MainScreenDirection {
 
     suspend fun openChatScreen()
 
+    suspend fun openOrderDetailScreen(id: Int)
+
 }

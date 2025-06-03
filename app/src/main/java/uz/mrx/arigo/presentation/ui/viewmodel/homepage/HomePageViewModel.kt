@@ -24,4 +24,8 @@ interface HomePageViewModel {
 
     val getPendingSearchResponse:Flow<List<OrderPendingSearchResponse>>
 
+
+    fun openOrderDetailScreen(id: Int)
+
+
 }

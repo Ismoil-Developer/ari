@@ -36,4 +36,7 @@ class MainScreenDirectionImpl @Inject constructor(private val navigator: Navigat
         navigator.navigateTo(MainScreenDirections.actionScreenMainToChatScreen())
     }
 
+    override suspend fun openOrderDetailScreen(id: Int) {
+        navigator.navigateTo(MainScreenDirections.actionScreenMainToOrderDetailScreen(id))
+    }
 }

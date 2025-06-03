@@ -27,8 +27,10 @@ import uz.mrx.arigo.presentation.direction.magazinedetail.impl.MagazineDetailScr
 import uz.mrx.arigo.presentation.direction.main.MainScreenDirection
 import uz.mrx.arigo.presentation.direction.main.impl.MainScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.OrderDeliveryScreenDirection
+import uz.mrx.arigo.presentation.direction.order.OrderDetailScreenDirection
 import uz.mrx.arigo.presentation.direction.order.UpdateOrderScreenDirection
 import uz.mrx.arigo.presentation.direction.order.impl.OrderDeliveryScreenDirectionImpl
+import uz.mrx.arigo.presentation.direction.order.impl.OrderDetailScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.UpdateOrderScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.profile.ProfileScreenDirection
 import uz.mrx.arigo.presentation.direction.profile.impl.ProfileScreenDirectionImpl
@@ -94,17 +96,7 @@ interface DirectionModule {
     @[Binds]
     fun bindChatScreenDirection(impl: ChatScreenDirectionImpl): ChatScreenDirection
 
+    @[Binds]
+    fun bindOrderDetailScreenDirection(impl: OrderDetailScreenDirectionImpl): OrderDetailScreenDirection
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

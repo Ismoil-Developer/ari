@@ -18,6 +18,7 @@ import uz.mrx.arigo.databinding.PageHomeBinding
 import uz.mrx.arigo.presentation.adapter.AdvertisingAdapter
 import uz.mrx.arigo.presentation.adapter.CarouselAdapter
 import uz.mrx.arigo.presentation.adapter.MagazineAdapter
+import uz.mrx.arigo.presentation.adapter.PendingSearchAdapter
 import uz.mrx.arigo.presentation.adapter.PharmacyAdapter
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.HomePageViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl.HomePageViewModelImpl
@@ -43,18 +44,21 @@ class HomePage : Fragment(R.layout.page_home) {
 
         binding.orderContainer.visibility = View.GONE
 
+        val pendingAdapter = PendingSearchAdapter{
+            viewModel.openOrderDetailScreen(it.id)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getPendingSearchResponse.collectLatest {
-                it.map {
-
-                    if (it.shop_id.isNotEmpty()){
-                        binding.orderContainer.visibility = View.VISIBLE
-                        binding.textView.text = it.order_code
-                        binding.textView2.text = it.items
-                    }
+                if (it.isNotEmpty()){
+                    binding.orderContainer.visibility = View.VISIBLE
+                    pendingAdapter.submitList(it)
                 }
             }
         }
+
+        binding.orderContainer.adapter = pendingAdapter
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {

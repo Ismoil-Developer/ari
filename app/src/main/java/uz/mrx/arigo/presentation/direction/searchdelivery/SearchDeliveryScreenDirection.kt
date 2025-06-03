@@ -4,4 +4,6 @@ interface SearchDeliveryScreenDirection {
 
     suspend fun openOrderDeliveryScreen(coordinates: String)
 
+    suspend fun openOrderDetailScreen(id:Int)
+
 }

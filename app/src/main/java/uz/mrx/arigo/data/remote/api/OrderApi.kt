@@ -9,6 +9,7 @@ import retrofit2.http.Path
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
@@ -34,6 +35,9 @@ interface OrderApi {
 
     @GET("/goo/orders/pending-searching/")
     suspend fun getOrderPendingSearch():Response<List<OrderPendingSearchResponse>>
+
+    @GET("/goo/orders/{id}/")
+    suspend fun getOrderDetail(@Path("id") id: Int):Response<OrderDetailResponse>
 
 
 

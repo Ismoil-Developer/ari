@@ -14,6 +14,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
@@ -117,6 +118,30 @@ class OrderRepositoryImpl @Inject constructor(
         try {
 
             val response = api.retryOrder(id)
+
+            if (response.isSuccessful){
+
+                val body = response.body()
+                if (body != null){
+                    trySend(ResultData.success(body))
+                }else{
+                    trySend(ResultData.messageText("Response bodi is null"))
+                }
+
+            }else{
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+
+        }catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
+
+    override suspend fun getOrderDetail(id: Int) = channelFlow<ResultData<OrderDetailResponse>> {
+        try {
+
+            val response = api.getOrderDetail(id)
 
             if (response.isSuccessful){
 

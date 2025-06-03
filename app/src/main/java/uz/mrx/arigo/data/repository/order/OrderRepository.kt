@@ -1,9 +1,11 @@
 package uz.mrx.arigo.data.repository.order
 
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
@@ -26,6 +28,8 @@ interface OrderRepository {
     suspend fun updateOrderRetry(id: Int, request: UpdateOrderRetryRequest):Flow<ResultData<UpdateOrderRetryResponse>>
 
     suspend fun getOrderPendingSearch():Flow<ResultData<List<OrderPendingSearchResponse>>>
+
+    suspend fun getOrderDetail(id: Int):Flow<ResultData<OrderDetailResponse>>
 
 
 }

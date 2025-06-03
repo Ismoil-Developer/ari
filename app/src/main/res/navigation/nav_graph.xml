@@ -33,6 +33,7 @@
             android:id="@+id/action_introScreen_to_loginScreen"
             app:destination="@id/loginScreen" />
     </fragment>
+
     <fragment
         android:id="@+id/screenMain"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.main.MainScreen"
@@ -58,8 +59,10 @@
         <action
             android:id="@+id/action_screenMain_to_chatScreen"
             app:destination="@id/chatScreen" />
+        <action
+            android:id="@+id/action_screenMain_to_orderDetailScreen"
+            app:destination="@id/orderDetailScreen" />
     </fragment>
-
 
     <fragment
         android:id="@+id/loginScreen"
@@ -69,6 +72,7 @@
             android:id="@+id/action_loginScreen_to_confirmScreen"
             app:destination="@id/confirmScreen" />
     </fragment>
+
     <fragment
         android:id="@+id/confirmScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.auth.confirm.ConfirmScreen"
@@ -107,6 +111,12 @@
         <action
             android:id="@+id/action_searchDeliveryScreen_to_orderDeliveryScreen"
             app:destination="@id/orderDeliveryScreen" />
+        <action
+            android:id="@+id/action_searchDeliveryScreen_to_orderDetailScreen"
+            app:destination="@id/orderDetailScreen" />
+        <action
+            android:id="@+id/action_searchDeliveryScreen_to_orderRetryUpdateScreen"
+            app:destination="@id/orderRetryUpdateScreen" />
     </fragment>
     <fragment
         android:id="@+id/locationScreen"
@@ -221,5 +231,26 @@
         android:id="@+id/orderCompletedScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderCompletedScreen"
         android:label="OrderCompletedScreen" />
+    <fragment
+        android:id="@+id/orderDetailScreen"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderDetailScreen"
+        android:label="OrderDetailScreen" >
+        <action
+            android:id="@+id/action_orderDetailScreen_to_orderRetryUpdateScreen"
+            app:destination="@id/orderRetryUpdateScreen" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderRetryUpdateScreen"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderRetryUpdateScreen"
+        android:label="OrderRetryUpdateScreen" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
 </navigation>

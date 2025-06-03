@@ -45,7 +45,6 @@ class HomePageViewModelImpl @Inject constructor(private val direction: MainScree
 
     override val getAdvertisingResponse = flow<List<AdvertisingResponse>>()
 
-
     init {
         viewModelScope.launch {
             useCase.getAdvertising().collectLatest {
@@ -81,20 +80,16 @@ class HomePageViewModelImpl @Inject constructor(private val direction: MainScree
     }
 
     init {
-
         viewModelScope.launch {
             useCase.getFeatures().collectLatest {
-
                 it.onSuccess {
                     featureResponse.tryEmit(it)
                 }
                 it.onError {
 
                 }
-
             }
         }
-
     }
 
     override val getPendingSearchResponse = flow<List<OrderPendingSearchResponse>>()
@@ -114,5 +109,10 @@ class HomePageViewModelImpl @Inject constructor(private val direction: MainScree
         }
     }
 
+    override fun openOrderDetailScreen(id: Int) {
+        viewModelScope.launch {
+            direction.openOrderDetailScreen(id)
+        }
+    }
 
 }
