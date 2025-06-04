@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.Visibility
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -28,9 +29,21 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backRes.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.yes.setOnClickListener {
+            viewModel.openOrderUpdateRetryScreen(args.id)
+        }
+
         if (args.id != -1){
             viewModel.getOrderDetail(args.id)
+            binding.no.setOnClickListener {
+                viewModel.openCancelScreen(args.id)
+            }
         }
+
 
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -43,6 +56,7 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
                 binding.damophone.text = it.intercom_code
                 binding.houseNumber.text = it.house_number
                 binding.otherMessage.text = it.additional_note
+                binding.textRestaurant.text = it.shop.title
 
                 Glide.with(requireContext()).load(it.shop.image).into(binding.viewPagerRes)
 

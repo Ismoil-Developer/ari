@@ -3,12 +3,12 @@ package uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
+import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
@@ -19,9 +19,14 @@ import uz.mrx.arigo.utils.flow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomePageViewModelImpl @Inject constructor(private val direction: MainScreenDirection, private val useCase: FeatureUseCase, private val useCaseLoc:LocationUseCase, private val orderUseCase: OrderUseCase):HomePageViewModel, ViewModel() {
+class HomePageViewModelImpl @Inject constructor(
+    private val direction: MainScreenDirection,
+    private val useCase: FeatureUseCase,
+    private val useCaseLoc: LocationUseCase,
+    private val orderUseCase: OrderUseCase
+) : HomePageViewModel, ViewModel() {
 
-    override fun openMagazineDetailScreen(id:Int) {
+    override fun openMagazineDetailScreen(id: Int) {
         viewModelScope.launch {
             direction.openMagazineDetailScreen(id)
         }
@@ -112,6 +117,20 @@ class HomePageViewModelImpl @Inject constructor(private val direction: MainScree
     override fun openOrderDetailScreen(id: Int) {
         viewModelScope.launch {
             direction.openOrderDetailScreen(id)
+        }
+    }
+
+    override val activeOrderResponse = flow<ActiveOrderResponse>()
+
+    init {
+        viewModelScope.launch {
+            orderUseCase.getActiveOrder().collectLatest {
+                it.onSuccess {
+                    activeOrderResponse.tryEmit(it)
+                }
+                it.onError {
+                }
+            }
         }
     }
 

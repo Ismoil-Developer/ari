@@ -1,9 +1,12 @@
 package uz.mrx.arigo.domain.usecase.order.impl
 
 import kotlinx.coroutines.flow.Flow
+import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
@@ -39,7 +42,13 @@ class OrderUseCaseImpl @Inject constructor(
 
     override suspend fun getOrderPendingSearch(): Flow<ResultData<List<OrderPendingSearchResponse>>> = repository.getOrderPendingSearch()
 
-
     override suspend fun getOrderDetail(id: Int): Flow<ResultData<OrderDetailResponse>> = repository.getOrderDetail(id)
+
+    override suspend fun cancelOrder(
+        id: Int,
+        request: OrderCancelRequest
+    ): Flow<ResultData<OrderCancelResponse>> = repository.cancelOrder(id, request)
+
+    override suspend fun getActiveOrder(): Flow<ResultData<ActiveOrderResponse>> = repository.getActiveOrder()
 
 }

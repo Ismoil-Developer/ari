@@ -2,9 +2,12 @@ package uz.mrx.arigo.data.repository.order
 
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
@@ -19,9 +22,7 @@ interface OrderRepository {
 
     suspend fun updateOrder(id: Int, request: UpdateOrderRequest): Flow<ResultData<OrderResponse>>
 
-
     fun observeMessages(): Flow<WebSocketGooEvent>
-
 
     suspend fun retryOrder(id: Int):Flow<ResultData<RetryOrderResponse>>
 
@@ -31,5 +32,8 @@ interface OrderRepository {
 
     suspend fun getOrderDetail(id: Int):Flow<ResultData<OrderDetailResponse>>
 
+    suspend fun getActiveOrder():Flow<ResultData<ActiveOrderResponse>>
+
+    suspend fun cancelOrder(id: Int, request: OrderCancelRequest):Flow<ResultData<OrderCancelResponse>>
 
 }

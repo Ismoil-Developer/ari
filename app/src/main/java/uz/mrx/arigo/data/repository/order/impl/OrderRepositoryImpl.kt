@@ -10,10 +10,13 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import uz.mrx.arigo.data.remote.api.OrderApi
+import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
+import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
@@ -60,6 +63,27 @@ class OrderRepositoryImpl @Inject constructor(
     ) = channelFlow<ResultData<OrderResponse>> {
         try {
             val response = api.putOrder(id, request)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    trySend(ResultData.success(body))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
+    override suspend fun cancelOrder(
+        id: Int,
+        request: OrderCancelRequest
+    ) = channelFlow<ResultData<OrderCancelResponse>> {
+        try {
+            val response = api.cancelOrder(id, request)
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -142,6 +166,29 @@ class OrderRepositoryImpl @Inject constructor(
         try {
 
             val response = api.getOrderDetail(id)
+
+            if (response.isSuccessful){
+
+                val body = response.body()
+                if (body != null){
+                    trySend(ResultData.success(body))
+                }else{
+                    trySend(ResultData.messageText("Response bodi is null"))
+                }
+
+            }else{
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+
+        }catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
+    override suspend fun getActiveOrder() = channelFlow<ResultData<ActiveOrderResponse>> {
+        try {
+
+            val response = api.getActiveOrder()
 
             if (response.isSuccessful){
 

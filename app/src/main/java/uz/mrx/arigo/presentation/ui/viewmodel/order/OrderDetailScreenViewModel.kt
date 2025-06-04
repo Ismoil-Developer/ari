@@ -12,4 +12,6 @@ interface OrderDetailScreenViewModel {
 
     val getOrderDetailResponse:Flow<OrderDetailResponse>
 
+    fun openCancelScreen(id: Int)
+
 }

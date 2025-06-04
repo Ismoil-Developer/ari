@@ -15,6 +15,4 @@ interface UpdateOrderScreenViewModel {
 
     val getActiveAddress:Flow<ActiveAddressResponse>
 
-
-
 }

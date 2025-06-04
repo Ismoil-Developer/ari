@@ -6,9 +6,12 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
@@ -38,6 +41,12 @@ interface OrderApi {
 
     @GET("/goo/orders/{id}/")
     suspend fun getOrderDetail(@Path("id") id: Int):Response<OrderDetailResponse>
+
+    @POST("/goo/order/{id}/cancel/")
+    suspend fun cancelOrder(@Path("id") id: Int, request: OrderCancelRequest):Response<OrderCancelResponse>
+
+    @GET("/goo/orders/active/")
+    suspend fun getActiveOrder():Response<ActiveOrderResponse>
 
 
 

@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -43,6 +44,13 @@ class HomePage : Fragment(R.layout.page_home) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.orderContainer.visibility = View.GONE
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.activeOrderResponse.collectLatest {
+                Log.d("AAAAAAAAAAAAA", "ActiveZakaz: $it")
+            }
+        }
 
         val pendingAdapter = PendingSearchAdapter{
             viewModel.openOrderDetailScreen(it.id)

@@ -1,350 +1,414 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBgColor"
     android:fitsSystemWindows="true"
-    android:paddingTop="16dp"
-    >
+    android:paddingTop="16dp">
 
-
-    <ImageView
-        android:id="@+id/icBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/text_color_bold"
-        />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:drawablePadding="6dp"
-        android:fontFamily="@font/font_family"
-        android:text="Order"
-        android:textColor="@color/text_color_bold"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/icBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/icBack" />
-
-    <ImageView
-        android:id="@+id/imageList"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/ic_list_"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
-
-    <TextView
-        android:id="@+id/listTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/font_family_medium"
-        android:text="Royhat"
-        android:textColor="@color/text_color_medium"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/imageList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageList" />
-
-    <View
-        android:id="@+id/line"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/line_back"
-        app:layout_constraintTop_toBottomOf="@id/listTitle" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/edtOrder"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/edt_bg"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:maxLines="10"
-        android:elevation="8dp"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        <ImageView
+            android:id="@+id/icBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/text_color_bold" />
 
-    <View
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/line_back"
-        app:layout_constraintTop_toBottomOf="@id/edtOrder" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/font_family"
+            android:textColor="@color/text_color_bold"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/icBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icBack" />
 
+        <ImageView
+            android:id="@+id/imageQuestions"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/ic_question"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/mcvOrderUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line2"
-        app:strokeWidth="0dp">
+        <TextView
+            android:id="@+id/workQuestionsTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/font_family_medium"
+            android:text="So’rovnoma"
+            android:textColor="@color/text_color_medium"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/questionTxt"
+            app:layout_constraintStart_toEndOf="@id/imageQuestions"
+            app:layout_constraintTop_toTopOf="@id/imageQuestions" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/questionTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/font_family_medium"
+            android:text="Boshqa magazinlardan harid qilish"
+            android:textColor="@color/text_color_bold"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
+            app:layout_constraintStart_toEndOf="@id/imageQuestions"
+            app:layout_constraintTop_toBottomOf="@id/workQuestionsTxt" />
+
+        <ImageView
+            android:id="@+id/imageQuestionsCheck"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_selected_lan"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageQuestions" />
+
+        <ImageView
+            android:id="@+id/imageQuestionsUnCheck"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_unselected_lan"
+            app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageQuestions" />
+
+        <View
+            android:id="@+id/circle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageQuestions" />
+
+        <View
+            android:id="@+id/linee"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/back_item_order">
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@id/circle" />
 
-            <LinearLayout
-                android:id="@+id/orderUpdateContainer"
+        <ImageView
+            android:id="@+id/imageList"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_list_"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linee" />
+
+        <TextView
+            android:id="@+id/listTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family_medium"
+            android:text="Royhat"
+            android:textColor="@color/text_color_medium"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageList" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/line_back"
+            app:layout_constraintTop_toBottomOf="@id/listTitle" />
+
+        <EditText
+            android:id="@+id/edtOrder"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edt_bg"
+            android:elevation="8dp"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/line_back"
+            app:layout_constraintTop_toBottomOf="@id/edtOrder" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcvOrderUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            app:cardElevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2"
+            app:strokeWidth="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
+                android:layout_height="match_parent"
+                android:background="@color/back_item_order">
 
                 <LinearLayout
+                    android:id="@+id/orderUpdateContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:layout_height="180dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/house_number"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:hint="Uy nomeri"
-                            android:inputType="phone"
+                            android:orientation="vertical">
 
-                            android:textSize="16sp"
-                            android:textColor="@color/text_color_bold"
-                            />
+                            <EditText
+                                android:id="@+id/house_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="Uy nomeri"
+                                android:inputType="phone"
 
-                        <EditText
-                            android:id="@+id/appartment_number"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp" />
+
+                            <EditText
+                                android:id="@+id/appartment_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="Podyezd"
+                                android:inputType="phone"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:hint="Podyezd"
-                            android:inputType="phone"
-                            android:textSize="16sp"
-                            android:textColor="@color/text_color_bold"/>
+                            android:orientation="vertical">
 
+                            <EditText
+                                android:id="@+id/damophone"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="Damofon"
+
+                                android:inputType="phone"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp" />
+
+                            <EditText
+                                android:id="@+id/floor"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:hint="Qavat"
+                                android:inputType="phone"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_weight="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_message"
+                                app:tint="#808080" />
+
+                        </LinearLayout>
+
 
                         <EditText
-                            android:id="@+id/damophone"
+                            android:id="@+id/otherMessage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:hint="Damofon"
-
-                            android:inputType="phone"
-                            android:textSize="16sp"
-                            android:textColor="@color/text_color_bold"/>
-
-                        <EditText
-                            android:id="@+id/floor"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:hint="Qavat"
-                            android:inputType="phone"
-                            android:textSize="16sp"
+                            android:hint="Qo'shimcha xabar"
+                            android:inputType="text"
                             android:textColor="@color/text_color_bold"
-                            />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
+
 
                 </LinearLayout>
 
-                <LinearLayout
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2">
+                    android:layout_height="68dp"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardElevation="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/orderUpdateContainer"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="6">
+                        android:background="@color/back_item_order"
+                        android:orientation="horizontal">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_message"
-                            app:tint="#808080"
-                            android:padding="10dp"
-                            />
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1.8">
 
-                    </LinearLayout>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/map" />
 
+                        </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/otherMessage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:hint="Qo'shimcha xabar"
-                        android:textSize="16sp"
-                        android:inputType="text"
-                        android:textColor="@color/text_color_bold"
-                        />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-
-
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="68dp"
-                app:layout_constraintTop_toBottomOf="@id/orderUpdateContainer"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="14dp"
-                app:strokeWidth="0dp"
-                app:cardElevation="10dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/back_item_order"
-                    android:orientation="horizontal"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.8"
-                        android:layout_marginEnd="10dp"
-                        >
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/map"
-                            android:scaleType="centerCrop"
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        >
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="5dp"
-                            android:textSize="18sp"
-                            android:textColor="@color/text_color_bold"
-                            android:fontFamily="@font/font_family_medium"
-                            android:textStyle="bold"
-                            android:text="City name or user"
-                            />
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="Shayhontohur kochasi"
-                            android:drawablePadding="10dp"
-                            android:drawableStart="@drawable/ic_entypo_location"
-                            android:padding="5dp"
-                            android:textColor="@color/text_color_medium"
-                            />
+                            <TextView
+                                android:id="@+id/customName"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/font_family_medium"
+                                android:padding="5dp"
+                                android:text="City name or user"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/address"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:maxLines="1"
+                                android:drawableStart="@drawable/ic_entypo_location"
+                                android:drawablePadding="10dp"
+                                android:padding="5dp"
+                                android:text="Shayhontohur kochasi"
+                                android:textColor="@color/text_color_medium" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-    </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:id="@+id/no"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/radio_button_unchecked_background"
+            android:fontFamily="@font/font_family_medium"
+            android:gravity="center"
+            android:text="Bekor qilish"
+            android:textAllCaps="false"
+            android:textColor="@color/text_color_bold"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/yes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mcvOrderUpdate" />
 
-    <TextView
-        android:id="@+id/no"
-        android:layout_width="0dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="6dp"
-        android:background="@drawable/radio_button_unchecked_background"
-        android:fontFamily="@font/font_family_medium"
-        android:gravity="center"
-        android:text="Bekor qilish"
-        android:textAllCaps="false"
-        android:textColor="@color/text_color_bold"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintEnd_toStartOf="@id/yes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mcvOrderUpdate" />
+        <TextView
+            android:id="@+id/yes"
+            android:layout_width="0dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/back_style_button"
+            android:fontFamily="@font/font_family_medium"
+            android:gravity="center"
+            android:text="Davom etish"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/no"
+            app:layout_constraintTop_toBottomOf="@id/mcvOrderUpdate" />
 
-    <TextView
-        android:id="@+id/yes"
-        android:layout_width="0dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/font_family_medium"
-        android:gravity="center"
-        android:background="@drawable/back_style_button"
-        android:text="Davom etish"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/no"
-        app:layout_constraintTop_toBottomOf="@id/mcvOrderUpdate" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

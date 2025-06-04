@@ -242,11 +242,23 @@
             android:name="id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_orderDetailScreen_to_orderCancelScreen"
+            app:destination="@id/orderCancelScreen" />
     </fragment>
     <fragment
         android:id="@+id/orderRetryUpdateScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderRetryUpdateScreen"
         android:label="OrderRetryUpdateScreen" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderCancelScreen"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderCancelScreen"
+        android:label="OrderCancelScreen" >
         <argument
             android:name="id"
             app:argType="integer"
