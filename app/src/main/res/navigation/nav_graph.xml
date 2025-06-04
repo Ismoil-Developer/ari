@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_screenMain_to_orderDetailScreen"
             app:destination="@id/orderDetailScreen" />
+        <action
+            android:id="@+id/action_screenMain_to_orderDeliveryScreen"
+            app:destination="@id/orderDeliveryScreen" />
     </fragment>
 
     <fragment

@@ -1,5 +1,6 @@
 package uz.mrx.arigo.presentation.direction.main.impl
 
+import uz.mrx.arigo.data.remote.response.order.Coordinates
 import uz.mrx.arigo.presentation.direction.main.MainScreenDirection
 import uz.mrx.arigo.presentation.navigation.Navigator
 import uz.mrx.arigo.presentation.ui.screen.fragment.main.MainScreenDirections
@@ -39,4 +40,9 @@ class MainScreenDirectionImpl @Inject constructor(private val navigator: Navigat
     override suspend fun openOrderDetailScreen(id: Int) {
         navigator.navigateTo(MainScreenDirections.actionScreenMainToOrderDetailScreen(id))
     }
+
+    override suspend fun openOrderDeliveryScreen(coordinates: String) {
+        navigator.navigateTo(MainScreenDirections.actionScreenMainToOrderDeliveryScreen(coordinates))
+    }
+
 }

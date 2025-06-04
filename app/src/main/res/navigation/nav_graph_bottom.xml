@@ -15,10 +15,6 @@
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.main.page.HistoryPage"
         android:label="HistoryPage" />
 
-    <fragment
-        android:id="@+id/orderPage"
-        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.main.page.OrderPage"
-        android:label="OrderPage" />
 
     <fragment
         android:id="@+id/profilePage"

@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
+import uz.mrx.arigo.data.local.shp.MySharedPreference
 import uz.mrx.arigo.data.model.IntroData
 import uz.mrx.arigo.databinding.PageHomeBinding
 import uz.mrx.arigo.presentation.adapter.AdvertisingAdapter
@@ -24,6 +25,7 @@ import uz.mrx.arigo.presentation.adapter.PharmacyAdapter
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.HomePageViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl.HomePageViewModelImpl
 import uz.mrx.arigo.utils.ViewPagerExtensions.addCarouselEffect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomePage : Fragment(R.layout.page_home) {
@@ -38,6 +40,8 @@ class HomePage : Fragment(R.layout.page_home) {
             (binding.viewPager.currentItem + 1) % advertisingAdapter.itemCount
     }
 
+    @Inject
+    lateinit var sharedPreference: MySharedPreference
     lateinit var advertisingAdapter: AdvertisingAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,12 +49,23 @@ class HomePage : Fragment(R.layout.page_home) {
 
         binding.orderContainer.visibility = View.GONE
 
+        Log.d("AAAAAA", "onViewCreated: ${sharedPreference.token}")
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.activeOrderResponse.collectLatest {
-                Log.d("AAAAAAAAAAAAA", "ActiveZakaz: $it")
+
+                binding.textView.text = it.deliver_user.full_name
+                binding.textView2.text = it.shop_location.title
+
+                val id = it.id
+
+                binding.activeOrder.setOnClickListener {
+                    viewModel.openOrderDetailScreen(id)
+                }
+
             }
         }
+
 
         val pendingAdapter = PendingSearchAdapter{
             viewModel.openOrderDetailScreen(it.id)

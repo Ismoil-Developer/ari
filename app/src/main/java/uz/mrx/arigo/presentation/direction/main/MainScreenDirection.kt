@@ -1,5 +1,7 @@
 package uz.mrx.arigo.presentation.direction.main
 
+import uz.mrx.arigo.data.remote.response.order.Coordinates
+
 interface MainScreenDirection {
 
     suspend fun openMagazineDetailScreen(id:Int)
@@ -17,5 +19,8 @@ interface MainScreenDirection {
     suspend fun openChatScreen()
 
     suspend fun openOrderDetailScreen(id: Int)
+
+    suspend fun openOrderDeliveryScreen(coordinates: String)
+
 
 }

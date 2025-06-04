@@ -70,11 +70,12 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
 
                 launch {
                     clientWebSocketClient.courierNotFound.collectLatest { event ->
-                        Log.d("SearchDeliveryScreen", "Courier Not Found: ${event.order_id}")
+                        Log.d("SearchDeliveryScreen", "Courier Not Found: ${event.id}")
 
                         val dialog = OrderDialogRetry(requireContext()) {
-                            viewModel.retryOrder(event.order_id)
+                            viewModel.retryOrder(event.id.toInt())
                         }
+
                         dialog.show()
 
                         // Retry natijasini kuzatish

@@ -59,21 +59,26 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(private val directio
     }
 
 
-
     private suspend fun handleIncomingMessage(message: WebSocketGooEvent) {
         when (message) {
             is WebSocketGooEvent.DeliveryAccepted -> {
-                _deliveryAcceptedFlow.emit(message) // Emit the NewOrder event directly
+                _deliveryAcceptedFlow.emit(message)
             }
 
             is WebSocketGooEvent.CourierNotFound -> {
-                _courierNotFoundFlow.emit(message) // Emit the OrderTimeout event directly
+                _courierNotFoundFlow.emit(message)
+            }
+
+            is WebSocketGooEvent.Searching -> {
+                Log.d("WebSocket", "Searching event: ${message.shop_title}, items: ${message.items}")
+                // Agar kerak bo‘lsa, bu yerda yana oqimlar (flow) bilan ishlash mumkin
             }
 
             is WebSocketGooEvent.UnknownMessage -> {
-
+                Log.d("WebSocket", "Unknown message received: ${message.raw_message}")
             }
         }
     }
+
 
 }

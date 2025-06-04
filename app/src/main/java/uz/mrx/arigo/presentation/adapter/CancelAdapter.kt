@@ -61,7 +61,8 @@ class CancelAdapter(private var onItemClickListener: (OrderCancelData) -> Unit) 
         }
 
         override fun areContentsTheSame(oldItem: OrderCancelData, newItem: OrderCancelData): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id && oldItem.reason == newItem.reason && oldItem.isSelected == newItem.isSelected
         }
+
     }
 }

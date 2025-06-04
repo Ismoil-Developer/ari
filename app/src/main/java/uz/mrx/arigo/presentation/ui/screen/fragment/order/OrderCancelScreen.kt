@@ -1,12 +1,16 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.model.OrderCancelData
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
@@ -29,10 +33,21 @@ class OrderCancelScreen : Fragment(R.layout.screen_cancel_order) {
 
         loadData()
 
+        var reason = ""
+
         val adapter = CancelAdapter {
-            if (args.id != -1) {
-                viewModel.cancelOrder(args.id, OrderCancelRequest(it.reason))
+            reason = it.reason
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.cancelResponse.collectLatest {
+                Log.d("EEEEEEE", "onViewCreated: ${it.status}")
             }
+        }
+
+        binding.btnContinue.setOnClickListener {
+            viewModel.cancelOrder(args.id, OrderCancelRequest("Sababsiz"))
         }
 
         adapter.submitList(list)
@@ -40,7 +55,6 @@ class OrderCancelScreen : Fragment(R.layout.screen_cancel_order) {
         binding.rvCancelOrder.adapter = adapter
 
     }
-
 
     fun loadData() {
         list = ArrayList()

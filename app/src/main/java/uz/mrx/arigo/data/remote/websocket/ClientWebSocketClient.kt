@@ -52,13 +52,18 @@ class ClientWebSocketClient @Inject constructor() {
                 parseMessage(text).onSuccess { event ->
                     when (event) {
                         is WebSocketGooEvent.CourierNotFound -> {
-                            Log.d("GooWebSocket", "Parsed CourierNotFound: ${event.order_id}")
+                            Log.d("GooWebSocket", "Parsed CourierNotFound: ${event.id}")
                             _courierNotFound.tryEmit(event)
                         }
 
                         is WebSocketGooEvent.DeliveryAccepted -> {
                             Log.d("GooWebSocket", "Parsed Delivery Accepted: ${event.order_id}")
                             _deliveryAccepted.tryEmit(event)
+                        }
+
+                        is WebSocketGooEvent.Searching -> {
+                            Log.d("GooWebSocket", "Parsed Searching: ${event.shop_title}")
+                            // Optional: Add a new shared flow and emit it if needed
                         }
 
                         else -> Log.d("GooWebSocket", "Unknown message: $event")
@@ -103,10 +108,19 @@ class ClientWebSocketClient @Inject constructor() {
             val type = json.getString("type")
             when (type) {
                 "kuryer_topilmadi" -> {
-                    val orderId = json.getInt("order_id")
-                    val details = json.getString("details")
-                    ResultData.success(WebSocketGooEvent.CourierNotFound(orderId, details))
+                    val id = json.getString("id")
+                    val shopTitle = json.getString("shop_title")
+                    val shopId = json.getString("shop_id")
+                    val items = json.getString("items")
+                    val createdAt = json.getString("created_at")
+                    val status = json.getString("status")
+                    ResultData.success(
+                        WebSocketGooEvent.CourierNotFound(
+                            id, shopTitle, shopId, items, createdAt, status
+                        )
+                    )
                 }
+
                 "zakaz_qabul_qilindi" -> {
                     val orderId = json.getInt("order_id")
                     val deliverId = json.getString("deliver_id")
@@ -116,14 +130,35 @@ class ClientWebSocketClient @Inject constructor() {
                     val latestCoords = listOf(coords.getDouble(0), coords.getDouble(1))
                     ResultData.success(
                         WebSocketGooEvent.DeliveryAccepted(
-                            orderId, deliverId, deliverName, deliverPhone, latestCoords
+                            orderId,
+                            deliverId,
+                            deliverName,
+                            deliverPhone,
+                            latestCoords
                         )
                     )
                 }
+
+                "searching" -> {
+                    val id = json.getString("id")
+                    val shopTitle = json.getString("shop_title")
+                    val shopId = json.getString("shop_id")
+                    val items = json.getString("items")
+                    val createdAt = json.getString("created_at")
+                    val status = json.getString("status")
+
+                    ResultData.success(
+                        WebSocketGooEvent.Searching(
+                            id, shopTitle, shopId, items, createdAt, status
+                        )
+                    )
+                }
+
                 else -> ResultData.success(WebSocketGooEvent.UnknownMessage(text))
             }
         } catch (e: Exception) {
             ResultData.error(e)
         }
     }
+
 }

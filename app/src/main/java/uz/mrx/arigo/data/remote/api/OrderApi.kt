@@ -29,7 +29,6 @@ interface OrderApi {
     @PATCH("/goo/orders/{id}/address/")
     suspend fun putOrder(@Path("id") id: Int, @Body updateOrder: UpdateOrderRequest):Response<OrderResponse>
 
-
     @POST("/goo/orders/{id}/retry/")
     suspend fun retryOrder(@Path("id") id: Int):Response<RetryOrderResponse>
 
@@ -43,11 +42,9 @@ interface OrderApi {
     suspend fun getOrderDetail(@Path("id") id: Int):Response<OrderDetailResponse>
 
     @POST("/goo/order/{id}/cancel/")
-    suspend fun cancelOrder(@Path("id") id: Int, request: OrderCancelRequest):Response<OrderCancelResponse>
+    suspend fun cancelOrder(@Path("id") id: Int, @Body request: OrderCancelRequest):Response<OrderCancelResponse>
 
     @GET("/goo/orders/active/")
     suspend fun getActiveOrder():Response<ActiveOrderResponse>
-
-
 
 }
