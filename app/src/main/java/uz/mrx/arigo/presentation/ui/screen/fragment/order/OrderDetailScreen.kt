@@ -49,6 +49,8 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
 
             viewModel.getOrderDetailResponse.collectLatest {
 
+
+
                 binding.workLocationTxt.text = it.user.active_location.address
                 binding.workPhoneTxt.text = it.user.phone_number
                 binding.edtOrder.text = it.items

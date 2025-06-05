@@ -1,11 +1,14 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.order
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.MapKitFactory
@@ -24,6 +27,8 @@ import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.runtime.image.ImageProvider
 import com.yandex.runtime.network.NetworkError
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenOrderDeliveryBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderDeliveryScreenViewModel
@@ -42,28 +47,58 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
     private lateinit var drivingRouter: DrivingRouter
     private var drivingSession: DrivingSession? = null
 
-    private val startPoint = Point(41.2995, 69.2401) // Tashkent
-    private val endPoint = Point(41.3112, 69.2797)
+    lateinit var startPoint:Point // Tashkent
+    lateinit var shopPoint:Point // London
+    lateinit var endPoint:Point
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Init map and location services
         mapView = binding.mapView
 
-        mapView.mapWindow.map.move(
-            CameraPosition(startPoint, 14.0f, 0.0f, 0.0f)
-        )
-
+        // Map init
         val mapKit = MapKitFactory.getInstance()
         userLocationLayer = mapKit.createUserLocationLayer(mapView.mapWindow).apply {
             isVisible = true
             isHeadingEnabled = true
         }
-
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
 
-        // Back button
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.activeOrderResponse.collectLatest { order ->
+
+                if (order.id != -1) {
+                    binding.orderContainerDelivery.visibility = View.VISIBLE
+                    binding.orderFind.visibility = View.GONE
+                }
+
+                binding.courierRating.text = order.deliver_user.rating.toString()
+
+                binding.orderTime.text = order.delivery_duration_min.toString()
+                startPoint = Point(order.courier_location.latitude, order.courier_location.longitude)
+                endPoint = Point(order.customer_location.latitude, order.customer_location.longitude)
+                shopPoint = Point(order.shop_location.latitude, order.shop_location.longitude )
+                binding.courierName.text = order.deliver_user.full_name
+
+                // Telefon chaqiruv
+                val phoneNumber = order.deliver_user.phone_number
+                binding.call.setOnClickListener {
+                    if (phoneNumber.isNotEmpty()) {
+                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                        startActivity(intent)
+                    }
+                }
+
+                // ❗️startPoint va endPoint tayyor bo‘lgach — shu yerda xaritani harakatlantirish va marshrut chizish
+                mapView.mapWindow.map.move(
+                    CameraPosition(startPoint, 14.0f, 0.0f, 0.0f)
+                )
+
+                addIcons()
+                buildRoute()
+            }
+        }
+
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -72,30 +107,28 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
             viewModel.openChatScreen()
         }
 
-
         binding.swipeView.setOnSwipeCompleteListener(object : SwipeToRevealView.OnSwipeCompleteListener {
             override fun onSwipeCompleted() {
-                viewModel.openFindDeliveryScreen() // ✅ Swipe bo‘lganda chaqiriladi
+                viewModel.openFindDeliveryScreen()
             }
         })
-
-
-          
-        addIcons()
-
-        buildRoute()
-
     }
 
 
     private fun addIcons() {
-        // Start icon (user)
+        // Kuryer
         val startBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_kuryer)
         val resizedStartBitmap = Bitmap.createScaledBitmap(startBitmap, 50, 50, false)
         val startPlacemark = mapView.map.mapObjects.addPlacemark(startPoint)
         startPlacemark.setIcon(ImageProvider.fromBitmap(resizedStartBitmap))
 
-        // End icon (courier)
+        // Do‘kon
+        val shopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery) // ❗️R.drawable.ic_shop — o‘zingizga mos icon qo‘ying
+        val resizedShopBitmap = Bitmap.createScaledBitmap(shopBitmap, 50, 50, false)
+        val shopPlacemark = mapView.map.mapObjects.addPlacemark(shopPoint)
+        shopPlacemark.setIcon(ImageProvider.fromBitmap(resizedShopBitmap))
+
+        // Zakazchik
         val endBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery)
         val resizedEndBitmap = Bitmap.createScaledBitmap(endBitmap, 50, 50, false)
         val endPlacemark = mapView.map.mapObjects.addPlacemark(endPoint)
@@ -103,10 +136,12 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
     }
 
 
+
     private fun buildRoute() {
         val requestPoints = listOf(
-            RequestPoint(startPoint, RequestPointType.WAYPOINT, null),
-            RequestPoint(endPoint, RequestPointType.WAYPOINT, null)
+            RequestPoint(startPoint, RequestPointType.WAYPOINT, null),   // Kuryer manzili
+            RequestPoint(shopPoint, RequestPointType.WAYPOINT, null),    // Do‘kon manzili
+            RequestPoint(endPoint, RequestPointType.WAYPOINT, null)      // Zakazchik manzili
         )
 
         val drivingOptions = DrivingOptions()
@@ -119,6 +154,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
             this
         )
     }
+
 
     override fun onDrivingRoutes(routes: MutableList<DrivingRoute>) {
         val route = routes.firstOrNull() ?: return
