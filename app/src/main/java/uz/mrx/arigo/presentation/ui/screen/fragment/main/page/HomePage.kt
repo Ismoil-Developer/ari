@@ -15,10 +15,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.local.shp.MySharedPreference
-import uz.mrx.arigo.data.model.IntroData
 import uz.mrx.arigo.databinding.PageHomeBinding
 import uz.mrx.arigo.presentation.adapter.AdvertisingAdapter
-import uz.mrx.arigo.presentation.adapter.CarouselAdapter
+import uz.mrx.arigo.presentation.adapter.AssignedAdapter
 import uz.mrx.arigo.presentation.adapter.MagazineAdapter
 import uz.mrx.arigo.presentation.adapter.PendingSearchAdapter
 import uz.mrx.arigo.presentation.adapter.PharmacyAdapter
@@ -51,28 +50,45 @@ class HomePage : Fragment(R.layout.page_home) {
 
         Log.d("AAAAAA", "onViewCreated: ${sharedPreference.token}")
 
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewModel.activeOrderResponse.collectLatest {
+//
+////                binding.textView.text = it.deliver_user.full_name
+////                binding.textView2.text = it.shop_location.title
+////
+////                val id = it.id
+////
+////                binding.activeOrder.setOnClickListener {
+////                    viewModel.openOrderDetailScreen(id)
+////                }
+//
+//            }
+//        }
+
+
+        val adapterAssigned = AssignedAdapter {
+            viewModel.openOrderDeliveryScreen(it.id)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.activeOrderResponse.collectLatest {
+            viewModel.assignedResponse.collectLatest {
 
-                binding.textView.text = it.deliver_user.full_name
-                binding.textView2.text = it.shop_location.title
-
-                val id = it.id
-
-                binding.activeOrder.setOnClickListener {
-                    viewModel.openOrderDetailScreen(id)
-                }
-
+                adapterAssigned.submitList(it)
+//                viewModel.getActiveOrder()
+                Log.d("RRRRRRRR", "onViewCreated: ${it.map { it.items }}")
             }
         }
 
-        val pendingAdapter = PendingSearchAdapter{
+        binding.activeOrder.adapter = adapterAssigned
+
+
+        val pendingAdapter = PendingSearchAdapter {
             viewModel.openOrderDetailScreen(it.id)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getPendingSearchResponse.collectLatest {
-                if (it.isNotEmpty()){
+                if (it.isNotEmpty()) {
                     binding.orderContainer.visibility = View.VISIBLE
                     pendingAdapter.submitList(it)
                 }
@@ -80,7 +96,6 @@ class HomePage : Fragment(R.layout.page_home) {
         }
 
         binding.orderContainer.adapter = pendingAdapter
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {

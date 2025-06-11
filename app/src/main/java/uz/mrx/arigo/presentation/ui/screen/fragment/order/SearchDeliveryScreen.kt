@@ -49,7 +49,6 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
             Toast.makeText(requireContext(), "Kutish rejimi...", Toast.LENGTH_SHORT).show()
         }
 
-
     }
 
     private fun observeWebSocketEvents() {
@@ -64,7 +63,7 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
                             "Buyurtma qabul qilindi: ${event.order_id}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        viewModel.openOrderDeliveryScreen(event.latest_coords.toString())
+                        viewModel.openOrderDeliveryScreen(event.latest_coords.toString(), event.order_id)
                     }
                 }
 

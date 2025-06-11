@@ -31,7 +31,6 @@ class OrderCompletedScreen:Fragment(R.layout.screen_order_completed) {
 
         binding.btnSubmit.setOnClickListener {
 
-
 //            comment = binding.edtNumber.text.toString()
 //
 //            viewModel.postFeedBack(args.id, OrderFeedBackRequest(ratingg, comment))

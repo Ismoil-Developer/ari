@@ -16,7 +16,6 @@ import uz.mrx.arigo.databinding.ScreenOrderUpdateBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.UpdateOrderScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.UpdateOrderScreenViewModelImpl
 
-
 @AndroidEntryPoint
 class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
@@ -27,7 +26,6 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -55,6 +53,7 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
                 binding.addressTxt.text = street
                 binding.addressRegion.text = region
+
             }
         }
 
@@ -71,19 +70,11 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
             }
 
             viewLifecycleOwner.lifecycleScope.launch {
-
                 viewModel.updateResponse.collectLatest {
-
                     viewModel.openSearchScreenViewModel()
-
                 }
-
             }
 
-
         }
-
-
-
     }
 }

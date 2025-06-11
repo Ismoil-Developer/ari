@@ -9,7 +9,7 @@ import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 
 interface SearchDeliveryScreenViewModel {
 
-    fun openOrderDeliveryScreen(coordinates: String)
+    fun openOrderDeliveryScreen(coordinates: String, id: Int)
 
     val deliveryAcceptedFlow: SharedFlow<WebSocketGooEvent.DeliveryAccepted>
 

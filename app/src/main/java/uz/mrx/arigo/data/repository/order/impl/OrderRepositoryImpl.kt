@@ -16,6 +16,7 @@ import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
@@ -178,10 +179,10 @@ class OrderRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getActiveOrder() = channelFlow<ResultData<ActiveOrderResponse>> {
+    override suspend fun getActiveOrder(id: Int) = channelFlow<ResultData<ActiveOrderResponse>> {
         try {
 
-            val response = api.getActiveOrder()
+            val response = api.getActiveOrder(id)
 
             if (response.isSuccessful){
 
@@ -207,6 +208,22 @@ class OrderRepositoryImpl @Inject constructor(
             val response = api.getOrderPendingSearch()
             if (response.isSuccessful) {
                 val newsResponse = response.body() as List<OrderPendingSearchResponse>
+
+                trySend(ResultData.success(newsResponse))
+
+            } else {
+                trySend(ResultData.messageText(response.message()))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.messageText(e.message.toString()))
+        }
+    }.catch { emit(ResultData.error(it)) }
+
+    override suspend fun getAssignedOrder() = channelFlow<ResultData<List<AssignedResponse>>> {
+        try {
+            val response = api.getAssignedOrder()
+            if (response.isSuccessful) {
+                val newsResponse = response.body() as List<AssignedResponse>
 
                 trySend(ResultData.success(newsResponse))
 

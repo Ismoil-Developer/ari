@@ -41,8 +41,8 @@ class MainScreenDirectionImpl @Inject constructor(private val navigator: Navigat
         navigator.navigateTo(MainScreenDirections.actionScreenMainToOrderDetailScreen(id))
     }
 
-    override suspend fun openOrderDeliveryScreen(coordinates: String) {
-        navigator.navigateTo(MainScreenDirections.actionScreenMainToOrderDeliveryScreen(coordinates))
+    override suspend fun openOrderDeliveryScreen(coordinates: String, id: Int) {
+        navigator.navigateTo(MainScreenDirections.actionScreenMainToOrderDeliveryScreen(coordinates, id))
     }
 
 }

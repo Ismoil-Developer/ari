@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.directions.DirectionsFactory
@@ -43,6 +44,8 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
     private val binding:ScreenOrderDeliveryBinding by viewBinding(ScreenOrderDeliveryBinding::bind)
     private val viewModel:OrderDeliveryScreenViewModel by viewModels<OrderDeliveryScreenViewModelImpl>()
+
+    val args:OrderDeliveryScreenArgs by navArgs()
 
     private lateinit var mapView: MapView
     private var userLocationLayer: UserLocationLayer? = null
@@ -82,7 +85,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
 
 
-
+        viewModel.getActive(args.id)
 
 
         viewLifecycleOwner.lifecycleScope.launch {

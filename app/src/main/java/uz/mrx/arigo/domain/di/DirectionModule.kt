@@ -26,10 +26,12 @@ import uz.mrx.arigo.presentation.direction.magazinedetail.MagazineDetailScreenDi
 import uz.mrx.arigo.presentation.direction.magazinedetail.impl.MagazineDetailScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.main.MainScreenDirection
 import uz.mrx.arigo.presentation.direction.main.impl.MainScreenDirectionImpl
+import uz.mrx.arigo.presentation.direction.order.OrderCancelScreenDirection
 import uz.mrx.arigo.presentation.direction.order.OrderCompletedScreenDirection
 import uz.mrx.arigo.presentation.direction.order.OrderDeliveryScreenDirection
 import uz.mrx.arigo.presentation.direction.order.OrderDetailScreenDirection
 import uz.mrx.arigo.presentation.direction.order.UpdateOrderScreenDirection
+import uz.mrx.arigo.presentation.direction.order.impl.OrderCancelScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.OrderCompletedScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.OrderDeliveryScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.OrderDetailScreenDirectionImpl
@@ -103,5 +105,8 @@ interface DirectionModule {
 
     @[Binds]
     fun bindOrderCompletedScreenDirection(impl: OrderCompletedScreenDirectionImpl): OrderCompletedScreenDirection
+
+    @[Binds]
+    fun bindOrderCancelScreenDirection(impl: OrderCancelScreenDirectionImpl): OrderCancelScreenDirection
 
 }

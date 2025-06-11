@@ -39,9 +39,9 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
 
     override val activeOrderResponse = flow<ActiveOrderResponse>()
 
-    init {
+    override fun getActive(id: Int) {
         viewModelScope.launch {
-            orderUseCase.getActiveOrder().collectLatest {
+            orderUseCase.getActiveOrder(id).collectLatest {
                 it.onSuccess {
                     activeOrderResponse.tryEmit(it)
                 }
@@ -50,6 +50,7 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
             }
         }
     }
+
 
     override fun openOrderUpdateScreen() {
         viewModelScope.launch {

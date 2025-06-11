@@ -6,6 +6,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
@@ -49,6 +50,8 @@ class OrderUseCaseImpl @Inject constructor(
         request: OrderCancelRequest
     ): Flow<ResultData<OrderCancelResponse>> = repository.cancelOrder(id, request)
 
-    override suspend fun getActiveOrder(): Flow<ResultData<ActiveOrderResponse>> = repository.getActiveOrder()
+    override suspend fun getActiveOrder(id: Int): Flow<ResultData<ActiveOrderResponse>> = repository.getActiveOrder(id)
+
+    override suspend fun getAssignedOrder(): Flow<ResultData<List<AssignedResponse>>> = repository.getAssignedOrder()
 
 }

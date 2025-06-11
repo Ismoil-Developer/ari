@@ -36,9 +36,9 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
 
     override val retryOrder = flow<RetryOrderResponse>()
 
-    override fun openOrderDeliveryScreen(coordinates: String) {
+    override fun openOrderDeliveryScreen(coordinates: String, id: Int) {
         viewModelScope.launch {
-            direction.openOrderDeliveryScreen(coordinates)
+            direction.openOrderDeliveryScreen(coordinates, id)
         }
     }
 

@@ -13,7 +13,7 @@ interface OrderDeliveryScreenViewModel {
 
     val activeOrderResponse: Flow<ActiveOrderResponse>
 
-
+    fun getActive(id:Int)
     val directionUpdateFlow: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate>
 
 

@@ -29,11 +29,8 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
 
     private var isChecked = false
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.imageQuestionsCheck.setOnClickListener {
             isChecked = false
@@ -65,13 +62,13 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
                 binding.damophone.setText(it.intercom_code)
                 binding.houseNumber.setText(it.house_number)
                 binding.otherMessage.setText(it.additional_note)
+                binding.appartmentNumber.setText(it.apartment_number)
                 binding.title.text = it.shop.title
 
                 binding.address.text = it.user.active_location.address
                 binding.customName.text = it.user.phone_number
 
                 if (it.allow_other_shops){
-                    Log.d("QQQQQQ", "onViewCreated: ${it.allow_other_shops}")
                     binding.imageQuestionsCheck.visibility = View.VISIBLE
                     binding.imageQuestionsUnCheck.visibility = View.GONE
                 }else{

@@ -3,12 +3,14 @@ package uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
@@ -122,15 +124,37 @@ class HomePageViewModelImpl @Inject constructor(
 
     override val activeOrderResponse = flow<ActiveOrderResponse>()
 
-    init {
+
+    override fun getActiveOrder(id: Int) {
         viewModelScope.launch {
-            orderUseCase.getActiveOrder().collectLatest {
+            orderUseCase.getActiveOrder(id).collectLatest {
                 it.onSuccess {
                     activeOrderResponse.tryEmit(it)
                 }
                 it.onError {
                 }
             }
+        }
+    }
+
+    override val assignedResponse = flow<List<AssignedResponse>>()
+
+    init {
+        viewModelScope.launch {
+            orderUseCase.getAssignedOrder().collectLatest {
+                it.onSuccess {
+                    assignedResponse.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
+    override fun openOrderDeliveryScreen(id: Int) {
+        viewModelScope.launch {
+            direction.openOrderDeliveryScreen("", id)
         }
     }
 

@@ -20,7 +20,7 @@ interface MainScreenDirection {
 
     suspend fun openOrderDetailScreen(id: Int)
 
-    suspend fun openOrderDeliveryScreen(coordinates: String)
+    suspend fun openOrderDeliveryScreen(coordinates: String, id: Int)
 
 
 }

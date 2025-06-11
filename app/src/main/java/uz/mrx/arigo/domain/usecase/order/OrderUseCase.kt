@@ -6,6 +6,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
@@ -31,10 +32,10 @@ interface OrderUseCase {
 
     suspend fun getOrderDetail(id: Int):Flow<ResultData<OrderDetailResponse>>
 
-    suspend fun getActiveOrder():Flow<ResultData<ActiveOrderResponse>>
-
+    suspend fun getActiveOrder(id: Int):Flow<ResultData<ActiveOrderResponse>>
 
     suspend fun cancelOrder(id: Int, request: OrderCancelRequest):Flow<ResultData<OrderCancelResponse>>
 
+    suspend fun getAssignedOrder():Flow<ResultData<List<AssignedResponse>>>
 
 }

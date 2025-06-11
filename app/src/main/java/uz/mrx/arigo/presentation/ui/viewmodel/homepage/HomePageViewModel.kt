@@ -5,6 +5,7 @@ import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 
 interface HomePageViewModel {
@@ -30,6 +31,10 @@ interface HomePageViewModel {
 
     val activeOrderResponse:Flow<ActiveOrderResponse>
 
+    fun getActiveOrder(id: Int)
 
+    val assignedResponse:Flow<List<AssignedResponse>>
+
+    fun openOrderDeliveryScreen(id: Int)
 
 }

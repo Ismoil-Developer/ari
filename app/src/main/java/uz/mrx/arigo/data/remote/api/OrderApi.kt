@@ -11,6 +11,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
@@ -44,7 +45,10 @@ interface OrderApi {
     @POST("/goo/order/{id}/cancel/")
     suspend fun cancelOrder(@Path("id") id: Int, @Body request: OrderCancelRequest):Response<OrderCancelResponse>
 
-    @GET("/goo/orders/active/")
-    suspend fun getActiveOrder():Response<ActiveOrderResponse>
+    @GET("/goo/orders/active/{id}")
+    suspend fun getActiveOrder(@Path("id") id: Int):Response<ActiveOrderResponse>
+
+    @GET("/goo/orders/assigned/")
+    suspend fun getAssignedOrder():Response<List<AssignedResponse>>
 
 }

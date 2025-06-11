@@ -39,7 +39,6 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
             viewModel.openOrderUpdateRetryScreen(args.id)
         }
 
-
         if (args.id != -1){
             viewModel.getOrderDetail(args.id)
             binding.no.setOnClickListener {
@@ -47,18 +46,16 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
             }
         }
 
-
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.getOrderDetailResponse.collectLatest {
-
-
 
                 binding.workLocationTxt.text = it.user.active_location.address
                 binding.workPhoneTxt.text = it.user.phone_number
                 binding.edtOrder.text = it.items
                 binding.floor.text = it.floor
                 binding.damophone.text = it.intercom_code
+                binding.appartmentNumber.text = it.apartment_number
                 binding.houseNumber.text = it.house_number
                 binding.otherMessage.text = it.additional_note
                 binding.textRestaurant.text = it.shop.title
@@ -66,7 +63,6 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
                 Glide.with(requireContext()).load(it.shop.image).into(binding.viewPagerRes)
 
                 if (it.allow_other_shops){
-                    Log.d("QQQQQQ", "onViewCreated: ${it.allow_other_shops}")
                     binding.imageQuestionsCheck.visibility = View.VISIBLE
                     binding.imageQuestionsUnCheck.visibility = View.GONE
                 }else{

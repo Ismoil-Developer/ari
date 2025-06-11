@@ -10,9 +10,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainScreenViewModelImpl @Inject constructor(private val direction: MainScreenDirection):MainScreenViewModel, ViewModel(){
-    override fun openOrderDeliveryScreen(coordinates: String) {
+
+    override fun openOrderDeliveryScreen(coordinates: String, id:Int) {
         viewModelScope.launch {
-            direction.openOrderDeliveryScreen(coordinates)
+            direction.openOrderDeliveryScreen(coordinates, id)
         }
     }
+
 }
