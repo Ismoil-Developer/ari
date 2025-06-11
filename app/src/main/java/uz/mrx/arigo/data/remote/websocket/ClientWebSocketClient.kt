@@ -1,18 +1,13 @@
 package uz.mrx.arigo.data.remote.websocket
 
 import android.util.Log
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import okhttp3.*
 import org.json.JSONObject
 import uz.mrx.arigo.utils.ResultData
-import uz.mrx.arigo.utils.flow
 import javax.inject.Inject
 import javax.inject.Singleton
-// Top part importlarni to'g'ri saqlab qoling
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 
 @Singleton
 class ClientWebSocketClient @Inject constructor() {
@@ -28,6 +23,12 @@ class ClientWebSocketClient @Inject constructor() {
 
     private val _courierNotFound = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>(replay = 1)
     val courierNotFound: SharedFlow<WebSocketGooEvent.CourierNotFound> = _courierNotFound
+
+    private val _orderDirectionUpdate = MutableSharedFlow<WebSocketGooEvent.OrderDirectionUpdate>(replay = 1)
+    val orderDirectionUpdate: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate> = _orderDirectionUpdate
+
+    private val _searching = MutableSharedFlow<WebSocketGooEvent.Searching>(replay = 1)
+    val searching: SharedFlow<WebSocketGooEvent.Searching> = _searching
 
     private var currentUrl: String? = null
     private var currentToken: String? = null
@@ -52,21 +53,28 @@ class ClientWebSocketClient @Inject constructor() {
                 parseMessage(text).onSuccess { event ->
                     when (event) {
                         is WebSocketGooEvent.CourierNotFound -> {
-                            Log.d("GooWebSocket", "Parsed CourierNotFound: ${event.id}")
+                            Log.d("GooWebSocket", "CourierNotFound: ${event.id}")
                             _courierNotFound.tryEmit(event)
                         }
 
                         is WebSocketGooEvent.DeliveryAccepted -> {
-                            Log.d("GooWebSocket", "Parsed Delivery Accepted: ${event.order_id}")
+                            Log.d("GooWebSocket", "DeliveryAccepted: ${event.order_id}")
                             _deliveryAccepted.tryEmit(event)
                         }
 
-                        is WebSocketGooEvent.Searching -> {
-                            Log.d("GooWebSocket", "Parsed Searching: ${event.shop_title}")
-                            // Optional: Add a new shared flow and emit it if needed
+                        is WebSocketGooEvent.OrderDirectionUpdate -> {
+                            Log.d("GooWebSocket", "OrderDirectionUpdate: ${event.direction}")
+                            _orderDirectionUpdate.tryEmit(event)
                         }
 
-                        else -> Log.d("GooWebSocket", "Unknown message: $event")
+                        is WebSocketGooEvent.Searching -> {
+                            Log.d("GooWebSocket", "Searching: ${event.shop_title}")
+                            _searching.tryEmit(event)
+                        }
+
+                        else -> {
+                            Log.d("GooWebSocket", "Unknown message: $event")
+                        }
                     }
                 }.onError {
                     Log.e("GooWebSocket", "Parsing error: ${it.localizedMessage}")
@@ -74,14 +82,14 @@ class ClientWebSocketClient @Inject constructor() {
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                Log.e("GooWebSocket", "Error: ${t.localizedMessage}")
+                Log.e("GooWebSocket", "WebSocket failure: ${t.localizedMessage}")
                 webSocket.cancel()
                 this@ClientWebSocketClient.webSocket = null
                 reconnect()
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                Log.d("GooWebSocket", "Connection closed: $reason")
+                Log.d("GooWebSocket", "WebSocket closed: $reason")
                 this@ClientWebSocketClient.webSocket = null
             }
         })
@@ -97,8 +105,10 @@ class ClientWebSocketClient @Inject constructor() {
     }
 
     private fun reconnect() {
-        if (currentUrl != null && currentToken != null) {
-            connect(currentUrl!!, currentToken!!)
+        currentUrl?.let { url ->
+            currentToken?.let { token ->
+                connect(url, token)
+            }
         }
     }
 
@@ -108,57 +118,55 @@ class ClientWebSocketClient @Inject constructor() {
             val type = json.getString("type")
             when (type) {
                 "kuryer_topilmadi" -> {
-                    val id = json.getString("id")
-                    val shopTitle = json.getString("shop_title")
-                    val shopId = json.getString("shop_id")
-                    val items = json.getString("items")
-                    val createdAt = json.getString("created_at")
-                    val status = json.getString("status")
-                    ResultData.success(
-                        WebSocketGooEvent.CourierNotFound(
-                            id, shopTitle, shopId, items, createdAt, status
-                        )
+                    val event = WebSocketGooEvent.CourierNotFound(
+                        id = json.getString("id"),
+                        shop_title = json.getString("shop_title"),
+                        shop_id = json.getString("shop_id"),
+                        items = json.getString("items"),
+                        created_at = json.getString("created_at"),
+                        status = json.getString("status")
                     )
+                    ResultData.success(event)
                 }
 
                 "zakaz_qabul_qilindi" -> {
-                    val orderId = json.getInt("order_id")
-                    val deliverId = json.getString("deliver_id")
-                    val deliverName = json.optString("deliver_name", null)
-                    val deliverPhone = json.getString("deliver_phone")
                     val coords = json.getJSONArray("latest_coords")
-                    val latestCoords = listOf(coords.getDouble(0), coords.getDouble(1))
-                    ResultData.success(
-                        WebSocketGooEvent.DeliveryAccepted(
-                            orderId,
-                            deliverId,
-                            deliverName,
-                            deliverPhone,
-                            latestCoords
-                        )
+                    val event = WebSocketGooEvent.DeliveryAccepted(
+                        order_id = json.getInt("order_id"),
+                        deliver_id = json.getString("deliver_id"),
+                        deliver_name = json.optString("deliver_name", null),
+                        deliver_phone = json.getString("deliver_phone"),
+                        latest_coords = listOf(coords.getDouble(0), coords.getDouble(1))
                     )
+                    ResultData.success(event)
+                }
+
+                "order_direction_update" -> {
+                    val event = WebSocketGooEvent.OrderDirectionUpdate(
+                        order_id = json.getInt("order_id"),
+                        direction = json.getString("direction")
+                    )
+                    ResultData.success(event)
                 }
 
                 "searching" -> {
-                    val id = json.getString("id")
-                    val shopTitle = json.getString("shop_title")
-                    val shopId = json.getString("shop_id")
-                    val items = json.getString("items")
-                    val createdAt = json.getString("created_at")
-                    val status = json.getString("status")
-
-                    ResultData.success(
-                        WebSocketGooEvent.Searching(
-                            id, shopTitle, shopId, items, createdAt, status
-                        )
+                    val event = WebSocketGooEvent.Searching(
+                        id = json.getString("id"),
+                        shop_title = json.getString("shop_title"),
+                        shop_id = json.getString("shop_id"),
+                        items = json.getString("items"),
+                        created_at = json.getString("created_at"),
+                        status = json.getString("status")
                     )
+                    ResultData.success(event)
                 }
 
-                else -> ResultData.success(WebSocketGooEvent.UnknownMessage(text))
+                else -> {
+                    ResultData.success(WebSocketGooEvent.UnknownMessage(text))
+                }
             }
         } catch (e: Exception) {
             ResultData.error(e)
         }
     }
-
 }

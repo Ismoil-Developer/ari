@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
+import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
 import uz.mrx.arigo.presentation.direction.order.OrderDetailScreenDirection
@@ -44,4 +46,20 @@ class OrderDetailScreenViewModelImpl @Inject constructor(private val direction:O
             direction.openCancelScreen(id)
         }
     }
+
+    override fun cancelOrder(id: Int, request: OrderCancelRequest) {
+        viewModelScope.launch {
+            orderUseCase.cancelOrder(id, request).collectLatest {
+                it.onError {
+
+                }
+                it.onSuccess {
+                    cancelResponse.tryEmit(it)
+                }
+            }
+        }
+    }
+
+    override val cancelResponse = flow<OrderCancelResponse>()
+
 }

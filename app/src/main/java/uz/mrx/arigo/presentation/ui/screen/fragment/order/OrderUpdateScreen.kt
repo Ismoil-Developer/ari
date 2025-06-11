@@ -63,11 +63,11 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
             val houseNumber = binding.houseNumber.text.toString()
             val appartmentNumer = binding.appartmentNumber.text.toString()
             val damophone = binding.damophone.text.toString()
-            val floor = binding.floor.text.toString()
+            val floor = binding.floor.text.toString().toIntOrNull() ?: 0
             val otherMessage = binding.otherMessage.text.toString()
 
             if (args.id != -1){
-                viewModel.updateOrder(args.id, UpdateOrderRequest(houseNumber, appartmentNumer, floor.toInt(), damophone, otherMessage))
+                viewModel.updateOrder(args.id, UpdateOrderRequest(houseNumber, appartmentNumer, floor, damophone, otherMessage))
             }
 
             viewLifecycleOwner.lifecycleScope.launch {

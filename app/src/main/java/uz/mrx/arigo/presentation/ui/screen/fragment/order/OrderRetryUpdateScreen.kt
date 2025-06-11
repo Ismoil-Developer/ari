@@ -88,10 +88,10 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             val houseNumber = binding.houseNumber.text.toString()
             val appartmentNumer = binding.appartmentNumber.text.toString()
             val damophone = binding.damophone.text.toString()
-            val floor = binding.floor.text.toString()
+            val floor = binding.floor.text.toString().toIntOrNull() ?: 0
             val otherMessage = binding.otherMessage.text.toString()
 
-            val request = UpdateOrderRetryRequest(orderItems, houseNumber, appartmentNumer, floor.toInt(), damophone, otherMessage)
+            val request = UpdateOrderRetryRequest(orderItems, houseNumber, appartmentNumer, floor, damophone, otherMessage)
             if (args.id != -1){
                 viewModel.updateOrderRetry(args.id, request)
 

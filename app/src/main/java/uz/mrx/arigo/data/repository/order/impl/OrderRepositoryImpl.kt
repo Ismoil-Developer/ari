@@ -38,7 +38,6 @@ class OrderRepositoryImpl @Inject constructor(
     val webSocketEvents: SharedFlow<WebSocketGooEvent> = _webSocketEvents.asSharedFlow()
 
 
-
     override suspend fun createOrder(id: Int, request: OrderRequest) = channelFlow<ResultData<OrderResponse>> {
         try {
             val response = api.postCreateOrder(id, request)
@@ -101,19 +100,12 @@ class OrderRepositoryImpl @Inject constructor(
 
 
     override fun observeMessages(): Flow<WebSocketGooEvent> {
-        Log.d("WebSocketRepo", "observeMessages() called")
-
-        val acceptedFlow = client.deliveryAccepted.onEach {
-            Log.d("WebSocketRepo", "DeliveryAccepted received: $it")
-            _webSocketEvents.tryEmit(it)  // Emit event to flow
-        }
-
-        val notFoundFlow = client.courierNotFound.onEach {
-            Log.d("WebSocketRepo", "CourierNotFound received: $it")
-            _webSocketEvents.tryEmit(it)  // Emit event to flow
-        }
-
-        return merge(acceptedFlow, notFoundFlow)  // Combine the flows
+        return merge(
+            client.courierNotFound,
+            client.deliveryAccepted,
+            client.orderDirectionUpdate,
+            client.searching
+        )
     }
 
 
@@ -183,6 +175,7 @@ class OrderRepositoryImpl @Inject constructor(
         }catch (e: Exception) {
             trySend(ResultData.error(e))
         }
+
     }
 
     override suspend fun getActiveOrder() = channelFlow<ResultData<ActiveOrderResponse>> {

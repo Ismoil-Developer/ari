@@ -9,7 +9,9 @@ import uz.mrx.arigo.databinding.DialogRetryOrderBinding
 
 class OrderDialogRetry(
     context: Context,
-    private val onRetry: () -> Unit
+    private val onRetry: () -> Unit,
+    private val onEdit: () -> Unit,
+    private val onCancel: () -> Unit
 ) : Dialog(context) {
 
     private val binding = DialogRetryOrderBinding.inflate(layoutInflater)
@@ -27,12 +29,19 @@ class OrderDialogRetry(
         }
 
         binding.yes.setOnClickListener {
-            onRetry()
+            onEdit()
             dismiss()
         }
 
         binding.no.setOnClickListener {
+            onCancel()
             dismiss()
         }
+
+        binding.retry.setOnClickListener {
+            onRetry()
+            dismiss()
+        }
+
     }
 }

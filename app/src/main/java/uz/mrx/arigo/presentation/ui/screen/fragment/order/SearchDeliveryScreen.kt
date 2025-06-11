@@ -72,21 +72,31 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
                     clientWebSocketClient.courierNotFound.collectLatest { event ->
                         Log.d("SearchDeliveryScreen", "Courier Not Found: ${event.id}")
 
-                        val dialog = OrderDialogRetry(requireContext()) {
-                            viewModel.retryOrder(event.id.toInt())
-                        }
+                        val dialog = OrderDialogRetry(
+                            context = requireContext(),
+                            onRetry = {
+                                viewModel.retryOrder(event.id.toInt())
+                            },
+                            onEdit = {
+                                Toast.makeText(requireContext(), "Tahrirlash bosildi", Toast.LENGTH_SHORT).show()
+                                viewModel.openOrderUpdateScreen(event.id.toInt())
+                            },
+                            onCancel = {
+                                Toast.makeText(requireContext(), "Bekor qilish bosildi", Toast.LENGTH_SHORT).show()
+                                viewModel.orderCancelScreen(event.id.toInt())
+                            }
+                        )
 
                         dialog.show()
 
-                        // Retry natijasini kuzatish
                         lifecycleScope.launch {
                             viewModel.retryOrder.collectLatest { response ->
-                                dialog.dismiss()
                                 Toast.makeText(requireContext(), response.detail, Toast.LENGTH_LONG).show()
                             }
                         }
                     }
                 }
+
 
             }
         }

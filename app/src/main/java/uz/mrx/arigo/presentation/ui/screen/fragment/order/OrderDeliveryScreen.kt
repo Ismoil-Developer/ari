@@ -3,23 +3,24 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.order
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.RequestPoint
-import com.yandex.mapkit.RequestPointType
 import com.yandex.mapkit.directions.DirectionsFactory
-import com.yandex.mapkit.directions.driving.DrivingOptions
 import com.yandex.mapkit.directions.driving.DrivingRoute
 import com.yandex.mapkit.directions.driving.DrivingRouter
 import com.yandex.mapkit.directions.driving.DrivingSession
-import com.yandex.mapkit.directions.driving.VehicleOptions
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
@@ -30,10 +31,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
+import uz.mrx.arigo.data.local.shp.MySharedPreference
+import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.databinding.ScreenOrderDeliveryBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderDeliveryScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.OrderDeliveryScreenViewModelImpl
-import uz.mrx.arigo.utils.SwipeToRevealView
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSession.DrivingRouteListener {
@@ -45,16 +48,29 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
     private var userLocationLayer: UserLocationLayer? = null
 
     private lateinit var drivingRouter: DrivingRouter
-    private var drivingSession: DrivingSession? = null
+//    private var drivingSession: DrivingSession? = null
 
     lateinit var startPoint:Point // Tashkent
     lateinit var shopPoint:Point // London
     lateinit var endPoint:Point
 
+    @Inject
+    lateinit var clientWebSocketClient: ClientWebSocketClient
+
+    @Inject
+    lateinit var sharedPreference: MySharedPreference
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mapView = binding.mapView
+
+        val token = sharedPreference.token
+        val url = "http://ari.uzfati.uz/ws/goo/connect/"
+
+        clientWebSocketClient.connect(url, token)
+
+        observeWebSocketEvents()
 
         // Map init
         val mapKit = MapKitFactory.getInstance()
@@ -62,7 +78,12 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
             isVisible = true
             isHeadingEnabled = true
         }
+
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
+
+
+
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.activeOrderResponse.collectLatest { order ->
@@ -80,6 +101,9 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 shopPoint = Point(order.shop_location.latitude, order.shop_location.longitude )
                 binding.courierName.text = order.deliver_user.full_name
 
+                updateDeliverySteps(order.direction)
+
+
                 // Telefon chaqiruv
                 val phoneNumber = order.deliver_user.phone_number
                 binding.call.setOnClickListener {
@@ -95,7 +119,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 )
 
                 addIcons()
-                buildRoute()
+//                buildRoute()
             }
         }
 
@@ -107,11 +131,12 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
             viewModel.openChatScreen()
         }
 
-        binding.swipeView.setOnSwipeCompleteListener(object : SwipeToRevealView.OnSwipeCompleteListener {
-            override fun onSwipeCompleted() {
-                viewModel.openFindDeliveryScreen()
-            }
-        })
+//        binding.swipeView.setOnSwipeCompleteListener(object : SwipeToRevealView.OnSwipeCompleteListener {
+//            override fun onSwipeCompleted() {
+//                viewModel.openFindDeliveryScreen()
+//            }
+//        })
+
     }
 
 
@@ -137,23 +162,96 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
 
 
-    private fun buildRoute() {
-        val requestPoints = listOf(
-            RequestPoint(startPoint, RequestPointType.WAYPOINT, null),   // Kuryer manzili
-            RequestPoint(shopPoint, RequestPointType.WAYPOINT, null),    // Do‘kon manzili
-            RequestPoint(endPoint, RequestPointType.WAYPOINT, null)      // Zakazchik manzili
-        )
+//    private fun buildRoute() {
+//        val requestPoints = listOf(
+//            RequestPoint(startPoint, RequestPointType.WAYPOINT, null),   // Kuryer manzili
+//            RequestPoint(shopPoint, RequestPointType.WAYPOINT, null),    // Do‘kon manzili
+//            RequestPoint(endPoint, RequestPointType.WAYPOINT, null)      // Zakazchik manzili
+//        )
+//
+//        val drivingOptions = DrivingOptions()
+//        val vehicleOptions = VehicleOptions()
+//
+//        drivingSession = drivingRouter.requestRoutes(
+//            requestPoints,
+//            drivingOptions,
+//            vehicleOptions,
+//            this
+//        )
+//    }
 
-        val drivingOptions = DrivingOptions()
-        val vehicleOptions = VehicleOptions()
+    private fun observeWebSocketEvents() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-        drivingSession = drivingRouter.requestRoutes(
-            requestPoints,
-            drivingOptions,
-            vehicleOptions,
-            this
-        )
+                launch {
+                    clientWebSocketClient.orderDirectionUpdate.collectLatest { event ->
+                        Toast.makeText(requireContext(), "${event.direction}", Toast.LENGTH_SHORT).show()
+                        updateDeliverySteps(event.direction)
+
+                        if (event.direction == "handed_over"){
+                            viewModel.openOrderCompletedScreen()
+                        }
+                    }
+                }
+
+            }
+        }
     }
+
+
+
+    private fun updateDeliverySteps(status: String) {
+        val activeColor = ContextCompat.getColor(requireContext(), R.color.buttonBgColor)
+        val inactiveColor = Color.parseColor("#DDDDDD")
+
+        // Barchasini default: inactive
+        binding.arrivedAtStore.setColorFilter(inactiveColor)
+        binding.pickedUp.setColorFilter(inactiveColor)
+        binding.enRouteToCustomer.setColorFilter(inactiveColor)
+        binding.handedOver.setColorFilter(inactiveColor)
+
+        binding.line.setBackgroundColor(inactiveColor)
+        binding.line2.setBackgroundColor(inactiveColor)
+        binding.arrivedToCustomer.setBackgroundColor(inactiveColor)
+
+        // Holatga qarab aktivlashtiramiz
+        when (status) {
+            "arrived_at_store" -> {
+                binding.arrivedAtStore.setColorFilter(activeColor)
+            }
+            "picked_up" -> {
+                binding.arrivedAtStore.setColorFilter(activeColor)
+                binding.line.setBackgroundColor(activeColor)
+                binding.pickedUp.setColorFilter(activeColor)
+            }
+            "en_route_to_customer" -> {
+                binding.arrivedAtStore.setColorFilter(activeColor)
+                binding.line.setBackgroundColor(activeColor)
+                binding.pickedUp.setColorFilter(activeColor)
+                binding.line2.setBackgroundColor(activeColor)
+                binding.enRouteToCustomer.setColorFilter(activeColor)
+            }
+            "arrived_to_customer" -> {
+                binding.arrivedAtStore.setColorFilter(activeColor)
+                binding.line.setBackgroundColor(activeColor)
+                binding.pickedUp.setColorFilter(activeColor)
+                binding.line2.setBackgroundColor(activeColor)
+                binding.enRouteToCustomer.setColorFilter(activeColor)
+                binding.arrivedToCustomer.setBackgroundColor(activeColor)
+            }
+            "handed_over" -> {
+                binding.arrivedAtStore.setColorFilter(activeColor)
+                binding.line.setBackgroundColor(activeColor)
+                binding.pickedUp.setColorFilter(activeColor)
+                binding.line2.setBackgroundColor(activeColor)
+                binding.enRouteToCustomer.setColorFilter(activeColor)
+                binding.arrivedToCustomer.setBackgroundColor(activeColor)
+                binding.handedOver.setColorFilter(activeColor)
+            }
+        }
+    }
+
 
 
     override fun onDrivingRoutes(routes: MutableList<DrivingRoute>) {

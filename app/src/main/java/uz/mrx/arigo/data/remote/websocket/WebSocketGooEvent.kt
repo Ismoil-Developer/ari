@@ -28,8 +28,12 @@ sealed class WebSocketGooEvent {
         val status: String
     ) : WebSocketGooEvent()
 
+    data class OrderDirectionUpdate(
+        val order_id: Int,
+        val direction: String
+    ) : WebSocketGooEvent()
+
     data class UnknownMessage(
         val raw_message: String
     ) : WebSocketGooEvent()
 }
-

@@ -10,4 +10,7 @@ interface OrderCancelViewModel {
 
     val cancelResponse:Flow<OrderCancelResponse>
 
+    fun openMainScreen()
+
+
 }

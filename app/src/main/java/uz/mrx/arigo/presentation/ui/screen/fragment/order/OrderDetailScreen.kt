@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.order
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenOrderDetailBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.OrderDetailScreenViewModelImpl
+import uz.mrx.arigo.utils.toast
 
 @AndroidEntryPoint
 class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
@@ -36,6 +38,7 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
         binding.yes.setOnClickListener {
             viewModel.openOrderUpdateRetryScreen(args.id)
         }
+
 
         if (args.id != -1){
             viewModel.getOrderDetail(args.id)

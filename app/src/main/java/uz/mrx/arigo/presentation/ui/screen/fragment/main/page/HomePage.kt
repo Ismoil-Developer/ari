@@ -66,7 +66,6 @@ class HomePage : Fragment(R.layout.page_home) {
             }
         }
 
-
         val pendingAdapter = PendingSearchAdapter{
             viewModel.openOrderDetailScreen(it.id)
         }

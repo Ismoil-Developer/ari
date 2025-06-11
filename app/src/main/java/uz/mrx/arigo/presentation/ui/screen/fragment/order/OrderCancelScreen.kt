@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ import uz.mrx.arigo.data.model.OrderCancelData
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.databinding.ScreenCancelOrderBinding
 import uz.mrx.arigo.presentation.adapter.CancelAdapter
+import uz.mrx.arigo.presentation.ui.dialog.CancelDialog
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderCancelViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.OrderCancelViewModelImpl
 
@@ -33,6 +35,11 @@ class OrderCancelScreen : Fragment(R.layout.screen_cancel_order) {
 
         loadData()
 
+
+        binding.icBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         var reason = ""
 
         val adapter = CancelAdapter {
@@ -41,13 +48,24 @@ class OrderCancelScreen : Fragment(R.layout.screen_cancel_order) {
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.cancelResponse.collectLatest {
-                Log.d("EEEEEEE", "onViewCreated: ${it.status}")
+            viewModel.cancelResponse.collectLatest { response ->
+                // Agar response muvaffaqiyatli bo'lsa
+                if (response.status == "success") {
+
+                    val dialog = CancelDialog(requireContext()) {
+                        // "Davom etish" bosilganda nima qilish kerakligini yozing
+                        viewModel.openMainScreen()
+                    }
+
+                    dialog.show()
+
+                }
             }
         }
 
+
         binding.btnContinue.setOnClickListener {
-            viewModel.cancelOrder(args.id, OrderCancelRequest("Sababsiz"))
+            viewModel.cancelOrder(args.id, OrderCancelRequest(reason))
         }
 
         adapter.submitList(list)

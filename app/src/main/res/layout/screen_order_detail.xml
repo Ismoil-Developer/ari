@@ -402,8 +402,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/text_color_bold"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="20dp"
                 app:layout_constraintEnd_toStartOf="@id/yes"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/orderUpdate" />
@@ -424,9 +422,22 @@
                 app:layout_constraintStart_toEndOf="@id/no"
                 app:layout_constraintTop_toBottomOf="@id/orderUpdate" />
 
-
-
-
+            <TextView
+                android:id="@+id/btnContinue"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:fontFamily="@font/font_family_medium"
+                android:gravity="center"
+                android:background="@drawable/back_style_button"
+                android:text="Qayta buyutma berish"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/no" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/textContainer"

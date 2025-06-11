@@ -9,12 +9,13 @@ import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
+import uz.mrx.arigo.presentation.direction.order.OrderCancelScreenDirection
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderCancelViewModel
 import uz.mrx.arigo.utils.flow
 import javax.inject.Inject
 
 @HiltViewModel
-class OrderCancelViewModelImpl  @Inject constructor(private val useCase: OrderUseCase):OrderCancelViewModel, ViewModel(){
+class OrderCancelViewModelImpl  @Inject constructor(private val useCase: OrderUseCase, private val direction: OrderCancelScreenDirection):OrderCancelViewModel, ViewModel(){
 
 
     override fun cancelOrder(id: Int, request: OrderCancelRequest) {
@@ -31,4 +32,11 @@ class OrderCancelViewModelImpl  @Inject constructor(private val useCase: OrderUs
     }
 
     override val cancelResponse = flow<OrderCancelResponse>()
+
+    override fun openMainScreen() {
+        viewModelScope.launch {
+            direction.openMainScreen()
+        }
+    }
+
 }

@@ -6,4 +6,8 @@ interface SearchDeliveryScreenDirection {
 
     suspend fun openOrderDetailScreen(id:Int)
 
+    suspend fun openCancelScreen(id: Int)
+
+
+
 }

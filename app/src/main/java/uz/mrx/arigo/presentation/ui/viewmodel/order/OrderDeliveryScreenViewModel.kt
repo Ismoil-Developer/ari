@@ -1,7 +1,9 @@
 package uz.mrx.arigo.presentation.ui.viewmodel.order
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 
 interface OrderDeliveryScreenViewModel {
 
@@ -10,6 +12,15 @@ interface OrderDeliveryScreenViewModel {
     fun openFindDeliveryScreen()
 
     val activeOrderResponse: Flow<ActiveOrderResponse>
+
+
+    val directionUpdateFlow: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate>
+
+
+    fun openOrderUpdateScreen()
+
+    fun openOrderCompletedScreen()
+
 
 
 }
