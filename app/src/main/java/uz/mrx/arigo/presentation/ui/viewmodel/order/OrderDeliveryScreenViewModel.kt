@@ -7,7 +7,7 @@ import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 
 interface OrderDeliveryScreenViewModel {
 
-    fun openChatScreen()
+
 
     fun openFindDeliveryScreen()
 
@@ -25,6 +25,6 @@ interface OrderDeliveryScreenViewModel {
 
     fun orderCancelScreen(id: Int)
 
-
+    fun openChatScreen()
 
 }

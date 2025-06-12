@@ -47,10 +47,6 @@ class ProfilePage:Fragment(R.layout.page_profile) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.logOut.setOnClickListener {
-            val dialog = LogoutDialog()
-            dialog.show(parentFragmentManager, "LogoutDialog")
-        }
 
         binding.btnEdt.setOnClickListener {
             viewModel.openProfileScreen()
@@ -59,6 +55,12 @@ class ProfilePage:Fragment(R.layout.page_profile) {
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.logOut.setOnClickListener {
+            val dialog = LogoutDialog()
+            dialog.show(parentFragmentManager, "LogoutDialog")
+        }
+
 
         binding.edtLanguage.setOnClickListener {
             val dialog = LanguageDialog()

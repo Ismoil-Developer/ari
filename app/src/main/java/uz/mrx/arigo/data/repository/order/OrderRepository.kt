@@ -37,9 +37,10 @@ interface OrderRepository {
 
     suspend fun getActiveOrder(id: Int):Flow<ResultData<ActiveOrderResponse>>
 
-    suspend fun cancelOrder(id: Int, request: OrderCancelRequest):Flow<ResultData<OrderCancelResponse>>
 
     suspend fun getAssignedOrder():Flow<ResultData<List<AssignedResponse>>>
+
+    suspend fun cancelOrder(id: Int, request: OrderCancelRequest):Flow<ResultData<OrderCancelResponse>>
 
     suspend fun postFeedBack(id: Int, request: OrderFeedBackRequest):Flow<ResultData<OrderFeedBackResponse>>
 

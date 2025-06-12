@@ -44,9 +44,6 @@ interface OrderApi {
     @GET("/goo/orders/{id}/")
     suspend fun getOrderDetail(@Path("id") id: Int):Response<OrderDetailResponse>
 
-    @POST("/goo/order/{id}/cancel/")
-    suspend fun cancelOrder(@Path("id") id: Int, @Body request: OrderCancelRequest):Response<OrderCancelResponse>
-
     @GET("/goo/orders/active/{id}")
     suspend fun getActiveOrder(@Path("id") id: Int):Response<ActiveOrderResponse>
 
@@ -55,6 +52,10 @@ interface OrderApi {
 
     @POST("/goo/order/{id}/feedback/")
     suspend fun postFeedBack(@Path("id") id: Int, @Body request: OrderFeedBackRequest):Response<OrderFeedBackResponse>
+
+    @POST("/goo/order/{id}/cancel/")
+    suspend fun cancelOrder(@Path("id") id: Int, @Body request: OrderCancelRequest):Response<OrderCancelResponse>
+
 
 
 }
