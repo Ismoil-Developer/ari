@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -17,6 +18,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
+import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.directions.DirectionsFactory
 import com.yandex.mapkit.directions.driving.DrivingRoute
@@ -75,6 +78,10 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
         observeWebSocketEvents()
 
+        binding.detail.setOnClickListener {
+            viewModel.openOrderDetailScreen(args.id)
+        }
+
         // Map init
         val mapKit = MapKitFactory.getInstance()
         userLocationLayer = mapKit.createUserLocationLayer(mapView.mapWindow).apply {
@@ -85,8 +92,11 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
 
 
-        viewModel.getActive(args.id)
+        binding.btnContinue.setOnClickListener {
+            viewModel.orderCancelScreen(args.id)
+        }
 
+        viewModel.getActive(args.id)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.activeOrderResponse.collectLatest { order ->
@@ -98,6 +108,9 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
                 binding.courierRating.text = order.deliver_user.rating.toString()
 
+                if (order.deliver_user.avatar!!.isNotEmpty()){
+                    Glide.with(requireContext()).load(order.deliver_user.avatar).into(binding.prfDelivery)
+                }
                 binding.orderTime.text = order.delivery_duration_min.toString()
                 startPoint = Point(order.courier_location.latitude, order.courier_location.longitude)
                 endPoint = Point(order.customer_location.latitude, order.customer_location.longitude)
@@ -105,7 +118,6 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 binding.courierName.text = order.deliver_user.full_name
 
                 updateDeliverySteps(order.direction)
-
 
                 // Telefon chaqiruv
                 val phoneNumber = order.deliver_user.phone_number
@@ -122,9 +134,44 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 )
 
                 addIcons()
-//                buildRoute()
+
             }
         }
+
+        binding.gps.setOnClickListener {
+            val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
+                priority = com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
+            }
+            val builder = com.google.android.gms.location.LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+
+            val settingsClient =
+                com.google.android.gms.location.LocationServices.getSettingsClient(requireActivity())
+            val task = settingsClient.checkLocationSettings(builder.build())
+
+            task.addOnSuccessListener {
+                // GPS yoqilgan, joylashuvni olish
+                getLastKnownLocation { location ->
+                    if (location != null) {
+                        val userLocation = Point(location.latitude, location.longitude)
+                        mapView.map.move(
+                            CameraPosition(userLocation, 15.0f, 0.0f, 0.0f),
+                            Animation(Animation.Type.SMOOTH, 1f),
+                            null
+                        )
+
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Joylashuvni olish uchun ruhsat bering",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+
+
 
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
@@ -163,6 +210,52 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         endPlacemark.setIcon(ImageProvider.fromBitmap(resizedEndBitmap))
     }
 
+    private fun getLastKnownLocation(callback: (android.location.Location?) -> Unit) {
+        val fusedLocationClient =
+            com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(
+                requireActivity()
+            )
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
+                priority = com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
+                interval = 1000 // 1 sekund
+                fastestInterval = 500
+            }
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    callback(location)
+                } else {
+                    // Agar oxirgi joylashuv yo'q bo'lsa, real vaqtda joylashuvni oling
+                    fusedLocationClient.requestLocationUpdates(
+                        locationRequest,
+                        object : com.google.android.gms.location.LocationCallback() {
+                            override fun onLocationResult(locationResult: com.google.android.gms.location.LocationResult) {
+                                val currentLocation = locationResult.lastLocation
+                                callback(currentLocation)
+                                fusedLocationClient.removeLocationUpdates(this) // Faqat bir marta joylashuvni oling
+                            }
+                        },
+                        null
+                    )
+                }
+            }.addOnFailureListener { exception ->
+                Log.e("LocationError", "Joylashuvni olishda xatolik: ${exception.message}")
+                callback(null)
+            }
+        } else {
+            // Ruxsat so'rash
+            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            callback(null)
+        }
+    }
+
+
 
 
 //    private fun buildRoute() {
@@ -192,8 +285,8 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                         Toast.makeText(requireContext(), "${event.direction}", Toast.LENGTH_SHORT).show()
                         updateDeliverySteps(event.direction)
 
-                        if (event.direction == "handed_over"){
-                            viewModel.openOrderCompletedScreen()
+                        if (event.direction == "arrived_to_customer"){
+                            viewModel.openOrderCompletedScreen(event.order_id)
                         }
                     }
                 }
@@ -236,14 +329,6 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 binding.enRouteToCustomer.setColorFilter(activeColor)
             }
             "arrived_to_customer" -> {
-                binding.arrivedAtStore.setColorFilter(activeColor)
-                binding.line.setBackgroundColor(activeColor)
-                binding.pickedUp.setColorFilter(activeColor)
-                binding.line2.setBackgroundColor(activeColor)
-                binding.enRouteToCustomer.setColorFilter(activeColor)
-                binding.arrivedToCustomer.setBackgroundColor(activeColor)
-            }
-            "handed_over" -> {
                 binding.arrivedAtStore.setColorFilter(activeColor)
                 binding.line.setBackgroundColor(activeColor)
                 binding.pickedUp.setColorFilter(activeColor)

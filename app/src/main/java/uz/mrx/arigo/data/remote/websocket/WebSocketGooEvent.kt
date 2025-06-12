@@ -36,4 +36,5 @@ sealed class WebSocketGooEvent {
     data class UnknownMessage(
         val raw_message: String
     ) : WebSocketGooEvent()
+
 }

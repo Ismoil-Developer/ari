@@ -6,7 +6,11 @@ interface OrderDeliveryScreenDirection {
 
     suspend fun openFindDeliveryScreen()
 
-    suspend fun openOrderCompletedScreen()
+    suspend fun openOrderCompletedScreen(id: Int)
+
+    suspend fun openOrderDetail(id:Int)
+
+    suspend fun openOrderCancelScreen(id: Int)
 
 
 }

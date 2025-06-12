@@ -2,6 +2,7 @@ package uz.mrx.arigo.domain.usecase.order.impl
 
 import kotlinx.coroutines.flow.Flow
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
+import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
@@ -9,6 +10,7 @@ import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
+import uz.mrx.arigo.data.remote.response.order.OrderFeedBackResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
@@ -53,5 +55,10 @@ class OrderUseCaseImpl @Inject constructor(
     override suspend fun getActiveOrder(id: Int): Flow<ResultData<ActiveOrderResponse>> = repository.getActiveOrder(id)
 
     override suspend fun getAssignedOrder(): Flow<ResultData<List<AssignedResponse>>> = repository.getAssignedOrder()
+
+    override suspend fun postFeedBack(
+        id: Int,
+        request: OrderFeedBackRequest
+    ): Flow<ResultData<OrderFeedBackResponse>> = repository.postFeedBack(id, request)
 
 }

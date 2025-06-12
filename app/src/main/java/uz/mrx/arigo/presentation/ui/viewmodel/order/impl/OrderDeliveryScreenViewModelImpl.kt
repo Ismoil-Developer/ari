@@ -86,9 +86,21 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
 
     }
 
-    override fun openOrderCompletedScreen() {
+    override fun openOrderCompletedScreen(id: Int) {
         viewModelScope.launch {
-            direction.openOrderCompletedScreen()
+            direction.openOrderCompletedScreen(id)
+        }
+    }
+
+    override fun openOrderDetailScreen(id: Int) {
+        viewModelScope.launch {
+            direction.openOrderDetail(id)
+        }
+    }
+
+    override fun orderCancelScreen(id: Int) {
+        viewModelScope.launch {
+            direction.openOrderCancelScreen(id)
         }
     }
 

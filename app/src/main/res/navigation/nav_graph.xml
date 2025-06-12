@@ -224,6 +224,12 @@
             android:name="id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_orderDeliveryScreen_to_orderDetailScreen"
+            app:destination="@id/orderDetailScreen" />
+        <action
+            android:id="@+id/action_orderDeliveryScreen_to_orderCancelScreen"
+            app:destination="@id/orderCancelScreen" />
     </fragment>
 
     <fragment
@@ -247,6 +253,10 @@
         <action
             android:id="@+id/action_orderCompletedScreen_to_screenMain"
             app:destination="@id/screenMain" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/orderDetailScreen"

@@ -21,4 +21,9 @@
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.main.page.ProfilePage"
         android:label="ProfilePage" />
 
+    <fragment
+        android:id="@+id/orderPage"
+        android:name="uz.mrx.arigo.presentation.ui.screen.fragment.main.page.OrderPage"
+        android:label="OrderPage" />
+
 </navigation>

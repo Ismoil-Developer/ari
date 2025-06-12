@@ -19,7 +19,11 @@ interface OrderDeliveryScreenViewModel {
 
     fun openOrderUpdateScreen()
 
-    fun openOrderCompletedScreen()
+    fun openOrderCompletedScreen(id: Int)
+
+    fun openOrderDetailScreen(id: Int)
+
+    fun orderCancelScreen(id: Int)
 
 
 

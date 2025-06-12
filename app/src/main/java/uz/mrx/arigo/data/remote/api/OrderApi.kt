@@ -7,6 +7,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
+import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
@@ -14,6 +15,7 @@ import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
+import uz.mrx.arigo.data.remote.response.order.OrderFeedBackResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
@@ -50,5 +52,9 @@ interface OrderApi {
 
     @GET("/goo/orders/assigned/")
     suspend fun getAssignedOrder():Response<List<AssignedResponse>>
+
+    @POST("/goo/order/{id}/feedback/")
+    suspend fun postFeedBack(@Path("id") id: Int, @Body request: OrderFeedBackRequest):Response<OrderFeedBackResponse>
+
 
 }

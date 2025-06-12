@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
+import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
@@ -19,6 +20,7 @@ import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
+import uz.mrx.arigo.data.remote.response.order.OrderFeedBackResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
@@ -235,5 +237,26 @@ class OrderRepositoryImpl @Inject constructor(
         }
     }.catch { emit(ResultData.error(it)) }
 
+
+    override suspend fun postFeedBack(
+        id: Int,
+        request: OrderFeedBackRequest
+    ) = channelFlow<ResultData<OrderFeedBackResponse>> {
+        try {
+            val response = api.postFeedBack(id, request)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    trySend(ResultData.success(body))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
 
 }

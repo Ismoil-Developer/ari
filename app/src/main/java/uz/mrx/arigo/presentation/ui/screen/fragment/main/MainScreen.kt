@@ -26,24 +26,5 @@ class MainScreen : Fragment(R.layout.screen_main){
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
 
-
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.orderPage -> {
-                    // bu yerda koordinatalar real holatda olinadi
-                    val coordinates = "41.311081,69.240562" // test uchun
-                    viewModel.openOrderDeliveryScreen(coordinates, -1)
-                    true // bu item tanlandi deb qaytadi
-                }
-                else -> {
-                    navController.navigate(item.itemId) // boshqa itemlar uchun navigatsiya
-                    true
-                }
-            }
-        }
-
-
-
     }
-
 }

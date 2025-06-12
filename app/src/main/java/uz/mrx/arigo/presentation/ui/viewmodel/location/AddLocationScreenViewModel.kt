@@ -17,4 +17,6 @@ interface AddLocationScreenViewModel {
 
     val locationDetail:Flow<LocationDetailResponse>
 
+
+
 }
