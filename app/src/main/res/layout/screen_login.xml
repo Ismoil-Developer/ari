@@ -118,6 +118,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="+998"
+                        android:maxLength="13"
                         android:inputType="phone"
                         android:textColor="@color/text_color_bold" />
 

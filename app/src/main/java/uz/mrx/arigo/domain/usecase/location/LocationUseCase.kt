@@ -15,7 +15,7 @@ interface LocationUseCase {
 
     suspend fun getLocation(): Flow<ResultData<List<LocationCreateResponse>>>
 
-    suspend fun postActiveLocation(id:Int): Flow<ResultData<LocationActiveResponse>>
+    suspend fun postActiveLocation(id:Int, locationCreateRequest: LocationCreateRequest): Flow<ResultData<LocationActiveResponse>>
 
     suspend fun getLocationDetail(id: Int): Flow<ResultData<LocationDetailResponse>>
 

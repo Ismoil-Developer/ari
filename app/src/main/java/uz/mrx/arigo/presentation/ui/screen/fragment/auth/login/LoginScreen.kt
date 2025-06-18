@@ -19,6 +19,7 @@ import uz.mrx.arigo.databinding.ScreenLoginBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.login.LoginScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.login.impl.LoginScreenViewModelImpl
 import uz.mrx.arigo.utils.OnSwipeTouchListener
+import uz.mrx.arigo.utils.toast
 
 @AndroidEntryPoint
 class LoginScreen : Fragment(R.layout.screen_login) {
@@ -40,37 +41,39 @@ class LoginScreen : Fragment(R.layout.screen_login) {
             }
         })
 
-        // Davom etish tugmasi
         binding.btnContinue.setOnClickListener {
             val phoneNumber = binding.phoneNumberEditText.text.toString().trim()
 
-            if (phoneNumber.isNotEmpty()) {
-                viewModel.postRegister(RegisterRequest(phoneNumber))
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.toastMessage.collectLatest { message ->
-                            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            if (phoneNumber.isEmpty()) {
+                Toast.makeText(requireContext(), "Iltimos, telefon raqamingizni kiriting", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-                            viewModel.openConfirmScreen(
-                                phoneNumber = binding.phoneNumberEditText.text.toString(),
-                                code = message
-                            )
+            if (!phoneNumber.startsWith("+998") || phoneNumber.length != 13) {
+                Toast.makeText(requireContext(), "Raqam formati xato. Namuna: +998991234567", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Hamma shartlar to'g'ri bo'lsa:
+            viewModel.postRegister(RegisterRequest(phoneNumber))
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.registerResponse.collectLatest { message ->
+                        if (message.detail.isNotEmpty()) {
+                            viewModel.openConfirmScreen(phoneNumber, "")
+                        } else {
+                            Toast.makeText(requireContext(), "Xatolik yuz berdi", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
-            } else {
-                Toast.makeText(requireContext(), "Iltimos, telefon raqamingizni kiriting", Toast.LENGTH_SHORT).show()
             }
+
         }
 
-        // Register javobi (hozircha ishlatilmayapti, kelajakda foydali bo'lishi mumkin)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.registerResponse.collectLatest {
 
-            }
-        }
 
-        // Toast xabari + ConfirmScreen ga o'tish
+
 
     }
 }

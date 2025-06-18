@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
+import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.databinding.ScreenLocationBinding
 import uz.mrx.arigo.presentation.adapter.LocationAdapter
 import uz.mrx.arigo.presentation.ui.dialog.LocationEdtDialog
@@ -45,7 +46,19 @@ class LocationScreen : Fragment(R.layout.screen_location) {
         }
 
         val adapter = LocationAdapter(
-            onItemClickListener = { viewModel.postLocationIdActive(it.id) },
+            onItemClickListener = { val lon = it.coordinates.coordinates[0]
+                val lat = it.coordinates.coordinates[1]
+                val wktCoordinates = "Point($lon $lat)"
+
+                viewModel.postLocationIdActive(
+                    it.id,
+                    LocationCreateRequest(
+                        custom_name = it.custom_name,
+                        coordinates = wktCoordinates,
+                        address = it.address,
+                        active = true
+                    )
+                ) },
             edtClickListener = { location ->
                 val dialog = LocationEdtDialog(
                     location = location,

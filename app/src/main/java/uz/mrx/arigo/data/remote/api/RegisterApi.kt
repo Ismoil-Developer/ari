@@ -10,10 +10,10 @@ import uz.mrx.arigo.data.remote.response.register.RegisterResponse
 
 interface RegisterApi {
 
-    @POST("/goo/register/")
+    @POST("/goo/send-code/")
     suspend fun postRegister(@Body request: RegisterRequest):Response<RegisterResponse>
 
-    @POST("/goo/register/")
+    @POST("/goo/verify-code/")
     suspend fun postConfirm(@Body request: ConfirmRequest):Response<ConfirmResponse>
 
 }

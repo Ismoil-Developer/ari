@@ -79,19 +79,20 @@
             <LinearLayout
                 android:id="@+id/passwordContainer"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="65dp"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="84dp"
+                android:layout_marginBottom="74dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/repeatBtn">
 
                 <EditText
                     android:id="@+id/edt1"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/back_confirm"
                     android:gravity="center"
                     android:inputType="number"
@@ -102,26 +103,28 @@
 
                 <EditText
                     android:id="@+id/edt2"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="5dp"
                     android:background="@drawable/back_confirm"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="1"
+                    android:layout_weight="1"
                     android:textColor="@color/text_color_bold"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edt3"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="5dp"
                     android:background="@drawable/back_confirm"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="1"
+                    android:layout_weight="1"
                     android:textColor="@color/text_color_bold"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -129,26 +132,42 @@
 
                 <EditText
                     android:id="@+id/edt4"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="5dp"
                     android:background="@drawable/back_confirm"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="1"
+                    android:layout_weight="1"
                     android:textColor="@color/text_color_bold"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edt5"
-                    android:layout_width="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/back_confirm"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:layout_weight="1"
+                    android:maxLength="1"
+                    android:textColor="@color/text_color_bold"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edt6"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="5dp"
                     android:background="@drawable/back_confirm"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="1"
+                    android:layout_weight="1"
                     android:textColor="@color/text_color_bold"
                     android:textSize="22sp"
                     android:textStyle="bold" />

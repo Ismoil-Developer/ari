@@ -58,10 +58,10 @@ class LocationRepositoryImpl @Inject constructor(private val api: LocationApi) :
     }.catch { emit(ResultData.error(it)) }
 
 
-    override suspend fun postActiveLocation(id: Int) =
+    override suspend fun postActiveLocation(id: Int,  locationCreateRequest: LocationCreateRequest) =
         channelFlow<ResultData<LocationActiveResponse>> {
             try {
-                val response = api.postActiveLocation(id)
+                val response = api.postActiveLocation(id, locationCreateRequest)
                 if (response.isSuccessful) {
                     val mainData = response.body()
                     if (mainData != null) {

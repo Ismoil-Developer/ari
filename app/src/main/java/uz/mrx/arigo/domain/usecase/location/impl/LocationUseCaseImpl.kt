@@ -18,7 +18,7 @@ class LocationUseCaseImpl @Inject constructor(private val repository: LocationRe
 
     override suspend fun getLocation(): Flow<ResultData<List<LocationCreateResponse>>> = repository.getLocation()
 
-    override suspend fun postActiveLocation(id: Int): Flow<ResultData<LocationActiveResponse>> = repository.postActiveLocation(id)
+    override suspend fun postActiveLocation(id: Int, locationCreateRequest: LocationCreateRequest): Flow<ResultData<LocationActiveResponse>> = repository.postActiveLocation(id, locationCreateRequest)
 
     override suspend fun getLocationDetail(id: Int): Flow<ResultData<LocationDetailResponse>> = repository.getLocationDetail(id)
 

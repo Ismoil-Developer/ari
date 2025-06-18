@@ -6,9 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.location.ActiveAddressResponse
+import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
@@ -157,5 +159,22 @@ class HomePageViewModelImpl @Inject constructor(
             direction.openOrderDeliveryScreen("", id)
         }
     }
+
+    override fun addLocation(createRequest: LocationCreateRequest) {
+        viewModelScope.launch {
+            useCaseLoc.createLocation(createRequest).collectLatest {
+                it.onError {
+
+                }
+                it.onSuccess {
+                    addLocationResponse.tryEmit(it)
+                }
+
+            }
+        }
+    }
+
+    override val addLocationResponse = flow<LocationCreateResponse>()
+
 
 }

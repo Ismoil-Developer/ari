@@ -10,8 +10,6 @@ interface LoginScreenViewModel {
 
     fun openRegisterScreen()
 
-
-
     fun postRegister(request: RegisterRequest)
 
     val registerResponse: Flow<RegisterResponse>

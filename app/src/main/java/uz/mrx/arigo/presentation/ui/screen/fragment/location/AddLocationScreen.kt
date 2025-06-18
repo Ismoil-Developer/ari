@@ -111,20 +111,42 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
         // "Saqlash" tugmasi bosilganda APIga yuborish
         binding.btnContinueLn.setOnClickListener {
-            val markerBottomPoint = getMarkerBottomPointCoordinates()
-            val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
-            val request = LocationCreateRequest(
-                custom_name = binding.edtLocName.text.toString(),
-                coordinates = coordinates,
-                address = binding.edtYourLoc.text.toString(),
-                active = true
-            )
-            viewModel.addLocation(request)
+
+
+
+            if (args.id != -1){
+                val markerBottomPoint = getMarkerBottomPointCoordinates()
+                val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
+                val request = LocationCreateRequest(
+                    custom_name = binding.edtLocName.text.toString(),
+                    coordinates = coordinates,
+                    address = binding.edtYourLoc.text.toString(),
+                    active = true
+                )
+                viewModel.postLocationIdActive(args.id, request)
+            }else{
+                val markerBottomPoint = getMarkerBottomPointCoordinates()
+                val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
+                val request = LocationCreateRequest(
+                    custom_name = binding.edtLocName.text.toString(),
+                    coordinates = coordinates,
+                    address = binding.edtYourLoc.text.toString(),
+                    active = true
+                )
+                viewModel.addLocation(request)
+            }
+
         }
 
         // API javobni ko‘rsatish
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.addLocationResponse.collectLatest {
+                viewModel.openLocationScreen()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.postLocationActiveResponse.collectLatest {
                 viewModel.openLocationScreen()
             }
         }
@@ -302,9 +324,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     }
 
 
-
-    // 📍 Manzilni olish va marker qo'yish
-    // 📍 Manzilni olish va marker qo'yish
     private fun getAddressFromCoordinates(point: Point) {
         searchSession?.cancel()
         searchSession = searchManager.submit(

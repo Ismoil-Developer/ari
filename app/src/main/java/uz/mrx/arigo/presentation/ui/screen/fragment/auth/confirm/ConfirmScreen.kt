@@ -23,9 +23,11 @@ import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.local.shp.MySharedPreference
 import uz.mrx.arigo.data.remote.request.register.ConfirmRequest
+import uz.mrx.arigo.data.remote.request.register.RegisterRequest
 import uz.mrx.arigo.databinding.ScreenConfirmBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.confirm.ConfirmScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.confirm.impl.ConfirmScreenViewModelImpl
+import uz.mrx.arigo.utils.toast
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,9 +48,19 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.confirmResponse.collectLatest {
-                shp.token = it.access
-                Log.d("AAA", "onViewCreated: ${shp.token}")
-                viewModel.openScreen()
+                if (it.access.isNotEmpty()) {
+                    shp.token = it.access
+                    Log.d("AAA", "onViewCreated: ${shp.token}")
+                    viewModel.openScreen()
+                }
+
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.errorToastMessage.collectLatest {
+                toast("Kod muddati tugagan yoki topilmadi.")
+                editTexts.forEach { it.setBackgroundResource(R.drawable.back_password_false) }
             }
         }
 
@@ -56,14 +68,14 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
             findNavController().popBackStack()
         }
 
-
         binding.resend.setOnClickListener {
+            viewModel.postRegister(RegisterRequest(args.phonenumber))
             startCountdown()
         }
 
         editTexts = listOf(
             binding.edt1, binding.edt2, binding.edt3,
-            binding.edt4, binding.edt5
+            binding.edt4, binding.edt5, binding.edt6
         )
 
         editTexts.forEachIndexed { index, editText ->
@@ -110,20 +122,16 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
     }
 
 
-
     private fun checkCode() {
         val enteredCode = editTexts.joinToString("") { it.text.toString() }
 
         Log.d("AAAA", "checkCode: ${args.code}")
 
-        if (enteredCode.length == 5) {
-            if (enteredCode == args.code ) {
-                viewModel.postConfirm(ConfirmRequest(args.phonenumber, enteredCode))
-                editTexts.forEach { it.setBackgroundResource(R.drawable.back_password_true) }
-            } else {
-                editTexts.forEach { it.setBackgroundResource(R.drawable.back_password_false) }
-            }
+        if (enteredCode.length == 6) {
+            viewModel.postConfirm(ConfirmRequest(args.phonenumber, enteredCode))
+            editTexts.forEach { it.setBackgroundResource(R.drawable.back_password_true) }
         }
+
     }
 
 

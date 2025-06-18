@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.data.remote.response.location.LocationActiveResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.data.remote.response.location.LocationDeleteResponse
@@ -60,9 +61,9 @@ class LocationScreenViewModelImpl @Inject constructor(
         }
     }
 
-    override fun postLocationIdActive(id: Int) {
+    override fun postLocationIdActive(id: Int, createRequest: LocationCreateRequest) {
         viewModelScope.launch {
-            useCase.postActiveLocation(id).collectLatest {
+            useCase.postActiveLocation(id, createRequest).collectLatest {
                 it.onSuccess {
                     postLocationActiveResponse.emit(it)
                 }

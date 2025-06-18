@@ -1,9 +1,7 @@
 package uz.mrx.arigo.data.repository.register.impl
 
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
 import uz.mrx.arigo.data.remote.api.RegisterApi
 import uz.mrx.arigo.data.remote.request.register.ConfirmRequest
 import uz.mrx.arigo.data.remote.request.register.RegisterRequest

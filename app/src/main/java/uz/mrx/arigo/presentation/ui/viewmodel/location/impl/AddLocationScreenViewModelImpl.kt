@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
+import uz.mrx.arigo.data.remote.response.location.LocationActiveResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.data.remote.response.location.LocationDetailResponse
 import uz.mrx.arigo.domain.usecase.location.LocationUseCase
@@ -54,5 +56,20 @@ class AddLocationScreenViewModelImpl @Inject constructor(private val direction:A
     }
 
     override val locationDetail = flow<LocationDetailResponse>()
+
+    override fun postLocationIdActive(id: Int, createRequest: LocationCreateRequest) {
+        viewModelScope.launch {
+            useCase.postActiveLocation(id, createRequest).collectLatest {
+                it.onSuccess {
+                    postLocationActiveResponse.emit(it)
+                }
+                it.onError {
+                    // log or show error
+                }
+            }
+        }
+    }
+
+    override val postLocationActiveResponse = MutableSharedFlow<LocationActiveResponse>()
 
 }

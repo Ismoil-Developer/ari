@@ -24,7 +24,7 @@ interface LocationApi {
     suspend fun getLocations():Response<List<LocationCreateResponse>>
 
     @POST("/goo/locations/{id}/active/")
-    suspend fun postActiveLocation(@Path("id") id:Int):Response<LocationActiveResponse>
+    suspend fun postActiveLocation(@Path("id") id:Int, @Body locationCreateRequest: LocationCreateRequest):Response<LocationActiveResponse>
 
     @GET("/goo/locations/{id}/detail/")
     suspend fun getLocationDetail(@Path("id") id: Int):Response<LocationDetailResponse>
@@ -37,6 +37,5 @@ interface LocationApi {
 
     @DELETE("/goo/locations/{id}/delete/")
     suspend fun deleteLocation(@Path("id") id: Int): Response<LocationDeleteResponse>
-
 
 }

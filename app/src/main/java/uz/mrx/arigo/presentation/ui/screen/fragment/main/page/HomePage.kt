@@ -1,5 +1,9 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +19,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.local.shp.MySharedPreference
+import uz.mrx.arigo.data.remote.request.location.LocationCreateRequest
 import uz.mrx.arigo.databinding.PageHomeBinding
 import uz.mrx.arigo.presentation.adapter.AdvertisingAdapter
 import uz.mrx.arigo.presentation.adapter.AssignedAdapter
@@ -25,6 +30,20 @@ import uz.mrx.arigo.presentation.ui.viewmodel.homepage.HomePageViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl.HomePageViewModelImpl
 import uz.mrx.arigo.utils.ViewPagerExtensions.addCarouselEffect
 import javax.inject.Inject
+import com.yandex.mapkit.search.*
+import com.yandex.runtime.Error
+import com.yandex.runtime.network.NetworkError
+import com.yandex.runtime.network.RemoteError
+import android.location.Location
+import android.location.LocationManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.LocationServices
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Geometry
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.*
+import com.yandex.mapkit.search.Session.SearchListener
 
 @AndroidEntryPoint
 class HomePage : Fragment(R.layout.page_home) {
@@ -39,6 +58,14 @@ class HomePage : Fragment(R.layout.page_home) {
             (binding.viewPager.currentItem + 1) % advertisingAdapter.itemCount
     }
 
+    private lateinit var searchManager: SearchManager
+    private var searchSession: Session? = null
+    private val fusedLocationClient by lazy {
+        LocationServices.getFusedLocationProviderClient(requireContext())
+    }
+
+    var count:Int = -1
+
     @Inject
     lateinit var sharedPreference: MySharedPreference
     lateinit var advertisingAdapter: AdvertisingAdapter
@@ -46,24 +73,23 @@ class HomePage : Fragment(R.layout.page_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.orderContainer.visibility = View.GONE
+
+        MapKitFactory.initialize(requireContext())
+        searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
+        getUserLocationAndSend()
 
         Log.d("AAAAAA", "onViewCreated: ${sharedPreference.token}")
 
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.activeOrderResponse.collectLatest {
-//
-////                binding.textView.text = it.deliver_user.full_name
-////                binding.textView2.text = it.shop_location.title
-////
-////                val id = it.id
-////
-////                binding.activeOrder.setOnClickListener {
-////                    viewModel.openOrderDetailScreen(id)
-////                }
-//
-//            }
-//        }
+        if (!isGpsEnabled()) {
+            Toast.makeText(requireContext(), "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!", Toast.LENGTH_LONG).show()
+        }
+
+        if (!isLocationPermissionGranted()) {
+            Toast.makeText(requireContext(), "🚫 GPS permission berilmagan! Iltimos, ruxsat bering!", Toast.LENGTH_LONG).show()
+            requestLocationPermission()
+        }
 
 
         val adapterAssigned = AssignedAdapter {
@@ -72,10 +98,7 @@ class HomePage : Fragment(R.layout.page_home) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.assignedResponse.collectLatest {
-
                 adapterAssigned.submitList(it)
-//                viewModel.getActiveOrder()
-                Log.d("RRRRRRRR", "onViewCreated: ${it.map { it.items }}")
             }
         }
 
@@ -99,8 +122,15 @@ class HomePage : Fragment(R.layout.page_home) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {
-                val address = it.address
-                binding.locationTxt.text = address
+
+                if (it.address.isNotEmpty()){
+                    val address = it.address
+                    binding.locationTxt.text = address
+                    count = -1
+                }else{
+                    count = 1
+                }
+
             }
         }
 
@@ -182,6 +212,100 @@ class HomePage : Fragment(R.layout.page_home) {
         binding.rvPharmacy.adapter = pharmacyAdapter
 
     }
+
+    @SuppressLint("MissingPermission")
+    private fun getUserLocationAndSend() {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val latitude = it.latitude
+                val longitude = it.longitude
+                val point = Point(latitude, longitude)
+
+                val coordinatesStr = "POINT($longitude $latitude)"
+
+                getAddressFromCoordinates(point) { address ->
+                    val request = LocationCreateRequest(
+                        custom_name = "",
+                        coordinates = coordinatesStr,
+                        address = address,
+                        active = true
+                    )
+                    if (count != -1){
+                        viewModel.addLocation(request)
+                    }
+                }
+            } ?: run {
+                Toast.makeText(requireContext(), "Joylashuvni aniqlab bo‘lmadi", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun getAddressFromCoordinates(point: Point, callback: (String) -> Unit) {
+        searchSession?.cancel()
+        searchSession = searchManager.submit(
+            "${point.latitude},${point.longitude}",
+            Geometry.fromPoint(point),
+            SearchOptions().apply { resultPageSize = 1 },
+            object : SearchListener {
+                override fun onSearchResponse(response: Response) {
+                    val firstResult = response.collection.children.firstOrNull()?.obj
+                    val address = firstResult?.metadataContainer
+                        ?.getItem(ToponymObjectMetadata::class.java)
+                        ?.address?.formattedAddress ?: "Noma’lum manzil"
+
+                    callback(address)
+                }
+
+                override fun onSearchError(error: Error) {
+                    val errorMsg = when (error) {
+                        is RemoteError -> "Masofaviy xatolik"
+                        is NetworkError -> "Tarmoq xatoligi"
+                        else -> "Noma’lum xatolik"
+                    }
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                    callback("Noma’lum manzil")
+                }
+            }
+        )
+    }
+
+
+    private fun isGpsEnabled(): Boolean {
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun isLocationPermissionGranted(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    }
+
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MapKitFactory.getInstance().onStop()
+    }
+
+
 
     private fun startAutoSlide() {
         handler.postDelayed(slideRunnable, 3000)
