@@ -72,10 +72,15 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
             }
 
             is WebSocketGooEvent.Searching -> {
+
             }
 
             is WebSocketGooEvent.OrderDirectionUpdate -> {
                 _directionUpdateFlow.emit(message)
+            }
+
+            is WebSocketGooEvent.LocationUpdate -> {
+
             }
 
             is WebSocketGooEvent.UnknownMessage -> {

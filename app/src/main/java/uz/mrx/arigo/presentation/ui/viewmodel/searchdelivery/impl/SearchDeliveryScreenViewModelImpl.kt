@@ -79,6 +79,10 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
                 Log.w("WebSocket", "Unknown message: ${message.raw_message}")
             }
 
+            is WebSocketGooEvent.LocationUpdate -> {
+
+                Log.w("WebSocket", "Location update: ${message.timestamp}")
+            }
         }
 
     }

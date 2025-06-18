@@ -56,6 +56,4 @@ interface OrderApi {
     @POST("/goo/order/{id}/cancel/")
     suspend fun cancelOrder(@Path("id") id: Int, @Body request: OrderCancelRequest):Response<OrderCancelResponse>
 
-
-
 }

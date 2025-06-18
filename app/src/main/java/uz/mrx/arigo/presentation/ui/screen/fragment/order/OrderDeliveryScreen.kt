@@ -291,6 +291,13 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                     }
                 }
 
+                launch {
+                    clientWebSocketClient.locationUpdate.collectLatest {
+                        Toast.makeText(requireContext(), "${it.latitude}  ${it.longitude}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+
             }
         }
     }

@@ -33,6 +33,14 @@ sealed class WebSocketGooEvent {
         val direction: String
     ) : WebSocketGooEvent()
 
+    data class LocationUpdate(
+        val user_id: String,
+        val latitude: Double,
+        val longitude: Double,
+        val timestamp: String
+    ) : WebSocketGooEvent()
+
+
     data class UnknownMessage(
         val raw_message: String
     ) : WebSocketGooEvent()

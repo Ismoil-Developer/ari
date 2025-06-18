@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -33,10 +34,12 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
     private val binding: ScreenConfirmBinding by viewBinding(ScreenConfirmBinding::bind)
     private val viewModel: ConfirmScreenViewModel by viewModels<ConfirmScreenViewModelImpl>()
     private var countDownTimer: CountDownTimer? = null
-    private val args:ConfirmScreenArgs by navArgs()
+    private lateinit var editTexts: List<EditText>
+    private val args: ConfirmScreenArgs by navArgs()
 
     @Inject
     lateinit var shp: MySharedPreference
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,34 +61,57 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
             startCountdown()
         }
 
-        val editTexts = listOf(
+        editTexts = listOf(
             binding.edt1, binding.edt2, binding.edt3,
             binding.edt4, binding.edt5
         )
 
         editTexts.forEachIndexed { index, editText ->
+
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     if (s?.length == 1 && index < editTexts.size - 1) {
-                        editTexts[index + 1].requestFocus() // Keyingi EditText ga o'tish
-                    } else if (s.isNullOrEmpty() && index > 0) {
-                        editTexts[index - 1].requestFocus() // Oldingi EditText ga qaytish
+                        editTexts[index + 1].requestFocus()
                     }
-                    checkCode(editTexts)
+                    updateEditTextBackgrounds()
+                    checkCode()
                 }
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                 }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
+
+            editText.setOnFocusChangeListener { _, _ ->
+                updateEditTextBackgrounds()
+            }
+
+            editText.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                    if (editText.text.isEmpty() && index > 0) {
+                        editTexts[index - 1].requestFocus()
+                        editTexts[index - 1].setSelection(editTexts[index - 1].text.length)
+                        updateEditTextBackgrounds()
+                        return@setOnKeyListener true
+                    }
+                }
+                false
+            }
         }
+
 
         startCountdown()
     }
 
-    private fun checkCode(editTexts: List<EditText>) {
+
+
+    private fun checkCode() {
         val enteredCode = editTexts.joinToString("") { it.text.toString() }
 
         Log.d("AAAA", "checkCode: ${args.code}")
@@ -96,6 +122,17 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
                 editTexts.forEach { it.setBackgroundResource(R.drawable.back_password_true) }
             } else {
                 editTexts.forEach { it.setBackgroundResource(R.drawable.back_password_false) }
+            }
+        }
+    }
+
+
+    private fun updateEditTextBackgrounds() {
+        editTexts.forEach {
+            if (it.isFocused || it.text.isNotEmpty()) {
+                it.setBackgroundResource(R.drawable.back_confirm)
+            } else {
+                it.setBackgroundResource(R.drawable.back_confirm)
             }
         }
     }

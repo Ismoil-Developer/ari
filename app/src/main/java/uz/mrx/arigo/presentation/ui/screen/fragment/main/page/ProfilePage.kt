@@ -30,7 +30,6 @@ import uz.mrx.arigo.databinding.PageProfileBinding
 import uz.mrx.arigo.presentation.ui.dialog.ContactDialog
 import uz.mrx.arigo.presentation.ui.dialog.LanguageDialog
 import uz.mrx.arigo.presentation.ui.dialog.LogoutDialog
-import uz.mrx.arigo.presentation.ui.dialog.ProgressDialogFragment
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.ProfileScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.impl.ProfileScreenViewModelImpl
 
@@ -46,8 +45,6 @@ class ProfilePage:Fragment(R.layout.page_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         binding.btnEdt.setOnClickListener {
             viewModel.openProfileScreen()
         }
@@ -60,7 +57,6 @@ class ProfilePage:Fragment(R.layout.page_profile) {
             val dialog = LogoutDialog()
             dialog.show(parentFragmentManager, "LogoutDialog")
         }
-
 
         binding.edtLanguage.setOnClickListener {
             val dialog = LanguageDialog()
@@ -91,6 +87,7 @@ class ProfilePage:Fragment(R.layout.page_profile) {
 
             dialog.show(parentFragmentManager, "ContactDialog")
         }
+
 
         setupActivityResultLaunchers()
 

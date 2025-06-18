@@ -30,6 +30,11 @@ class ClientWebSocketClient @Inject constructor() {
     private val _searching = MutableSharedFlow<WebSocketGooEvent.Searching>(replay = 1)
     val searching: SharedFlow<WebSocketGooEvent.Searching> = _searching
 
+    private val _locationUpdate = MutableSharedFlow<WebSocketGooEvent.LocationUpdate>(replay = 1)
+    val locationUpdate: SharedFlow<WebSocketGooEvent.LocationUpdate> = _locationUpdate
+
+
+
     private var currentUrl: String? = null
     private var currentToken: String? = null
 
@@ -71,6 +76,12 @@ class ClientWebSocketClient @Inject constructor() {
                             Log.d("GooWebSocket", "Searching: ${event.shop_title}")
                             _searching.tryEmit(event)
                         }
+
+                        is WebSocketGooEvent.LocationUpdate -> {
+                            Log.d("GooWebSocket", "LocationUpdate: ${event.latitude}, ${event.longitude}")
+                            _locationUpdate.tryEmit(event)
+                        }
+
 
                         else -> {
                             Log.d("GooWebSocket", "Unknown message: $event")
@@ -160,6 +171,17 @@ class ClientWebSocketClient @Inject constructor() {
                     )
                     ResultData.success(event)
                 }
+
+                "location_update" -> {
+                    val event = WebSocketGooEvent.LocationUpdate(
+                        user_id = json.getString("user_id"),
+                        latitude = json.getDouble("latitude"),
+                        longitude = json.getDouble("longitude"),
+                        timestamp = json.getString("timestamp")
+                    )
+                    ResultData.success(event)
+                }
+
 
                 else -> {
                     ResultData.success(WebSocketGooEvent.UnknownMessage(text))
