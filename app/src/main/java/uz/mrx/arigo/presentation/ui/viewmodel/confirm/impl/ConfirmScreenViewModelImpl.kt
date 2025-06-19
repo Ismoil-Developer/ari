@@ -59,15 +59,7 @@ class ConfirmScreenViewModelImpl @Inject constructor(
         viewModelScope.launch {
             useCase.register(request).collectLatest { result ->
                 result.onError { error ->
-                    val errorMessage = error.message ?: "Noma'lum xatolik yuz berdi"
-
-                    // JSON ichidan SMS kodini chiqarish
-                    val regex = """SMS kod: (\d{5})""".toRegex()
-                    val matchResult = regex.find(errorMessage)
-                    val smsCode = matchResult?.groupValues?.get(1) ?: "Xatolik"
-
-                    _toastMessage.emit("$smsCode")
-                    Log.d("AAAAA", "postRegister: $smsCode")
+                    _toastMessage.emit("${error.message}")
                 }
                 result.onMessage { message ->
                     _toastMessage.tryEmit(message.toString())

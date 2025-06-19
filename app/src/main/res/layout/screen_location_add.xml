@@ -41,7 +41,6 @@
         app:layout_constraintTop_toBottomOf="@id/icBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="-20dp"
         app:layout_constraintBottom_toTopOf="@id/location"
         />
 

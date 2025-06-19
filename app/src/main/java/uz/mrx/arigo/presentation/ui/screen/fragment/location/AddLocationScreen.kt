@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.graphics.PointF
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
@@ -47,7 +46,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     private val args:AddLocationScreenArgs by navArgs()
 
     private var isMarkerRaised = false
-
 
     private lateinit var searchManager: SearchManager
     private var searchSession: Session? = null
