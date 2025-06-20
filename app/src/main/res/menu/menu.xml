@@ -5,25 +5,25 @@
         android:id="@+id/homePage"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/bosh_sahifa" />
 
     <item
         android:id="@+id/orderPage"
         android:enabled="true"
         android:icon="@drawable/ic_order"
-        android:title="Order" />
+        android:title="@string/buyurtma" />
 
     <item
         android:id="@+id/historyPage"
         android:enabled="true"
         android:icon="@drawable/ic_history"
-        android:title="History" />
+        android:title="@string/tarih" />
 
     <item
         android:id="@+id/profilePage"
         android:enabled="true"
         android:icon="@drawable/ic_profile"
-        android:title="Profile" />
+        android:title="@string/profil" />
 
 
 </menu>

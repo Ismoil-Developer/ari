@@ -36,7 +36,7 @@
         android:layout_marginStart="6dp"
         android:drawablePadding="6dp"
         android:fontFamily="@font/font_family"
-        android:text="Kuryer"
+        android:text="@string/buyurtma"
         android:textColor="@color/text_color_bold"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/icBack"

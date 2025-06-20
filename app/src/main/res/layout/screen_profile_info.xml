@@ -25,7 +25,7 @@
         android:layout_marginStart="6dp"
         android:drawablePadding="6dp"
         android:fontFamily="@font/font_family"
-        android:text="Profile"
+        android:text="@string/profil"
         android:textColor="@color/text_color_bold"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/icBack"
@@ -61,7 +61,7 @@
         android:layout_marginTop="20dp"
         android:drawablePadding="6dp"
         android:fontFamily="@font/font_family"
-        android:text="Profile Info"
+        android:text="@string/profil_ma_lumoti"
         android:textColor="@color/text_color_bold"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
                 android:layout_height="50dp"
                 android:drawablePadding="6dp"
                 android:fontFamily="@font/font_family_medium"
-                android:text="Your name"
+                android:text="@string/ismingiz"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/text_color_bold"
                 android:textSize="16sp"
@@ -109,7 +109,7 @@
                 android:padding="16dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/font_family_medium"
-                android:text="Phone number"
+                android:text="@string/raqamingiz"
                 android:background="@drawable/edt_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtName"
@@ -118,13 +118,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
 
     <LinearLayout
         android:id="@+id/btnUpdate"
@@ -147,12 +142,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:fontFamily="@font/font_family"
-            android:text="Edit"
+            android:text="@string/tahrirlash"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

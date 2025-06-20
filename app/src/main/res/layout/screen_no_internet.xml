@@ -24,7 +24,7 @@
         android:layout_marginTop="45dp"
         android:fontFamily="@font/font_family_medium"
         android:gravity="center"
-        android:text="No internet found, Please check your network."
+        android:text="@string/internet_mavjud_emas_iltimos_tekshirib_ko_ring"
         android:textColor="@color/gray500"
         android:textSize="22sp" />
 

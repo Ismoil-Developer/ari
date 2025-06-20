@@ -30,7 +30,7 @@
             android:fontFamily="@font/font_family"
             android:gravity="bottom|start"
             android:maxLines="2"
-            android:text="Baraka"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

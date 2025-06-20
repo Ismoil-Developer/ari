@@ -31,7 +31,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/font_family"
                 android:maxLines="1"
-                android:text="Home"
+                android:text=""
                 android:textColor="@color/text_color_bold"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@id/yourLocation"
@@ -48,14 +48,13 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/font_family"
                 android:maxLines="1"
-                android:text="Tashkent shahahr, Yunsobod sms"
+                android:text=""
                 android:textColor="@color/text_color_bold"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/locationName" />
-
 
             <View
                 android:id="@+id/save"

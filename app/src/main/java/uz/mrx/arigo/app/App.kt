@@ -3,6 +3,7 @@ package uz.mrx.arigo.app
 import android.app.Application
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.transport.TransportFactory
+import com.yariksoffice.lingver.Lingver
 import dagger.hilt.android.HiltAndroidApp
 import uz.mrx.arigo.data.local.shp.MySharedPreference
 import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
@@ -39,6 +40,10 @@ class App : Application() {
         if (token.isNotEmpty()) {
             webSocketClient.connect(url, token)
         }
+
+        val languageCode = sharedPreference.language // "uz", "en", "ru", etc.
+        Lingver.init(this, languageCode)
+
     }
 
 }

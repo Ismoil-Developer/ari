@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/font_family_medium"
-            android:text="So’rovnoma"
+            android:text="@string/so_rovnoma"
             android:textColor="@color/text_color_medium"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/questionTxt"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/font_family_medium"
-            android:text="Boshqa magazinlardan harid qilish"
+            android:text="@string/boshqa_magazinlardan_harid_qilish"
             android:textColor="@color/text_color_bold"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/imageQuestions"
@@ -128,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/font_family_medium"
-            android:text="Royhat"
+            android:text="@string/ro_yhat"
             android:textColor="@color/text_color_medium"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/imageList"
@@ -215,7 +215,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:hint="Uy nomeri"
+                                android:hint="@string/uy_raqami"
                                 android:inputType="phone"
 
                                 android:textColor="@color/text_color_bold"
@@ -226,7 +226,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:hint="Podyezd"
+                                android:hint="@string/podyezd"
                                 android:inputType="phone"
                                 android:textColor="@color/text_color_bold"
                                 android:textSize="16sp" />
@@ -245,7 +245,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:hint="Damofon"
+                                android:hint="@string/damofon"
 
                                 android:inputType="phone"
                                 android:textColor="@color/text_color_bold"
@@ -256,7 +256,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:hint="Qavat"
+                                android:hint="@string/qavat"
                                 android:inputType="phone"
                                 android:textColor="@color/text_color_bold"
                                 android:textSize="16sp" />
@@ -290,7 +290,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:hint="Qo'shimcha xabar"
+                            android:hint="@string/qo_shimcha_xabar"
                             android:inputType="text"
                             android:textColor="@color/text_color_bold"
                             android:textSize="16sp" />
@@ -345,7 +345,7 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/font_family_medium"
                                 android:padding="5dp"
-                                android:text="City name or user"
+                                android:text=""
                                 android:textColor="@color/text_color_bold"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -359,7 +359,7 @@
                                 android:drawableStart="@drawable/ic_entypo_location"
                                 android:drawablePadding="10dp"
                                 android:padding="5dp"
-                                android:text="Shayhontohur kochasi"
+                                android:text=""
                                 android:textColor="@color/text_color_medium" />
 
                         </LinearLayout>
@@ -383,7 +383,7 @@
             android:background="@drawable/radio_button_unchecked_background"
             android:fontFamily="@font/font_family_medium"
             android:gravity="center"
-            android:text="Bekor qilish"
+            android:text="@string/bekor_qilish"
             android:textAllCaps="false"
             android:textColor="@color/text_color_bold"
             android:textSize="14sp"
@@ -403,7 +403,7 @@
             android:background="@drawable/back_style_button"
             android:fontFamily="@font/font_family_medium"
             android:gravity="center"
-            android:text="Davom etish"
+            android:text="@string/davom_etish"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/no"
