@@ -15,6 +15,7 @@ interface OrderRetryUpdateScreenViewModel {
 
     val getOrderDetailResponse:Flow<OrderDetailResponse>
 
+    fun openAddLocationScreen(id: Int)
 
 
 }

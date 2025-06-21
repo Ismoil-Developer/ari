@@ -42,7 +42,6 @@ import com.google.android.gms.location.LocationServices
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.*
 import com.yandex.mapkit.search.Session.SearchListener
 
 @AndroidEntryPoint

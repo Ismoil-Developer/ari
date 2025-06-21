@@ -11,4 +11,8 @@ class UpdateOrderScreenDirectionImpl @Inject constructor(private val navigator: 
         navigator.navigateTo(OrderUpdateScreenDirections.actionOrderUpdateScreenToSearchDeliveryScreen())
     }
 
+    override suspend fun openAddLocationScreen(id:Int) {
+        navigator.navigateTo(OrderUpdateScreenDirections.actionOrderUpdateScreenToAddLocationScreen(id))
+    }
+
 }

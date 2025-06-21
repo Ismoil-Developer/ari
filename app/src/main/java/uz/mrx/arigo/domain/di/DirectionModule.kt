@@ -30,11 +30,13 @@ import uz.mrx.arigo.presentation.direction.order.OrderCancelScreenDirection
 import uz.mrx.arigo.presentation.direction.order.OrderCompletedScreenDirection
 import uz.mrx.arigo.presentation.direction.order.OrderDeliveryScreenDirection
 import uz.mrx.arigo.presentation.direction.order.OrderDetailScreenDirection
+import uz.mrx.arigo.presentation.direction.order.OrderRetryUpdateScreenDirection
 import uz.mrx.arigo.presentation.direction.order.UpdateOrderScreenDirection
 import uz.mrx.arigo.presentation.direction.order.impl.OrderCancelScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.OrderCompletedScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.OrderDeliveryScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.OrderDetailScreenDirectionImpl
+import uz.mrx.arigo.presentation.direction.order.impl.OrderRetryUpdateScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.order.impl.UpdateOrderScreenDirectionImpl
 import uz.mrx.arigo.presentation.direction.profile.ProfileScreenDirection
 import uz.mrx.arigo.presentation.direction.profile.impl.ProfileScreenDirectionImpl
@@ -108,5 +110,8 @@ interface DirectionModule {
 
     @[Binds]
     fun bindOrderCancelScreenDirection(impl: OrderCancelScreenDirectionImpl): OrderCancelScreenDirection
+
+    @[Binds]
+    fun bindOrderRetryUpdateScreenDirection(impl: OrderRetryUpdateScreenDirectionImpl): OrderRetryUpdateScreenDirection
 
 }

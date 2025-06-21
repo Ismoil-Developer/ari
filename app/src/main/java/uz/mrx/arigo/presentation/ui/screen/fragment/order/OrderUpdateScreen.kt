@@ -27,6 +27,11 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.icNext.setOnClickListener {
+            if (args.id != -1){
+                viewModel.openAddLocationScreen(args.id)
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest { response ->

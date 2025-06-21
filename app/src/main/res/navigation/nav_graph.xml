@@ -198,6 +198,9 @@
             android:name="id"
             android:defaultValue="-1"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_orderUpdateScreen_to_addLocationScreen"
+            app:destination="@id/addLocationScreen" />
     </fragment>
 
     <fragment
@@ -281,6 +284,9 @@
             android:name="id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_orderRetryUpdateScreen_to_addLocationScreen"
+            app:destination="@id/addLocationScreen" />
     </fragment>
     <fragment
         android:id="@+id/orderCancelScreen"

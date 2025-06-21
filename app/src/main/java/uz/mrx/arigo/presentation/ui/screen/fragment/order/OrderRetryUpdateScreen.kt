@@ -9,12 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
-import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.databinding.ScreenOrderRetryUpdateBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderRetryUpdateScreenViewModel
@@ -44,6 +42,11 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             binding.imageQuestionsCheck.visibility = View.VISIBLE
         }
 
+        binding.locationChange.setOnClickListener {
+            if (args.id != -1){
+                viewModel.openAddLocationScreen(args.id)
+            }
+        }
 
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
