@@ -4,5 +4,7 @@ interface OrderRetryUpdateScreenDirection {
 
     suspend fun openAddLocationScreen(id:Int)
 
+    suspend fun openCancelScreenDirection(id: Int)
+
 
 }

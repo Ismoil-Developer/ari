@@ -296,8 +296,11 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             :inputType="phone"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
                             android:gravity="start|center_vertical"
                             android:padding="@dimen/_10sdp"
+                            android:background="@drawable/edt_bg"
                             android:textSize="16sp"
                             android:textColor="@color/text_color_bold"
                             />
@@ -310,6 +313,9 @@
                             android:gravity="start|center_vertical"
                             android:padding="@dimen/_10sdp"
                             android:inputType="phone"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/edt_bg"
                             android:textSize="16sp"
                             android:textColor="@color/text_color_bold"/>
 
@@ -330,6 +336,9 @@
                             android:gravity="start|center_vertical"
                             android:padding="@dimen/_10sdp"
                             android:inputType="phone"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/edt_bg"
                             android:textSize="16sp"
                             android:textColor="@color/text_color_bold"/>
 
@@ -339,9 +348,12 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:inputType="phone"
+                            android:layout_marginTop="5dp"
                             android:textSize="16sp"
+                            android:background="@drawable/edt_bg"
                             android:gravity="start|center_vertical"
                             android:padding="@dimen/_10sdp"
+                            android:layout_marginStart="5dp"
                             android:textColor="@color/text_color_bold"
                             />
 
@@ -352,7 +364,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2">
+                    android:layout_weight="1.8"
+                    android:background="@drawable/edt_bg"
+                    android:layout_marginTop="10dp"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -375,7 +390,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-
                         android:textSize="16sp"
                         android:inputType="text"
                         android:gravity="start|center_vertical"

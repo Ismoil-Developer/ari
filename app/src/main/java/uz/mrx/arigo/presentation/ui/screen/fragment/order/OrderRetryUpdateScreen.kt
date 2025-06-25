@@ -42,10 +42,8 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             binding.imageQuestionsCheck.visibility = View.VISIBLE
         }
 
-        binding.locationChange.setOnClickListener {
-            if (args.id != -1){
-                viewModel.openAddLocationScreen(args.id)
-            }
+        binding.no.setOnClickListener {
+            viewModel
         }
 
         binding.icBack.setOnClickListener {
@@ -71,6 +69,7 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
                 binding.address.text = it.user.active_location.address
                 binding.customName.text = it.user.phone_number
 
+
                 if (it.allow_other_shops){
                     binding.imageQuestionsCheck.visibility = View.VISIBLE
                     binding.imageQuestionsUnCheck.visibility = View.GONE
@@ -81,6 +80,13 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
 
             }
         }
+
+        binding.locationChange.setOnClickListener {
+            if (args.id != -1){
+                viewModel.openAddLocationScreen(args.id)
+            }
+        }
+
 
         binding.yes.setOnClickListener {
 

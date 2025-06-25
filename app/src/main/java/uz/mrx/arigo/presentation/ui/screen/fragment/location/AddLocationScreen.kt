@@ -56,7 +56,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         if (args.id != -1){
             viewModel.locationDetail(args.id)
         }

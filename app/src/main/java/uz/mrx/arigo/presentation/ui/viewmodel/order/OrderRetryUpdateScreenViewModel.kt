@@ -17,5 +17,7 @@ interface OrderRetryUpdateScreenViewModel {
 
     fun openAddLocationScreen(id: Int)
 
+    fun openCancelScreen(id:Int)
+
 
 }

@@ -108,9 +108,14 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
                 binding.courierRating.text = order.deliver_user.rating.toString()
 
-                if (order.deliver_user.avatar!!.isNotEmpty()){
-                    Glide.with(requireContext()).load(order.deliver_user.avatar).into(binding.prfDelivery)
+                order.deliver_user.avatar?.let { avatarUrl ->
+                    if (avatarUrl.isNotEmpty()) {
+                        Glide.with(requireContext())
+                            .load(avatarUrl)
+                            .into(binding.prfDelivery)
+                    }
                 }
+
                 binding.orderTime.text = order.delivery_duration_min.toString()
                 startPoint = Point(order.courier_location.latitude, order.courier_location.longitude)
                 endPoint = Point(order.customer_location.latitude, order.customer_location.longitude)
@@ -199,7 +204,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
         // Do‘kon
         val shopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery) // ❗️R.drawable.ic_shop — o‘zingizga mos icon qo‘ying
-        val resizedShopBitmap = Bitmap.createScaledBitmap(shopBitmap, 50, 50, false)
+        val resizedShopBitmap = Bitmap.createScaledBitmap(shopBitmap, 90, 90, false)
         val shopPlacemark = mapView.map.mapObjects.addPlacemark(shopPoint)
         shopPlacemark.setIcon(ImageProvider.fromBitmap(resizedShopBitmap))
 

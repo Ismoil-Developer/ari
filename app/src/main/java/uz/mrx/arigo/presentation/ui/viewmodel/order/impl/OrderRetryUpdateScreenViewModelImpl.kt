@@ -58,4 +58,12 @@ class OrderRetryUpdateScreenViewModelImpl @Inject constructor(private val orderU
         }
     }
 
+    override fun openCancelScreen(id: Int) {
+        viewModelScope.launch {
+            direction
+        }
+    }
+
+
+
 }
