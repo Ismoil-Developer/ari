@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import uz.mrx.arigo.data.remote.model.HistoryModel
+import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.databinding.ItemHistoryBinding
 
-class HistoryAdapter(private var onItemClickListener: (HistoryModel) -> Unit) :
-    ListAdapter<HistoryModel, HistoryAdapter.ViewHolder>(HistoryModelDiffUtilCallback) {
+class HistoryAdapter(private var onItemClickListener: (OrderHistoryResponse) -> Unit) :
+    ListAdapter<OrderHistoryResponse, HistoryAdapter.ViewHolder>(OrderHistoryResponseDiffUtilCallback) {
 
     private var selectedItemId: Int? = null
 
@@ -18,9 +18,9 @@ class HistoryAdapter(private var onItemClickListener: (HistoryModel) -> Unit) :
         fun onBind() {
             val newsData = getItem(absoluteAdapterPosition)
 
-            binding.marketName.text = newsData.marketName
-            binding.dateOrder.text = newsData.marketDate
-            binding.orderPrice.text = newsData.marketCost
+            binding.marketName.text = newsData.shop_title
+            binding.dateOrder.text = newsData.created_at
+            binding.orderPrice.text = newsData.item_price
 
             itemView.setOnClickListener {
                 onItemClickListener.invoke(newsData)
@@ -41,12 +41,12 @@ class HistoryAdapter(private var onItemClickListener: (HistoryModel) -> Unit) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.onBind()
 
 
-    object HistoryModelDiffUtilCallback : DiffUtil.ItemCallback<HistoryModel>() {
-        override fun areItemsTheSame(oldItem: HistoryModel, newItem: HistoryModel): Boolean {
-            return oldItem.marketName == newItem.marketName
+    object OrderHistoryResponseDiffUtilCallback : DiffUtil.ItemCallback<OrderHistoryResponse>() {
+        override fun areItemsTheSame(oldItem: OrderHistoryResponse, newItem: OrderHistoryResponse): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: HistoryModel, newItem: HistoryModel): Boolean {
+        override fun areContentsTheSame(oldItem: OrderHistoryResponse, newItem: OrderHistoryResponse): Boolean {
             return oldItem == newItem
         }
     }

@@ -60,6 +60,7 @@
         android:gravity="start|top"
         android:hint="@string/boshqa_sababdan"
         android:padding="@dimen/_10sdp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btn_continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

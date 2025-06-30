@@ -15,6 +15,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
@@ -258,5 +259,21 @@ class OrderRepositoryImpl @Inject constructor(
             trySend(ResultData.error(e))
         }
     }
+
+    override suspend fun getOrderHistory() = channelFlow<ResultData<List<OrderHistoryResponse>>> {
+        try {
+            val response = api.getHistory()
+            if (response.isSuccessful) {
+                val newsResponse = response.body() as List<OrderHistoryResponse>
+
+                trySend(ResultData.success(newsResponse))
+
+            } else {
+                trySend(ResultData.messageText(response.message()))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.messageText(e.message.toString()))
+        }
+    }.catch { emit(ResultData.error(it)) }
 
 }

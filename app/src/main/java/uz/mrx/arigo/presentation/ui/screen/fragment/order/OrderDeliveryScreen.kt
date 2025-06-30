@@ -72,7 +72,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         mapView = binding.mapView
 
         val token = sharedPreference.token
-        val url = "http://ari.uzfati.uz/ws/goo/connect/"
+        val url = "ws://ari.digitallaboratory.uz/ws/goo/connect/"
 
         clientWebSocketClient.connect(url, token)
 
@@ -121,6 +121,10 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 endPoint = Point(order.customer_location.latitude, order.customer_location.longitude)
                 shopPoint = Point(order.shop_location.latitude, order.shop_location.longitude )
                 binding.courierName.text = order.deliver_user.full_name
+
+                if (order.direction == "arrived_to_customer"){
+                    viewModel.openOrderCompletedScreen(order.id)
+                }
 
                 updateDeliverySteps(order.direction)
 

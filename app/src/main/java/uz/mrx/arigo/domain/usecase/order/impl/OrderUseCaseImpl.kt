@@ -6,6 +6,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
@@ -60,5 +61,7 @@ class OrderUseCaseImpl @Inject constructor(
         id: Int,
         request: OrderFeedBackRequest
     ): Flow<ResultData<OrderFeedBackResponse>> = repository.postFeedBack(id, request)
+
+    override suspend fun getOrderHistory(): Flow<ResultData<List<OrderHistoryResponse>>> = repository.getOrderHistory()
 
 }
