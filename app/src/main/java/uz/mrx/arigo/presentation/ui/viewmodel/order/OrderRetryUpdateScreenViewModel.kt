@@ -19,5 +19,4 @@ interface OrderRetryUpdateScreenViewModel {
 
     fun openCancelScreen(id:Int)
 
-
 }

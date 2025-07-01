@@ -22,5 +22,4 @@ interface AddLocationScreenViewModel {
 
     val postLocationActiveResponse:Flow<LocationActiveResponse>
 
-
 }

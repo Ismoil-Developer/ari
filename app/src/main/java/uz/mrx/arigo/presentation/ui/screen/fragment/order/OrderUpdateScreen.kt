@@ -24,14 +24,12 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
     private val args:OrderUpdateScreenArgs by navArgs()
 
+    val locationId = -1
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.icNext.setOnClickListener {
-            if (args.id != -1){
-                viewModel.openAddLocationScreen(args.id)
-            }
-        }
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest { response ->
@@ -59,8 +57,16 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
                 binding.addressTxt.text = street
                 binding.addressRegion.text = region
 
+
             }
         }
+
+        binding.icNext.setOnClickListener {
+            if (locationId != -1){
+                viewModel.openAddLocationScreen(args.id)
+            }
+        }
+
 
         binding.btnContinueLn.setOnClickListener {
 
@@ -76,7 +82,9 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.updateResponse.collectLatest {
+
                     viewModel.openSearchScreenViewModel()
+
                 }
             }
 

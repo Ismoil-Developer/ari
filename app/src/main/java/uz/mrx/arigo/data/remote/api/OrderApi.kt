@@ -11,6 +11,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.history.OrderHistoryDetailResponse
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
@@ -59,6 +60,9 @@ interface OrderApi {
 
     @GET("/goo/orders/history/")
     suspend fun getHistory():Response<List<OrderHistoryResponse>>
+
+    @GET("/goo/orders/history/{id}")
+    suspend fun getHistoryById(@Path("id") id: Int):Response<OrderHistoryDetailResponse>
 
 
 }

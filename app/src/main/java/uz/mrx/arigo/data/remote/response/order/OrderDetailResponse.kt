@@ -23,6 +23,7 @@ data class User(
 )
 
 data class ActiveLocation(
+    val id:Int,
     val address: String,
     val coordinates: Coordinates
 )

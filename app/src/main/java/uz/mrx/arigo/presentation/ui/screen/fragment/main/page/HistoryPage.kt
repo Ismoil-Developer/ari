@@ -32,7 +32,7 @@ class HistoryPage : Fragment(R.layout.page_history) {
         }
 
         val historyAdapter = HistoryAdapter {
-            viewModel.openHistoryDetailScreen()
+            viewModel.openHistoryDetailScreen(it.id)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

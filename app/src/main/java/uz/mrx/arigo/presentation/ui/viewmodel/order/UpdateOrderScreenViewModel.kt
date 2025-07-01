@@ -7,7 +7,7 @@ import uz.mrx.arigo.data.remote.response.order.OrderResponse
 
 interface UpdateOrderScreenViewModel {
 
-     fun openSearchScreenViewModel()
+    fun openSearchScreenViewModel()
 
     fun updateOrder(id: Int, request: UpdateOrderRequest)
 

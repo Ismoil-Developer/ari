@@ -7,6 +7,7 @@ import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
+import uz.mrx.arigo.data.remote.response.history.OrderHistoryDetailResponse
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
@@ -35,6 +36,8 @@ interface OrderRepository {
     suspend fun getOrderPendingSearch():Flow<ResultData<List<OrderPendingSearchResponse>>>
 
     suspend fun getOrderHistory():Flow<ResultData<List<OrderHistoryResponse>>>
+
+    suspend fun getOrderHistoryDetail(id: Int):Flow<ResultData<OrderHistoryDetailResponse>>
 
     suspend fun getOrderDetail(id: Int):Flow<ResultData<OrderDetailResponse>>
 

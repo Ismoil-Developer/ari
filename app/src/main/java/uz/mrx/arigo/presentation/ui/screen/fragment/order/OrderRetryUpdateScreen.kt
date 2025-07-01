@@ -26,6 +26,7 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
     private val args:OrderRetryUpdateScreenArgs by navArgs()
 
     private var isChecked = false
+    var locationId = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +44,7 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
         }
 
         binding.no.setOnClickListener {
-            viewModel
+            viewModel.openCancelScreen(args.id)
         }
 
         binding.icBack.setOnClickListener {
@@ -69,6 +70,7 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
                 binding.address.text = it.user.active_location.address
                 binding.customName.text = it.user.phone_number
 
+                locationId = it.user.active_location.id
 
                 if (it.allow_other_shops){
                     binding.imageQuestionsCheck.visibility = View.VISIBLE
@@ -82,8 +84,8 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
         }
 
         binding.locationChange.setOnClickListener {
-            if (args.id != -1){
-                viewModel.openAddLocationScreen(args.id)
+            if (locationId != -1){
+                viewModel.openAddLocationScreen(locationId)
             }
         }
 

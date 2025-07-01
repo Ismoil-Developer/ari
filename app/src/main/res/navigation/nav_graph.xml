@@ -206,7 +206,13 @@
     <fragment
         android:id="@+id/historyDetailScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.history.HistoryDetailScreen"
-        android:label="HistoryDetailScreen" />
+        android:label="HistoryDetailScreen" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
     <fragment
         android:id="@+id/orderDeliveryScreen"
         android:name="uz.mrx.arigo.presentation.ui.screen.fragment.order.OrderDeliveryScreen"
