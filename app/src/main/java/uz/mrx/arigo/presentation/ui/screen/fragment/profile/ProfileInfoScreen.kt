@@ -31,8 +31,9 @@ import uz.mrx.arigo.presentation.ui.viewmodel.profile.impl.ProfileScreenViewMode
 class ProfileInfoScreen:Fragment(R.layout.screen_profile_info) {
 
     private val binding: ScreenProfileInfoBinding by viewBinding(ScreenProfileInfoBinding::bind)
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private val viewModel: ProfileScreenViewModel by viewModels<ProfileScreenViewModelImpl>()
+
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var getContentLauncher: ActivityResultLauncher<String>
     private var selectedImageUri: Uri? = null
     private var progressDialog: ProgressDialogFragment? = null

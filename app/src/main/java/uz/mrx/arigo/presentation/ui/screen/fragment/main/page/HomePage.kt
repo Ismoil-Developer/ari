@@ -73,7 +73,7 @@ class HomePage : Fragment(R.layout.page_home) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.orderContainer.visibility = View.GONE
+//        binding.orderContainer.visibility = View.GONE
 
         MapKitFactory.initialize(requireContext())
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
@@ -108,16 +108,16 @@ class HomePage : Fragment(R.layout.page_home) {
             viewModel.openOrderDetailScreen(it.id)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getPendingSearchResponse.collectLatest {
-                if (it.isNotEmpty()) {
-                    binding.orderContainer.visibility = View.VISIBLE
-                    pendingAdapter.submitList(it)
-                }
-            }
-        }
-
-        binding.orderContainer.adapter = pendingAdapter
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewModel.getPendingSearchResponse.collectLatest {
+//                if (it.isNotEmpty()) {
+//                    binding.orderContainer.visibility = View.VISIBLE
+//                    pendingAdapter.submitList(it)
+//                }
+//            }
+//        }
+//
+//        binding.orderContainer.adapter = pendingAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {
@@ -150,7 +150,7 @@ class HomePage : Fragment(R.layout.page_home) {
             viewModel.openShopListScreen(1)
         }
 
-        binding.pharmacyContainer.setOnClickListener {
+        binding.aptekaContainer.setOnClickListener {
             viewModel.openShopListScreen(2)
         }
 

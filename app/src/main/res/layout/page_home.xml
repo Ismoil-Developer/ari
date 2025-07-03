@@ -54,107 +54,240 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <EditText
-                android:id="@+id/searchEdt"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/edt_bg"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="10dp"
-                android:hint="@string/qidiruv"
-                android:padding="12dp"
-                android:text=""
-                android:textColor="@color/back_search_text"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/icNotification" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/shopPharmacy"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="30dp"
+                android:layout_height="200dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activeOrder">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/shopContainer"
-                    android:layout_width="140dp"
-                    android:layout_height="120dp"
-                    app:cardCornerRadius="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/pharmacyContainer"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:strokeWidth="0dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/aptekaContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/back_edt_google">
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/pharmacyContainer"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeWidth="0dp">
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/back_edt_google">
 
 
-                </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_10sdp"
+                                android:fontFamily="@font/font_family"
+                                android:text="Apteka"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="-33dp"
-                    android:layout_marginEnd="-10dp"
-                    android:src="@drawable/shop_photoroom"
-                    app:layout_constraintEnd_toEndOf="@id/shopContainer"
-                    app:layout_constraintTop_toTopOf="@id/shopContainer" />
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="-100dp"
+                                android:src="@drawable/ic_apteka"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/pharmacyContainer"
-                    android:layout_width="140dp"
-                    android:layout_height="70dp"
-                    app:cardCornerRadius="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/shopContainer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:strokeWidth="0dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/shopContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/back_edt_google">
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/pharmacyContainer"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeWidth="0dp">
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/back_edt_google">
 
-                </com.google.android.material.card.MaterialCardView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_10sdp"
+                                android:fontFamily="@font/font_family"
+                                android:text="Do`kon"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
 
-                <ImageView
-                    android:layout_width="140dp"
-                    android:layout_height="130dp"
-                    android:layout_marginBottom="10dp"
-                    android:scaleType="fitCenter"
-                    android:scaleY="1.15"
-                    android:src="@drawable/pharmacy_photoroom"
-                    app:layout_constraintBottom_toBottomOf="@id/pharmacyContainer"
-                    app:layout_constraintEnd_toEndOf="@id/pharmacyContainer"
-                    app:layout_constraintStart_toStartOf="@id/pharmacyContainer"
-                    app:layout_constraintTop_toTopOf="@id/pharmacyContainer" />
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="-30dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_markett"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/fastContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/pharmacyContainer"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeWidth="0dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/back_edt_google">
+
+
+                            <TextView
+                                android:id="@+id/orderTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_10sdp"
+                                android:fontFamily="@font/font_family"
+                                android:text="Buyurtma"
+                                android:textColor="@color/text_color_bold"
+                                android:textSize="16sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/shape_fast"
+                                android:fontFamily="@font/font_family_medium"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:text="Tez"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/orderTxt" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_deliveryy"
+                app:layout_constraintBottom_toBottomOf="@id/shopPharmacy"
+                app:layout_constraintEnd_toEndOf="@id/shopPharmacy"
+                app:layout_constraintTop_toTopOf="@+id/shopPharmacy" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/locationEdt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/shopPharmacy"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/back_google_edt">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/font_family"
+                        android:text="Qayerga yetkazib berish kerak"
+                        android:textColor="@color/text_color_bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/yellowMoto"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_navigation"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/yellowMoto"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="-20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_yellow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>☻
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="0dp"
                 android:layout_height="140dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
@@ -162,7 +295,7 @@
                 android:paddingEnd="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/shopPharmacy" />
+                app:layout_constraintTop_toBottomOf="@id/locationEdt" />
 
             <TextView
                 android:id="@+id/magazineTxt"
@@ -177,7 +310,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewPager" />
 
-
             <TextView
                 android:id="@+id/seeAllMagazine"
                 android:layout_width="wrap_content"
@@ -191,7 +323,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/magazineTxt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/magazineTxt" />
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMagazine"
@@ -217,7 +348,6 @@
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvMagazine" />
-
 
             <TextView
                 android:id="@+id/seeAllPharmacy"
@@ -246,35 +376,35 @@
                 app:layout_constraintTop_toBottomOf="@id/seeAllPharmacy"
                 tools:listitem="@layout/item_magazine" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/orderContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:orientation="horizontal"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchEdt"
-                tools:listitem="@layout/item_order" />
+            <!--            <androidx.recyclerview.widget.RecyclerView-->
+            <!--                android:id="@+id/orderContainer"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginVertical="10dp"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:visibility="visible"-->
+            <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/icNotification"-->
+            <!--                tools:listitem="@layout/item_order" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activeOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/orderContainer"
+                app:layout_constraintTop_toBottomOf="@id/icNotification"
                 app:strokeWidth="0dp"
                 tools:listitem="@layout/item_order" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
