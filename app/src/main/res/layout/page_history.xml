@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     android:paddingTop="16dp">
 
-
     <ImageView
         android:id="@+id/icBack"
         android:layout_width="wrap_content"
@@ -36,7 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/icBack" />
 
-
     <ImageView
         android:id="@+id/emptyHistory"
         android:layout_width="234dp"
@@ -47,7 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
-
 
     <TextView
         android:id="@+id/emptyTitle"
@@ -76,7 +73,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emptyTitle" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

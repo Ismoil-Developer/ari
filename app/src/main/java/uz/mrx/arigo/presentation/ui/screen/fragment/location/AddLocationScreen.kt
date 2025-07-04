@@ -95,7 +95,7 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         // Xarita boshlang‘ich joylashuvi
         val startPosition = Point(41.2995, 69.2401)
         mapView.map.move(
-            CameraPosition(startPosition, 15.0f, 0.0f, 0.0f),
+            CameraPosition(startPosition, 18.0f, 0.0f, 0.0f),
             Animation(Animation.Type.SMOOTH, 1f),
             null
         )
@@ -185,7 +185,7 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                     if (location != null) {
                         val userLocation = Point(location.latitude, location.longitude)
                         mapView.map.move(
-                            CameraPosition(userLocation, 15.0f, 0.0f, 0.0f),
+                            CameraPosition(userLocation, 18.0f, 0.0f, 0.0f),
                             Animation(Animation.Type.SMOOTH, 1f),
                             null
                         )
@@ -224,21 +224,21 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
     }
 
-
     private fun getMarkerBottomPointCoordinates(): Point? {
         val markerView = binding.marker
         val mapView = binding.mapView
 
-        // Markerning pastki markaz nuqtasi (ekran koordinatalari)
-        val markerBottomX = (markerView.x + markerView.width / 2).toDouble()
-        val markerBottomY = (markerView.y + markerView.height).toDouble()
+        // Markerning pastki markaz nuqtasi (center-bottom)
+        val markerBottomCenterX = (markerView.x + markerView.width / 2).toDouble()
+        val markerBottomCenterY = (markerView.y + markerView.height / 2 + markerView.height / 2).toDouble()
 
-        // ScreenPoint yaratish (Yandex MapKit uchun)
-        val screenPoint = ScreenPoint(markerBottomX.toFloat(), markerBottomY.toFloat())
+        val screenPoint = ScreenPoint(markerBottomCenterX.toFloat(), markerBottomCenterY.toFloat())
 
-        // Ekran koordinatasidan geografik koordinataga o'tkazish
         return mapView.mapWindow.screenToWorld(screenPoint)
     }
+
+
+
 
     private fun getLastKnownLocation(callback: (android.location.Location?) -> Unit) {
         val fusedLocationClient =
@@ -306,7 +306,7 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
     private fun raiseMarker() {
         binding.marker.animate()
-            .translationY(-50f) // Marker yuqoriga chiqadi
+            .translationY(-20f) // Marker yuqoriga chiqadi
             .setDuration(200)
             .start()
         isMarkerRaised = true
@@ -347,6 +347,7 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                 override fun onSearchError(error: com.yandex.runtime.Error) {
                     binding.edtYourLoc.setText("Noma’lum manzil")
                 }
+
             }
         )
     }
@@ -399,4 +400,5 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         binding.mapView.onStop()
         MapKitFactory.getInstance().onStop()
     }
+
 }

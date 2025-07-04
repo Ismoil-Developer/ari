@@ -150,12 +150,20 @@ class HomePage : Fragment(R.layout.page_home) {
             viewModel.openShopListScreen(1)
         }
 
+        binding.fastContainer.setOnClickListener {
+            viewModel.openShopListScreen(1)
+        }
+
         binding.aptekaContainer.setOnClickListener {
             viewModel.openShopListScreen(2)
         }
 
         binding.seeAllPharmacy.setOnClickListener {
             viewModel.openShopListScreen(2)
+        }
+
+        binding.locationEdt.setOnClickListener {
+            viewModel.openLocationScreen()
         }
 
         binding.locationTxt.setOnClickListener {

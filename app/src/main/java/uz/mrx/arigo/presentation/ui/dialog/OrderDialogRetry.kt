@@ -18,7 +18,6 @@ class OrderDialogRetry(
 
     init {
         setContentView(binding.root)
-        setCancelable(false)
 
         window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -26,6 +25,10 @@ class OrderDialogRetry(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT
             )
+        }
+
+        binding.esc.setOnClickListener {
+            dismiss()
         }
 
         binding.yes.setOnClickListener {

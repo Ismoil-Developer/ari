@@ -92,9 +92,6 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
 
 
-        binding.btnContinue.setOnClickListener {
-            viewModel.orderCancelScreen(args.id)
-        }
 
         viewModel.getActive(args.id)
 

@@ -1,6 +1,7 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,15 +25,15 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
     private val args:OrderUpdateScreenArgs by navArgs()
 
-    val locationId = -1
+    var locationId = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest { response ->
+
+                locationId = response.id
                 val fullAddress = response.address ?: ""
                 val parts = fullAddress.split(",").map { it.trim() }
 
@@ -57,16 +58,15 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
                 binding.addressTxt.text = street
                 binding.addressRegion.text = region
 
-
             }
         }
 
         binding.icNext.setOnClickListener {
             if (locationId != -1){
-                viewModel.openAddLocationScreen(args.id)
+                Log.d("LLLLLLL", "onViewCreated: $locationId")
+                viewModel.openAddLocationScreen(locationId)
             }
         }
-
 
         binding.btnContinueLn.setOnClickListener {
 

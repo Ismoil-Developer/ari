@@ -84,5 +84,8 @@
     <string name="raqamingiz">Ваш номер</string>
     <string name="sizga_eng_yaqin_kuryer_nqidirilmoqda">Ищется ближайший к вам курьер</string>
     <string name="biz_ommaviy_hamkorlik_asosida_ishlaymiz_buyurtma_berganingizda_tizim_sizga_eng_mos_kuryerni_avtomatik_tanlaydi">Мы работаем на основе партнёрства. Когда вы оформляете заказ, система автоматически подбирает наиболее подходящего курьера</string>
+    <string name="dokon">Магазин</string>
+    <string name="tez">Быстрый</string>
+    <string name="yetkazish_manzili">Адрес доставки</string>
 
 </resources>

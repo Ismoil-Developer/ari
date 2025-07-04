@@ -83,4 +83,7 @@
     <string name="raqamingiz">Raqamingiz</string>
     <string name="sizga_eng_yaqin_kuryer_nqidirilmoqda">Sizga eng yaqin kuryer \nqidirilmoqda</string>
     <string name="biz_ommaviy_hamkorlik_asosida_ishlaymiz_buyurtma_berganingizda_tizim_sizga_eng_mos_kuryerni_avtomatik_tanlaydi">Biz ommaviy hamkorlik asosida ishlaymiz. Buyurtma berganingizda, tizim sizga eng mos kuryerni avtomatik tanlaydi</string>
+    <string name="dokon">Dokon</string>
+    <string name="tez">Tez</string>
+    <string name="yetkazish_manzili">Yetkazish manzili</string>
 </resources>
