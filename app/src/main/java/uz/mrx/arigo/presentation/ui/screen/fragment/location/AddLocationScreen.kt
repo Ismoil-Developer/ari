@@ -109,11 +109,10 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         // "Saqlash" tugmasi bosilganda APIga yuborish
         binding.btnContinueLn.setOnClickListener {
 
-
-
             if (args.id != -1){
                 val markerBottomPoint = getMarkerBottomPointCoordinates()
                 val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
+                Log.d("RRRRRRRR", "onViewCreated: ${markerBottomPoint.longitude} ${markerBottomPoint.latitude}")
                 val request = LocationCreateRequest(
                     custom_name = binding.edtLocName.text.toString(),
                     coordinates = coordinates,

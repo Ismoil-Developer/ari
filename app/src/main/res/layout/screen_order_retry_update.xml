@@ -394,7 +394,7 @@
             android:background="@drawable/back_style_button"
             android:fontFamily="@font/font_family_medium"
             android:gravity="center"
-            android:text="@string/davom_etish"
+            android:text="@string/buyurtma_qilish"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/no"

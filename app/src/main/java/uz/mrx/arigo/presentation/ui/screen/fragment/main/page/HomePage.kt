@@ -59,6 +59,7 @@ class HomePage : Fragment(R.layout.page_home) {
 
     private lateinit var searchManager: SearchManager
     private var searchSession: Session? = null
+
     private val fusedLocationClient by lazy {
         LocationServices.getFusedLocationProviderClient(requireContext())
     }
@@ -72,8 +73,7 @@ class HomePage : Fragment(R.layout.page_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-//        binding.orderContainer.visibility = View.GONE
+        binding.orderContainer.visibility = View.GONE
 
         MapKitFactory.initialize(requireContext())
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
@@ -108,16 +108,16 @@ class HomePage : Fragment(R.layout.page_home) {
             viewModel.openOrderDetailScreen(it.id)
         }
 
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.getPendingSearchResponse.collectLatest {
-//                if (it.isNotEmpty()) {
-//                    binding.orderContainer.visibility = View.VISIBLE
-//                    pendingAdapter.submitList(it)
-//                }
-//            }
-//        }
-//
-//        binding.orderContainer.adapter = pendingAdapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getPendingSearchResponse.collectLatest {
+                if (it.isNotEmpty()) {
+                    binding.orderContainer.visibility = View.VISIBLE
+                    pendingAdapter.submitList(it)
+                }
+            }
+        }
+
+        binding.orderContainer.adapter = pendingAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {
@@ -311,8 +311,6 @@ class HomePage : Fragment(R.layout.page_home) {
         super.onStop()
         MapKitFactory.getInstance().onStop()
     }
-
-
 
     private fun startAutoSlide() {
         handler.postDelayed(slideRunnable, 3000)

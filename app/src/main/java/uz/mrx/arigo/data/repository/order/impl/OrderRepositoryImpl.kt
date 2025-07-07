@@ -109,7 +109,8 @@ class OrderRepositoryImpl @Inject constructor(
             client.courierNotFound,
             client.deliveryAccepted,
             client.orderDirectionUpdate,
-            client.searching
+            client.searching,
+            client.orderPrice
         )
     }
 

@@ -24,6 +24,9 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
     private val _directionUpdateFlow = MutableSharedFlow<WebSocketGooEvent.OrderDirectionUpdate>()
     override val directionUpdateFlow: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate> = _directionUpdateFlow
 
+    private val _orderPrice = MutableSharedFlow<WebSocketGooEvent.OrderPrice>()
+    val orderPrice: SharedFlow<WebSocketGooEvent.OrderPrice> = _orderPrice
+
 
     override fun openChatScreen() {
         viewModelScope.launch {
@@ -46,6 +49,7 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
                     activeOrderResponse.tryEmit(it)
                 }
                 it.onError {
+
                 }
             }
         }
@@ -69,6 +73,7 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
             }
 
             is WebSocketGooEvent.CourierNotFound -> {
+
             }
 
             is WebSocketGooEvent.Searching -> {
@@ -86,6 +91,14 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
             is WebSocketGooEvent.UnknownMessage -> {
                 Log.w("WebSocket", "Unknown message: ${message.raw_message}")
             }
+
+            is WebSocketGooEvent.OrderPrice -> {
+                Log.d("GooWebSocket", "OrderPrice: ${message.total_price}")
+                _orderPrice.tryEmit(message)
+            }
+
+
+
 
         }
 

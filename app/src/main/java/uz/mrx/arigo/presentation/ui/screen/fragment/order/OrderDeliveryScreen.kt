@@ -27,6 +27,7 @@ import com.yandex.mapkit.directions.driving.DrivingRouter
 import com.yandex.mapkit.directions.driving.DrivingSession
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.runtime.image.ImageProvider
@@ -40,6 +41,7 @@ import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.databinding.ScreenOrderDeliveryBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderDeliveryScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.OrderDeliveryScreenViewModelImpl
+import uz.mrx.arigo.utils.toast
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,6 +57,8 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
     private lateinit var drivingRouter: DrivingRouter
 //    private var drivingSession: DrivingSession? = null
+
+    private var courierPlacemark: PlacemarkMapObject? = null
 
     lateinit var startPoint:Point // Tashkent
     lateinit var shopPoint:Point // London
@@ -180,7 +184,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
 
         binding.icBack.setOnClickListener {
-            findNavController().popBackStack()
+
         }
 
         binding.message.setOnClickListener {
@@ -200,11 +204,11 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         // Kuryer
         val startBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_kuryer)
         val resizedStartBitmap = Bitmap.createScaledBitmap(startBitmap, 50, 50, false)
-        val startPlacemark = mapView.map.mapObjects.addPlacemark(startPoint)
-        startPlacemark.setIcon(ImageProvider.fromBitmap(resizedStartBitmap))
+        courierPlacemark = mapView.map.mapObjects.addPlacemark(startPoint)
+        courierPlacemark?.setIcon(ImageProvider.fromBitmap(resizedStartBitmap))
 
         // Do‘kon
-        val shopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery) // ❗️R.drawable.ic_shop — o‘zingizga mos icon qo‘ying
+        val shopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery)
         val resizedShopBitmap = Bitmap.createScaledBitmap(shopBitmap, 90, 90, false)
         val shopPlacemark = mapView.map.mapObjects.addPlacemark(shopPoint)
         shopPlacemark.setIcon(ImageProvider.fromBitmap(resizedShopBitmap))
@@ -262,26 +266,6 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
     }
 
 
-
-
-//    private fun buildRoute() {
-//        val requestPoints = listOf(
-//            RequestPoint(startPoint, RequestPointType.WAYPOINT, null),   // Kuryer manzili
-//            RequestPoint(shopPoint, RequestPointType.WAYPOINT, null),    // Do‘kon manzili
-//            RequestPoint(endPoint, RequestPointType.WAYPOINT, null)      // Zakazchik manzili
-//        )
-//
-//        val drivingOptions = DrivingOptions()
-//        val vehicleOptions = VehicleOptions()
-//
-//        drivingSession = drivingRouter.requestRoutes(
-//            requestPoints,
-//            drivingOptions,
-//            vehicleOptions,
-//            this
-//        )
-//    }
-
     private fun observeWebSocketEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -299,16 +283,36 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
                 launch {
                     clientWebSocketClient.locationUpdate.collectLatest {
-                        Toast.makeText(requireContext(), "${it.latitude}  ${it.longitude}", Toast.LENGTH_SHORT).show()
+                        startPoint = Point(it.latitude, it.longitude)
+
+                        // ❗️Agar placemark mavjud bo‘lsa, uning pozitsiyasini yangilaymiz
+                        courierPlacemark?.geometry = startPoint
+
+                        // 🔍 (ixtiyoriy) animatsiya qilish uchun:
+                        // courierPlacemark?.setAnimated(true)
+
+                        Log.d("LocationUpdate", "New courier location: ${it.latitude}, ${it.longitude}")
+                        toast("${it.latitude} ${it.longitude}")
+
                     }
                 }
 
 
+                launch {
+                    clientWebSocketClient.orderPrice.collectLatest {
+                        Log.d("OOOOOOOOO", "observeWebSocketEvents item_price: ${it.item_price}")
+                        Log.d("OOOOOOOOO", "observeWebSocketEvents total_price: ${it.total_price}")
+                        Log.d("OOOOOOOOO", "observeWebSocketEvents delivery_price: ${it.delivery_price}")
+                        toast(it.item_price)
+                        toast(it.total_price)
+                        toast(it.delivery_price)
+                        binding.cost.text = it.total_price
+                    }
+                }
+
             }
         }
     }
-
-
 
     private fun updateDeliverySteps(status: String) {
         val activeColor = ContextCompat.getColor(requireContext(), R.color.buttonBgColor)
@@ -357,10 +361,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
     override fun onDrivingRoutes(routes: MutableList<DrivingRoute>) {
         val route = routes.firstOrNull() ?: return
-        // Add the route on the map
         mapView.mapWindow.map.mapObjects.addPolyline(route.geometry)
-
-        // Traffic color will automatically adjust to the traffic data
     }
 
     override fun onDrivingRoutesError(error: com.yandex.runtime.Error) {
@@ -382,6 +383,5 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
-
 
 }

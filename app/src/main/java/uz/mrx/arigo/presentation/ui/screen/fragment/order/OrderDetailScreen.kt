@@ -46,6 +46,12 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
             }
         }
 
+
+
+        binding.btnContinue.setOnClickListener {
+
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.getOrderDetailResponse.collectLatest {

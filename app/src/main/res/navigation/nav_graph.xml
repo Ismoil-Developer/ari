@@ -293,6 +293,9 @@
         <action
             android:id="@+id/action_orderRetryUpdateScreen_to_addLocationScreen"
             app:destination="@id/addLocationScreen" />
+        <action
+            android:id="@+id/action_orderRetryUpdateScreen_to_orderCancelScreen"
+            app:destination="@id/orderCancelScreen" />
     </fragment>
     <fragment
         android:id="@+id/orderCancelScreen"

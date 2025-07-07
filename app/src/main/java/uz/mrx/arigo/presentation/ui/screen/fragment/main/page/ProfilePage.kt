@@ -98,6 +98,15 @@ class ProfilePage:Fragment(R.layout.page_profile) {
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.profileResponse.collectLatest { response ->
+
+                response.full_name?.let {
+                    binding.profileName.text = it
+                }
+
+                response.phone_number?.let {
+                    binding.profileNumber.text = it
+                }
+
                 response.avatar?.let { uri ->
                     Glide.with(requireContext())
                         .load(uri)
@@ -106,13 +115,9 @@ class ProfilePage:Fragment(R.layout.page_profile) {
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                         )
                         .into(binding.profileImg)
-
-                    binding.profileName.text = response.full_name
-                    binding.profileNumber.text = response.phone_number
-
                 }
-            }
 
+            }
         }
     }
 

@@ -44,6 +44,7 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
         }
 
         binding.no.setOnClickListener {
+            Log.d("NNNNNNNNN", "onViewCreated: bosildi ${args.id}")
             viewModel.openCancelScreen(args.id)
         }
 

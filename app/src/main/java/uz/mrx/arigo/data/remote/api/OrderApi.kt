@@ -64,5 +64,4 @@ interface OrderApi {
     @GET("/goo/orders/history/{id}")
     suspend fun getHistoryById(@Path("id") id: Int):Response<OrderHistoryDetailResponse>
 
-
 }

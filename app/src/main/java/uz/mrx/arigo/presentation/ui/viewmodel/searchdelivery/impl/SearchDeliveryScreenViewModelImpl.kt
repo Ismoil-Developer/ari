@@ -74,6 +74,9 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
             is WebSocketGooEvent.OrderDirectionUpdate -> {
                 _directionUpdateFlow.emit(message)
             }
+            is WebSocketGooEvent.OrderPrice -> {
+
+            }
 
             is WebSocketGooEvent.UnknownMessage -> {
                 Log.w("WebSocket", "Unknown message: ${message.raw_message}")

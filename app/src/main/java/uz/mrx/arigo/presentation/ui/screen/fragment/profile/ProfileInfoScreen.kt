@@ -104,13 +104,15 @@ class ProfileInfoScreen:Fragment(R.layout.screen_profile_info) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.putProfile.collectLatest {
-                if (it.avatar!!.isNotEmpty() || it.full_name!!.isNotEmpty() || it.phone_number!!.isNotEmpty()) {
+                val isAvatarValid = it.avatar?.isNotEmpty() == true
+                val isNameValid = !it.full_name.isNullOrEmpty()
+                val isPhoneValid = !it.phone_number.isNullOrEmpty()
+
+                if (isAvatarValid || isNameValid || isPhoneValid) {
                     viewModel.openMainScreen()
                 }
             }
         }
-
-
 
         binding.apply {
 

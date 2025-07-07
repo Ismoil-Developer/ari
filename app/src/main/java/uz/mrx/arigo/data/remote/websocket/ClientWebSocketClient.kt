@@ -33,6 +33,8 @@ class ClientWebSocketClient @Inject constructor() {
     private val _locationUpdate = MutableSharedFlow<WebSocketGooEvent.LocationUpdate>(replay = 1)
     val locationUpdate: SharedFlow<WebSocketGooEvent.LocationUpdate> = _locationUpdate
 
+    private val _orderPrice = MutableSharedFlow<WebSocketGooEvent.OrderPrice>(replay = 1)
+    val orderPrice: SharedFlow<WebSocketGooEvent.OrderPrice> = _orderPrice
 
 
     private var currentUrl: String? = null
@@ -82,10 +84,15 @@ class ClientWebSocketClient @Inject constructor() {
                             _locationUpdate.tryEmit(event)
                         }
 
+                        is WebSocketGooEvent.OrderPrice -> {
+                            Log.d("GooWebSocket", "OrderPrice: ${event.total_price}")
+                            _orderPrice.tryEmit(event)
+                        }
 
                         else -> {
                             Log.d("GooWebSocket", "Unknown message: $event")
                         }
+
                     }
                 }.onError {
                     Log.e("GooWebSocket", "Parsing error: ${it.localizedMessage}")
@@ -181,6 +188,17 @@ class ClientWebSocketClient @Inject constructor() {
                     )
                     ResultData.success(event)
                 }
+
+                "order_price" -> {
+                    val event = WebSocketGooEvent.OrderPrice(
+                        order_id = json.getInt("order_id"),
+                        delivery_price = json.getString("delivery_price"),
+                        item_price = json.getString("item_price"),
+                        total_price = json.getString("total_price")
+                    )
+                    ResultData.success(event)
+                }
+
 
 
                 else -> {
