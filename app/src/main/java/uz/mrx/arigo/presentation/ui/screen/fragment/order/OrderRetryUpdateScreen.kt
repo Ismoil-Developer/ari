@@ -103,14 +103,17 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             val request = UpdateOrderRetryRequest(orderItems, houseNumber, appartmentNumer, floor, damophone, otherMessage)
             if (args.id != -1){
                 viewModel.updateOrderRetry(args.id, request)
-
             }
 
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.updateOrderRetryResponse.collectLatest {
-                Log.d("UUUUUUU", "onViewCreated: ${it.items}")
+
+                viewModel.openSearchDeliveryScreen()
+
+                Log.d("UUUUUUU", "onViewCreated: ${it.status}")
+
             }
         }
 

@@ -19,4 +19,8 @@ class OrderDetailScreenDirectionImpl @Inject constructor(private val navigator: 
         navigator.navigateTo(OrderDetailScreenDirections.actionOrderDetailScreenToOrderCancelScreen(id))
     }
 
+    override suspend fun openSearchDeliveryScreen() {
+        navigator.navigateTo(OrderDetailScreenDirections.actionOrderDetailScreenToSearchDeliveryScreen())
+    }
+
 }

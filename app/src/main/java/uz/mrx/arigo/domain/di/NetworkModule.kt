@@ -16,6 +16,7 @@ import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.api.ProfileApi
 import uz.mrx.arigo.data.remote.api.RegisterApi
 import uz.mrx.arigo.utils.RequestInterceptor
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -44,6 +45,9 @@ class NetworkModule {
         requestInterceptor: RequestInterceptor // Qo‘shildi
     ): OkHttpClient =
         OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.HOURS) // Aloqa o‘rnatish uchun maksimal kutish vaqti
+            .readTimeout(1, TimeUnit.HOURS)    // Javobni o‘qish uchun maksimal kutish vaqti
+            .writeTimeout(1, TimeUnit.HOURS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(languageInterceptor)
             .addInterceptor(requestInterceptor) // Qo‘shildi

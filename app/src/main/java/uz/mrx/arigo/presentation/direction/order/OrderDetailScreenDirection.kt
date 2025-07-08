@@ -7,4 +7,7 @@ interface OrderDetailScreenDirection {
 
     suspend fun openCancelScreen(id: Int)
 
+    suspend fun openSearchDeliveryScreen()
+
+
 }

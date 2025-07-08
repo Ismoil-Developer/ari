@@ -13,7 +13,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -27,6 +29,7 @@ import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.search.*
 import com.yandex.mapkit.search.Session.SearchListener
 import com.yandex.mapkit.user_location.UserLocationLayer
+import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -58,13 +61,43 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
         if (args.id != -1){
             viewModel.locationDetail(args.id)
+
+        }else{
+            getLastKnownLocation { location ->
+                if (location != null) {
+                    val userLocation = Point(location.latitude, location.longitude)
+                    binding.mapView.map.move(
+                        CameraPosition(userLocation, 18.0f, 0.0f, 0.0f),
+                        Animation(Animation.Type.SMOOTH, 1f),
+                        null
+                    )
+                } else {
+                    Toast.makeText(requireContext(), "Joylashuv aniqlanmadi", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.locationDetail.collectLatest {
-                if (it.id != -1){
-                    binding.edtYourLoc.text = it.address
-                    binding.edtLocName.setText(it.custom_name)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.locationDetail.collectLatest { location ->
+                    view?.let {
+                        binding.edtYourLoc.text = location.address
+                        binding.edtLocName.setText(location.custom_name)
+
+                        if (location.coordinates.coordinates.size == 2) {
+                            val lat = location.coordinates.coordinates[1]
+                            val lon = location.coordinates.coordinates[0]
+                            val userLocation = Point(lat, lon)
+
+                            binding.mapView.map.move(
+                                CameraPosition(userLocation, 18.0f, 0.0f, 0.0f),
+                                Animation(Animation.Type.SMOOTH, 1f),
+                                null
+                            )
+                        } else {
+                            Toast.makeText(requireContext(), "Joylashuv ma'lumotlari noto‘g‘ri", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
@@ -92,14 +125,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
             isHeadingEnabled = true
         }
 
-        // Xarita boshlang‘ich joylashuvi
-        val startPosition = Point(41.2995, 69.2401)
-        mapView.map.move(
-            CameraPosition(startPosition, 18.0f, 0.0f, 0.0f),
-            Animation(Animation.Type.SMOOTH, 1f),
-            null
-        )
-
         // Kamera harakatlanishini kuzatish
         mapView.map.addCameraListener(this)
 
@@ -119,7 +144,9 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                     address = binding.edtYourLoc.text.toString(),
                     active = true
                 )
+
                 viewModel.postLocationIdActive(args.id, request)
+
             }else{
                 val markerBottomPoint = getMarkerBottomPointCoordinates()
                 val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
@@ -136,14 +163,18 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
         // API javobni ko‘rsatish
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.addLocationResponse.collectLatest {
-                viewModel.openLocationScreen()
-            }
-        }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.addLocationResponse.collectLatest {
+                        viewModel.openLocationScreen()
+                    }
+                }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.postLocationActiveResponse.collectLatest {
-                viewModel.openLocationScreen()
+                launch {
+                    viewModel.postLocationActiveResponse.collectLatest {
+                        viewModel.openLocationScreen()
+                    }
+                }
             }
         }
 
@@ -224,19 +255,28 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     }
 
     private fun getMarkerBottomPointCoordinates(): Point? {
-        val markerView = binding.marker
+        val markerView = binding.markerViewww
         val mapView = binding.mapView
 
-        // Markerning pastki markaz nuqtasi (center-bottom)
-        val markerBottomCenterX = (markerView.x + markerView.width / 2).toDouble()
-        val markerBottomCenterY = (markerView.y + markerView.height / 2 + markerView.height / 2).toDouble()
+        // 1. View'ning ekrandagi joylashuvini olish
+        val location = IntArray(2)
+        markerView.getLocationOnScreen(location)
+        val x = location[0] + markerView.width / 2
+        val y = location[1] + markerView.height / 2
 
-        val screenPoint = ScreenPoint(markerBottomCenterX.toFloat(), markerBottomCenterY.toFloat())
+        // 2. MapView'ning joylashuvini aniqlash (mapWindow uchun)
+        val mapLocation = IntArray(2)
+        mapView.getLocationOnScreen(mapLocation)
 
+        // 3. MapView nisbiy pozitsiyasiga o'tkazish
+        val relativeX = x - mapLocation[0]
+        val relativeY = y - mapLocation[1]
+
+        // 4. Ekran koordinatasini world koordinatasiga o‘tkazish
+        val screenPoint = ScreenPoint(relativeX.toFloat(), relativeY.toFloat())
         return mapView.mapWindow.screenToWorld(screenPoint)
+
     }
-
-
 
 
     private fun getLastKnownLocation(callback: (android.location.Location?) -> Unit) {
@@ -284,7 +324,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         }
     }
 
-
     // 📍 Kamera harakatlanganda marker o'zgarishi
     override fun onCameraPositionChanged(
         map: Map,
@@ -300,8 +339,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
             getAddressFromCoordinates(markerPoint!!)
         }
     }
-
-
 
     private fun raiseMarker() {
         binding.marker.animate()
@@ -328,10 +365,14 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
             SearchOptions().apply { resultPageSize = 1 }, // **Faqat eng yaqin natijani olish**
             object : SearchListener {
                 override fun onSearchResponse(response: Response) {
+                    if (!isAdded || view == null || viewLifecycleOwner.lifecycle.currentState != Lifecycle.State.RESUMED) {
+                        return
+                    }
+
                     val firstResult = response.collection.children.firstOrNull()?.obj
                     val address = firstResult?.metadataContainer
                         ?.getItem(ToponymObjectMetadata::class.java)
-                        ?.address?.formattedAddress ?: "Noma’lum manzil" // **To'liq manzil formati**
+                        ?.address?.formattedAddress ?: "Noma’lum manzil"
 
                     binding.edtYourLoc.setText(address)
 
@@ -343,9 +384,10 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                     ).show()
                 }
 
-                override fun onSearchError(error: com.yandex.runtime.Error) {
-                    binding.edtYourLoc.setText("Noma’lum manzil")
+                override fun onSearchError(p0: Error) {
+
                 }
+
 
             }
         )

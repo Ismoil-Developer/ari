@@ -281,6 +281,9 @@
         <action
             android:id="@+id/action_orderDetailScreen_to_orderCancelScreen"
             app:destination="@id/orderCancelScreen" />
+        <action
+            android:id="@+id/action_orderDetailScreen_to_searchDeliveryScreen"
+            app:destination="@id/searchDeliveryScreen" />
     </fragment>
     <fragment
         android:id="@+id/orderRetryUpdateScreen"
@@ -296,6 +299,9 @@
         <action
             android:id="@+id/action_orderRetryUpdateScreen_to_orderCancelScreen"
             app:destination="@id/orderCancelScreen" />
+        <action
+            android:id="@+id/action_orderRetryUpdateScreen_to_searchDeliveryScreen"
+            app:destination="@id/searchDeliveryScreen" />
     </fragment>
     <fragment
         android:id="@+id/orderCancelScreen"

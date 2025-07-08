@@ -6,5 +6,7 @@ interface OrderRetryUpdateScreenDirection {
 
     suspend fun openCancelScreenDirection(id: Int)
 
+    suspend fun openSearchDeliveryScreen()
+
 
 }

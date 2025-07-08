@@ -26,6 +26,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -43,8 +44,6 @@ import uz.mrx.arigo.databinding.ScreenMapSearchBinding
 import uz.mrx.arigo.presentation.adapter.SearchMapListAdapter
 import uz.mrx.arigo.presentation.ui.viewmodel.shop.SearchMapScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.shop.impl.SearchMapScreenViewModelImpl
-import com.bumptech.glide.request.transition.Transition
-import com.google.android.gms.maps.model.LatLng
 
 @AndroidEntryPoint
 class SearchMapScreen : Fragment(R.layout.screen_map_search) {
@@ -54,13 +53,17 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
     private lateinit var mapView: MapView
     private lateinit var mapObjects: MapObjectCollection
     private var userLocationLayer: UserLocationLayer? = null
-    private val args:SearchMapScreenArgs by navArgs()
+    private val args: SearchMapScreenArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (!isGpsEnabled()) {
-            Toast.makeText(requireContext(), "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         binding.icBack.setOnClickListener {
@@ -68,7 +71,11 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
         }
 
         if (!isLocationPermissionGranted()) {
-            Toast.makeText(requireContext(), "🚫 GPS permission berilmagan! Iltimos, ruxsat bering!", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "🚫 GPS permission berilmagan! Iltimos, ruxsat bering!",
+                Toast.LENGTH_LONG
+            ).show()
             requestLocationPermission()
         }
 
@@ -106,7 +113,7 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
             }
         })
 
-        val searchMapListAdapter = SearchMapListAdapter{
+        val searchMapListAdapter = SearchMapListAdapter {
             viewModel.openShopDetail(it.id)
         }
 
@@ -135,7 +142,8 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
         if (userLocation != null) {
             moveToLocation(userLocation)
         } else {
-            Toast.makeText(requireContext(), "GPS joylashuv aniqlanmagan!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "GPS joylashuv aniqlanmagan!", Toast.LENGTH_SHORT)
+                .show()
         }
 
         binding.plus.setOnClickListener {
@@ -157,55 +165,55 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
         }
 
 
-          binding.gps.setOnClickListener {
-                val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
-                    priority = com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
-                }
-                val builder = com.google.android.gms.location.LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest)
+        binding.gps.setOnClickListener {
+            val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
+                priority = com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
+            }
+            val builder = com.google.android.gms.location.LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
 
-                val settingsClient =
-                    com.google.android.gms.location.LocationServices.getSettingsClient(requireActivity())
-                val task = settingsClient.checkLocationSettings(builder.build())
+            val settingsClient =
+                com.google.android.gms.location.LocationServices.getSettingsClient(requireActivity())
+            val task = settingsClient.checkLocationSettings(builder.build())
 
-                task.addOnSuccessListener {
-                    // GPS yoqilgan, joylashuvni olish
-                    getLastKnownLocation { location ->
-                        if (location != null) {
-                            val userLocation = Point(location.latitude, location.longitude)
-                            moveToLocation(userLocation)
+            task.addOnSuccessListener {
+                // GPS yoqilgan, joylashuvni olish
+                getLastKnownLocation { location ->
+                    if (location != null) {
+                        val userLocation = Point(location.latitude, location.longitude)
+                        moveToLocation(userLocation)
 
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Joylashuvni olish uchun ruhsat bering",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-                }
-
-                task.addOnFailureListener { exception ->
-                    if (exception is com.google.android.gms.common.api.ResolvableApiException) {
-                        // GPSni yoqish oynasini ko'rsatish
-                        try {
-                            exception.startResolutionForResult(requireActivity(), 1001)
-                        } catch (sendEx: IntentSender.SendIntentException) {
-                            Toast.makeText(
-                                requireContext(),
-                                "GPSni yoqish muammosi yuz berdi",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "GPSni yoqish talab qilinadi",
-                            Toast.LENGTH_SHORT
+                            "Joylashuvni olish uchun ruhsat bering",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 }
             }
+
+            task.addOnFailureListener { exception ->
+                if (exception is com.google.android.gms.common.api.ResolvableApiException) {
+                    // GPSni yoqish oynasini ko'rsatish
+                    try {
+                        exception.startResolutionForResult(requireActivity(), 1001)
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        Toast.makeText(
+                            requireContext(),
+                            "GPSni yoqish muammosi yuz berdi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "GPSni yoqish talab qilinadi",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
 
 //        // 📍 GPS tugmasi bosilganda foydalanuvchi joylashuviga o'tish
 //        binding.gps.setOnClickListener {
@@ -237,7 +245,8 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
                 val point = Point(coordinates[1], coordinates[0])
 
                 // Markerning orqa fonini bitmapga aylantirish
-                val markerBackground = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_marker_search)
+                val markerBackground =
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_marker_search)
                 val backgroundBitmap = markerBackground?.toBitmap()
 
                 // Do‘kon rasmini yuklab olib markerga qo‘yish
@@ -246,7 +255,10 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
                     .load(shop.image)
                     .apply(RequestOptions.circleCropTransform())
                     .into(object : CustomTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
                             // Marker ustiga shop.image ni joylash
                             val finalMarker = overlayImages(backgroundBitmap, resource)
 
@@ -353,7 +365,6 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
     }
 
 
-
     override fun onStart() {
         super.onStart()
         binding.mapView.onStart()
@@ -365,4 +376,5 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
         binding.mapView.onStop()
         MapKitFactory.getInstance().onStop()
     }
+
 }

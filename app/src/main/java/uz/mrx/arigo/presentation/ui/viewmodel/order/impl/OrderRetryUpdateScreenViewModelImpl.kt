@@ -64,6 +64,10 @@ class OrderRetryUpdateScreenViewModelImpl @Inject constructor(private val orderU
         }
     }
 
-
+    override fun openSearchDeliveryScreen() {
+        viewModelScope.launch {
+            direction.openSearchDeliveryScreen()
+        }
+    }
 
 }

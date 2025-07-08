@@ -55,6 +55,15 @@
         android:src="@drawable/ic_pin"
         />
 
+    <View
+        android:id="@+id/markerViewww"
+        android:layout_width="3dp"
+        android:layout_height="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/marker"
+        app:layout_constraintStart_toStartOf="@id/mapView"
+        app:layout_constraintEnd_toEndOf="@id/mapView"
+        />
+
     <ImageView
         android:id="@+id/plus"
         android:layout_width="48dp"

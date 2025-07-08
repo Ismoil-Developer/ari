@@ -3,23 +3,21 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.order
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.transition.Visibility
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
+import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.databinding.ScreenOrderDetailBinding
 import uz.mrx.arigo.presentation.ui.viewmodel.order.OrderDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.OrderDetailScreenViewModelImpl
-import uz.mrx.arigo.utils.toast
 
 @AndroidEntryPoint
 class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
@@ -46,10 +44,28 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
             }
         }
 
-
-
         binding.btnContinue.setOnClickListener {
 
+            val orderItems = binding.edtOrder.text.toString()
+            val houseNumber = binding.houseNumber.text.toString()
+            val appartmentNumer = binding.appartmentNumber.text.toString()
+            val damophone = binding.damophone.text.toString()
+            val floor = binding.floor.text.toString().toIntOrNull() ?: 0
+            val otherMessage = binding.otherMessage.text.toString()
+
+            val request = UpdateOrderRetryRequest(orderItems, houseNumber, appartmentNumer, floor, damophone, otherMessage)
+
+            viewModel.updateOrderRetry(args.id, request)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.updateOrderRetryResponse.collectLatest {
+
+                    viewModel.openSearchDeliveryScreen()
+
+                    Log.d("UUUUUUU", "onViewCreated: ${it.status}")
+
+                }
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

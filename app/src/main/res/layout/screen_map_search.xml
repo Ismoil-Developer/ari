@@ -145,7 +145,7 @@
             android:layout_height="wrap_content"
             android:minHeight="4dp"
             android:maxHeight="4dp"
-            android:max="50"
+            android:max="10"
             android:progress="10"
             android:progressDrawable="@drawable/seekbar_progress"
             android:thumb="@drawable/seekbar_thumb"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/mainBgColor"
     android:fitsSystemWindows="true"
     android:paddingTop="16dp">
@@ -17,8 +17,7 @@
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/text_color_bold"
-        />
+        app:tint="@color/text_color_bold" />
 
     <TextView
         android:id="@+id/title"
@@ -40,15 +39,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        android:orientation="vertical"
-        tools:listitem="@layout/item_cancel_order"
-        android:layout_marginBottom="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        tools:listitem="@layout/item_cancel_order" />
 
     <EditText
         android:id="@+id/editText"
@@ -65,28 +63,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginStart="15dp"
-        android:layout_marginBottom="24dp"
         android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/back_style_button"
         android:fontFamily="@font/font_family_medium"
         android:text="@string/davom_etish"
         android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-
-
-
-
-
-
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
