@@ -15,7 +15,7 @@
     <color name="text_color_medium">#B8B8B8</color>
     <color name="btnTextColor">#FFFFFF</color>
     <color name="line_back">#E2E4E7</color>
-    <color name="back_edt_google">#F2F4F7</color>
+    <color name="back_edt_google">#EFF1F3</color>
     <color name="bottom_nav_color">#FF9431</color>
     <color name="bottom_nav_color_unselected">#999999</color>
     <color name="back_search">#EFF1F3</color>

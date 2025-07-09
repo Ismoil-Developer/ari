@@ -50,17 +50,19 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
             viewModel.featuresDetailResponse.collectLatest{
                 binding.textRestaurant.text = it.title
                 Log.d("YYYYYY", "onViewCreated: ${it.image}")
-                if (it.image.isNotEmpty()){
-                    Glide.with(requireContext()).load(it.image).into(binding.viewPagerRes)
+                if (!it.image.isNullOrEmpty()) {
+                    Glide.with(requireContext())
+                        .load(it.image)
+                        .into(binding.viewPagerRes)
                     Log.d("IIIII", "image: ${it.image}")
                 }
+
             }
         }
 
         binding.viewPager.adapter = MagazineViewPager(requireActivity(), args.id)
 
         binding.viewPager.isUserInputEnabled = false
-
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             val tabView = layoutInflater.inflate(R.layout.item_custom_tab, null)

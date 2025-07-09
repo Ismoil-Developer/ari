@@ -97,8 +97,10 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
                 _orderPrice.tryEmit(message)
             }
 
+            is WebSocketGooEvent.DurationUpdate -> {
+                Log.d("GooWebSocket", "DuractionMinute: ${message.duration_min}")
 
-
+            }
 
         }
 
@@ -119,6 +121,12 @@ class OrderDeliveryScreenViewModelImpl @Inject constructor(private val direction
     override fun orderCancelScreen(id: Int) {
         viewModelScope.launch {
             direction.openOrderCancelScreen(id)
+        }
+    }
+
+    override fun openMainScreen() {
+        viewModelScope.launch {
+            direction.openMainScreen()
         }
     }
 

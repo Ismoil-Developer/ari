@@ -23,9 +23,9 @@
     <string name="sizda_hozir_buyurtmalar_mavjud_emas">Sizda hozir buyurtmalar mavjud emas</string>
     <string name="sizning_ro_yhatingiz_bo_sh">Sizning ro\'yhatingiz bo\'sh</string>
     <string name="qidiruv">Qidiruv...</string>
-    <string name="dokonlar">Dokonlar</string>
+    <string name="dokonlar">Do`konlar</string>
     <string name="hammasi">Hammasi</string>
-    <string name="dorihona">Dorihona</string>
+    <string name="dorihona">Dorixona</string>
     <string name="so_rovnoma">So’rovnoma</string>
     <string name="boshqa_magazinlardan_harid_qilish">Boshqa magazinlardan harid qilish</string>
     <string name="ro_yhat">Ro\'yhat</string>
@@ -83,7 +83,7 @@
     <string name="raqamingiz">Raqamingiz</string>
     <string name="sizga_eng_yaqin_kuryer_nqidirilmoqda">Sizga eng yaqin kuryer \nqidirilmoqda</string>
     <string name="biz_ommaviy_hamkorlik_asosida_ishlaymiz_buyurtma_berganingizda_tizim_sizga_eng_mos_kuryerni_avtomatik_tanlaydi">Biz ommaviy hamkorlik asosida ishlaymiz. Buyurtma berganingizda, tizim sizga eng mos kuryerni avtomatik tanlaydi</string>
-    <string name="dokon">Dokon</string>
+    <string name="dokon">Do`kon</string>
     <string name="tez">Tez</string>
     <string name="yetkazish_manzili">Yetkazish manzili</string>
 </resources>

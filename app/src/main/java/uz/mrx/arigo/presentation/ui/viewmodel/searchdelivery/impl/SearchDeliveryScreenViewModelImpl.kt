@@ -86,6 +86,13 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
 
                 Log.w("WebSocket", "Location update: ${message.timestamp}")
             }
+
+
+            is WebSocketGooEvent.DurationUpdate -> {
+                Log.d("GooWebSocket", "DuractionMinute: ${message.duration_min}")
+
+            }
+
         }
 
     }

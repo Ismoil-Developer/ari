@@ -239,6 +239,9 @@
         <action
             android:id="@+id/action_orderDeliveryScreen_to_orderCancelScreen"
             app:destination="@id/orderCancelScreen" />
+        <action
+            android:id="@+id/action_orderDeliveryScreen_to_screenMain"
+            app:destination="@id/screenMain" />
     </fragment>
 
     <fragment

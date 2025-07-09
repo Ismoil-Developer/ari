@@ -7,15 +7,13 @@ import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 
 interface OrderDeliveryScreenViewModel {
 
-
-
     fun openFindDeliveryScreen()
 
     val activeOrderResponse: Flow<ActiveOrderResponse>
 
     fun getActive(id:Int)
-    val directionUpdateFlow: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate>
 
+    val directionUpdateFlow: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate>
 
     fun openOrderUpdateScreen()
 
@@ -26,5 +24,7 @@ interface OrderDeliveryScreenViewModel {
     fun orderCancelScreen(id: Int)
 
     fun openChatScreen()
+
+    fun openMainScreen()
 
 }

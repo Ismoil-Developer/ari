@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -73,6 +74,12 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.openMainScreen()
+            }
+        })
+
         mapView = binding.mapView
 
         val token = sharedPreference.token
@@ -94,8 +101,6 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         }
 
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter()
-
-
 
         viewModel.getActive(args.id)
 
@@ -146,6 +151,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 addIcons()
 
             }
+
         }
 
         binding.gps.setOnClickListener {
@@ -184,7 +190,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
 
         binding.icBack.setOnClickListener {
-
+            viewModel.openMainScreen()
         }
 
         binding.message.setOnClickListener {
@@ -293,6 +299,14 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
                         Log.d("LocationUpdate", "New courier location: ${it.latitude}, ${it.longitude}")
                         toast("${it.latitude} ${it.longitude}")
+
+                    }
+                }
+
+                launch {
+                    clientWebSocketClient.durationUpdate.collectLatest {
+
+                        binding.orderTime.text = it.duration_min.toString()
 
                     }
                 }

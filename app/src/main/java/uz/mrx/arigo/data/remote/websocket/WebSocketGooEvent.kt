@@ -47,9 +47,15 @@ sealed class WebSocketGooEvent {
         val total_price: String
     ) : WebSocketGooEvent()
 
+    data class DurationUpdate(
+        val order_id: String,
+        val duration_min: Double,
+        val timestamp: String
+    ) : WebSocketGooEvent()
 
     data class UnknownMessage(
         val raw_message: String
     ) : WebSocketGooEvent()
+
 
 }

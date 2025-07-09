@@ -38,7 +38,7 @@
                 android:maxLength="20"
                 android:text=""
                 android:textColor="@color/text_color_bold"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/icLocation"
                 app:layout_constraintStart_toEndOf="@id/icLocation"
                 app:layout_constraintTop_toTopOf="@id/icLocation" />
@@ -98,16 +98,18 @@
                                 android:fontFamily="@font/font_family"
                                 android:text="@string/dorihona"
                                 android:textColor="@color/text_color_bold"
-                                android:textSize="16sp"
+                                android:textSize="15sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
-                                android:layout_width="match_parent"
+                                android:layout_width="170dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginEnd="-100dp"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_apteka"
-                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginStart="80dp"
+                                android:layout_marginTop="10dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,16 +144,18 @@
                                 android:fontFamily="@font/font_family"
                                 android:text="@string/dokon"
                                 android:textColor="@color/text_color_bold"
-                                android:textSize="16sp"
+                                android:textSize="15sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginEnd="-30dp"
                                 android:scaleType="centerCrop"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:paddingTop="20dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginEnd="-20dp"
                                 android:src="@drawable/ic_markett"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -192,7 +196,7 @@
                                 android:fontFamily="@font/font_family"
                                 android:text="@string/buyurtma"
                                 android:textColor="@color/text_color_bold"
-                                android:textSize="16sp"
+                                android:textSize="15sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -206,7 +210,7 @@
                                 android:paddingEnd="8dp"
                                 android:text="@string/tez"
                                 android:textColor="#FFFFFF"
-                                android:textSize="16sp"
+                                android:textSize="13sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/orderTxt" />
 
@@ -250,6 +254,7 @@
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/font_family"
                         android:text="@string/yetkazish_manzili"
+                        android:textSize="14sp"
                         android:textColor="@color/text_color_bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/yellowMoto"
@@ -300,7 +305,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/font_family"
-                android:text="@string/dokonlar"
+                android:text="@string/dokon"
                 android:textColor="@color/text_color_bold"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"

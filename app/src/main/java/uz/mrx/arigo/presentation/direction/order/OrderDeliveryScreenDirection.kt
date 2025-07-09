@@ -12,5 +12,6 @@ interface OrderDeliveryScreenDirection {
 
     suspend fun openOrderCancelScreen(id: Int)
 
+    suspend fun openMainScreen()
 
 }

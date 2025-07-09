@@ -36,11 +36,17 @@ class ClientWebSocketClient @Inject constructor() {
     private val _orderPrice = MutableSharedFlow<WebSocketGooEvent.OrderPrice>(replay = 1)
     val orderPrice: SharedFlow<WebSocketGooEvent.OrderPrice> = _orderPrice
 
+    private val _durationUpdate = MutableSharedFlow<WebSocketGooEvent.DurationUpdate>(replay = 1)
+    val durationUpdate: SharedFlow<WebSocketGooEvent.DurationUpdate> = _durationUpdate
+
+
+
 
     private var currentUrl: String? = null
     private var currentToken: String? = null
 
     fun connect(url: String, token: String) {
+
         if (webSocket != null) return
 
         currentUrl = url
@@ -59,6 +65,7 @@ class ClientWebSocketClient @Inject constructor() {
             override fun onMessage(webSocket: WebSocket, text: String) {
                 parseMessage(text).onSuccess { event ->
                     when (event) {
+
                         is WebSocketGooEvent.CourierNotFound -> {
                             Log.d("GooWebSocket", "CourierNotFound: ${event.id}")
                             _courierNotFound.tryEmit(event)
@@ -89,6 +96,11 @@ class ClientWebSocketClient @Inject constructor() {
                             _orderPrice.tryEmit(event)
                         }
 
+                        is WebSocketGooEvent.DurationUpdate -> {
+                            Log.d("GooWebSocket", "DurationUpdate: ${event.order_id}, ${event.duration_min}")
+                            _durationUpdate.tryEmit(event)
+                        }
+
                         else -> {
                             Log.d("GooWebSocket", "Unknown message: $event")
                         }
@@ -110,6 +122,7 @@ class ClientWebSocketClient @Inject constructor() {
                 Log.d("GooWebSocket", "WebSocket closed: $reason")
                 this@ClientWebSocketClient.webSocket = null
             }
+
         })
     }
 
@@ -199,7 +212,14 @@ class ClientWebSocketClient @Inject constructor() {
                     ResultData.success(event)
                 }
 
-
+                "duration_update" -> {
+                    val event = WebSocketGooEvent.DurationUpdate(
+                        order_id = json.getString("order_id"),
+                        duration_min = json.getDouble("duration_min"),
+                        timestamp = json.getString("timestamp")
+                    )
+                    ResultData.success(event)
+                }
 
                 else -> {
                     ResultData.success(WebSocketGooEvent.UnknownMessage(text))
