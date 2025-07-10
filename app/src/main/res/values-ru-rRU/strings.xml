@@ -87,5 +87,6 @@
     <string name="dokon">Магазин</string>
     <string name="tez">Быстрый</string>
     <string name="yetkazish_manzili">Адрес доставки</string>
+    <string name="ilovadan_chiqish_uchun_yana_bir_marta_orqaga_tugmasini_bosing">Нажмите «Назад» еще раз, чтобы выйти из приложения</string>
 
 </resources>

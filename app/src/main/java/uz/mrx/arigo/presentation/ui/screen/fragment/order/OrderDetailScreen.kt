@@ -75,12 +75,13 @@ class OrderDetailScreen:Fragment(R.layout.screen_order_detail) {
                 binding.workLocationTxt.text = it.user.active_location.address
                 binding.workPhoneTxt.text = it.user.phone_number
                 binding.edtOrder.text = it.items
-                binding.floor.text = it.floor
-                binding.damophone.text = it.intercom_code
-                binding.appartmentNumber.text = it.apartment_number
-                binding.houseNumber.text = it.house_number
                 binding.otherMessage.text = it.additional_note
                 binding.textRestaurant.text = it.shop.title
+
+                binding.floor.text = "Qavat: "+it.floor.toString()
+                binding.damophone.text = "Damofon: "+it.intercom_code
+                binding.appartmentNumber.text = "Podyezd: " + it.apartment_number
+                binding.houseNumber.text = "Uy raqami: "+it.house_number
 
                 Glide.with(requireContext()).load(it.shop.image).into(binding.viewPagerRes)
 

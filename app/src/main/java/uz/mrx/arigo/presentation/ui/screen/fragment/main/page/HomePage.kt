@@ -37,6 +37,7 @@ import com.yandex.runtime.network.RemoteError
 import android.location.Location
 import android.location.LocationManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
 import com.yandex.mapkit.MapKitFactory
@@ -70,8 +71,32 @@ class HomePage : Fragment(R.layout.page_home) {
     lateinit var sharedPreference: MySharedPreference
     lateinit var advertisingAdapter: AdvertisingAdapter
 
+    private var doubleBackToExitPressedOnce = false
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (doubleBackToExitPressedOnce) {
+                        requireActivity().finish()
+                    } else {
+                        doubleBackToExitPressedOnce = true
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.ilovadan_chiqish_uchun_yana_bir_marta_orqaga_tugmasini_bosing),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            doubleBackToExitPressedOnce = false
+                        }, 2000) // 2 second delay
+                    }
+                }
+            })
 
         binding.orderContainer.visibility = View.GONE
 
