@@ -2,7 +2,10 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -39,7 +42,12 @@ import android.location.LocationManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.Priority
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
@@ -107,8 +115,43 @@ class HomePage : Fragment(R.layout.page_home) {
         Log.d("AAAAAA", "onViewCreated: ${sharedPreference.token}")
 
         if (!isGpsEnabled()) {
-            Toast.makeText(requireContext(), "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!", Toast.LENGTH_LONG).show()
+            val locationRequest = LocationRequest.create().apply {
+                priority = Priority.PRIORITY_HIGH_ACCURACY
+            }
+
+            val builder = LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+                .setAlwaysShow(true) // muhim: dialog har doim ko'rsatiladi
+
+            val settingsClient = LocationServices.getSettingsClient(requireActivity())
+            val task = settingsClient.checkLocationSettings(builder.build())
+
+            task.addOnSuccessListener {
+                // GPS allaqachon yoqilgan
+            }
+
+            task.addOnFailureListener { exception ->
+                if (exception is ResolvableApiException) {
+                    try {
+                        exception.startResolutionForResult(requireActivity(), 1001)
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        Toast.makeText(
+                            requireContext(),
+                            "GPSni yoqish muammosi yuz berdi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
         }
+
 
         if (!isLocationPermissionGranted()) {
             Toast.makeText(requireContext(), "🚫 GPS permission berilmagan! Iltimos, ruxsat bering!", Toast.LENGTH_LONG).show()
@@ -245,32 +288,69 @@ class HomePage : Fragment(R.layout.page_home) {
 
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getUserLocationAndSend() {
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location?.let {
-                val latitude = it.latitude
-                val longitude = it.longitude
-                val point = Point(latitude, longitude)
-
-                val coordinatesStr = "POINT($longitude $latitude)"
-
-                getAddressFromCoordinates(point) { address ->
-                    val request = LocationCreateRequest(
-                        custom_name = "",
-                        coordinates = coordinatesStr,
-                        address = address,
-                        active = true
-                    )
-                    if (count != -1){
-                        viewModel.addLocation(request)
-                    }
-                }
-            } ?: run {
-                Toast.makeText(requireContext(), "Joylashuvni aniqlab bo‘lmadi", Toast.LENGTH_SHORT).show()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1001) {
+            if (resultCode == Activity.RESULT_OK) {
+                // Foydalanuvchi GPSni yoqdi
+                getUserLocationAndSend()
+            } else {
+                Toast.makeText(requireContext(), "GPS yoqilmadi!", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+
+    private fun getUserLocationAndSend() {
+        val context = requireContext()
+
+        // 1. Location ruxsatini tekshiramiz
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Agar ruxsat berilmagan bo‘lsa, ruxsat so‘rash
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1000
+            )
+            return
+        }
+
+        // 2. Try-catch bilan SecurityExceptiondan himoyalanamiz
+        try {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+                        val point = Point(latitude, longitude)
+                        val coordinatesStr = "POINT($longitude $latitude)"
+
+                        getAddressFromCoordinates(point) { address ->
+                            val request = LocationCreateRequest(
+                                custom_name = "",
+                                coordinates = coordinatesStr,
+                                address = address,
+                                active = true
+                            )
+                            if (count != -1) {
+                                viewModel.addLocation(request)
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "Joylashuvni aniqlab bo‘lmadi", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Joylashuvni olishda xatolik", Toast.LENGTH_SHORT).show()
+                }
+        } catch (e: SecurityException) {
+            Toast.makeText(context, "Joylashuv uchun ruxsat yo‘q", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
     private fun getAddressFromCoordinates(point: Point, callback: (String) -> Unit) {
         searchSession?.cancel()
@@ -303,8 +383,7 @@ class HomePage : Fragment(R.layout.page_home) {
 
 
     private fun isGpsEnabled(): Boolean {
-        val locationManager =
-            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 

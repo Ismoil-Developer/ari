@@ -199,9 +199,11 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
         // 📍 GPS tugmasi bosilganda foydalanuvchi joylashuviga o'tish
         binding.gps.setOnClickListener {
+
             val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
                 priority = com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
             }
+
             val builder = com.google.android.gms.location.LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
 
