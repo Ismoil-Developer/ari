@@ -44,7 +44,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
@@ -194,6 +196,7 @@ class HomePage : Fragment(R.layout.page_home) {
                     val address = it.address
                     binding.locationTxt.text = address
                     count = -1
+                    Log.d("AAAAAAAAAAAA", "onViewCreated: $count")
                 }else{
                     count = 1
                 }
@@ -304,51 +307,68 @@ class HomePage : Fragment(R.layout.page_home) {
     private fun getUserLocationAndSend() {
         val context = requireContext()
 
-        // 1. Location ruxsatini tekshiramiz
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
+        if (
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Agar ruxsat berilmagan bo‘lsa, ruxsat so‘rash
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
                 1000
             )
             return
         }
 
-        // 2. Try-catch bilan SecurityExceptiondan himoyalanamiz
-        try {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    if (location != null) {
-                        val latitude = location.latitude
-                        val longitude = location.longitude
-                        val point = Point(latitude, longitude)
-                        val coordinatesStr = "POINT($longitude $latitude)"
+        val locationRequest = LocationRequest.create().apply {
+            priority = Priority.PRIORITY_HIGH_ACCURACY
+            interval = 1000 // so‘rovlar oraliq vaqti
+            fastestInterval = 500
+            numUpdates = 1 // faqat 1 marotaba joylashuvni olamiz
+        }
 
-                        getAddressFromCoordinates(point) { address ->
-                            val request = LocationCreateRequest(
-                                custom_name = "",
-                                coordinates = coordinatesStr,
-                                address = address,
-                                active = true
-                            )
-                            if (count != -1) {
-                                viewModel.addLocation(request)
-                            }
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(result: LocationResult) {
+                val location = result.lastLocation
+                if (location != null) {
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+                    val point = Point(latitude, longitude)
+                    val coordinatesStr = "POINT($longitude $latitude)"
+
+                    getAddressFromCoordinates(point) { address ->
+                        val request = LocationCreateRequest(
+                            custom_name = "",
+                            coordinates = coordinatesStr,
+                            address = address,
+                            active = true
+                        )
+                        if (count != -1) {
+                            viewModel.addLocation(request)
                         }
-                    } else {
-                        Toast.makeText(context, "Joylashuvni aniqlab bo‘lmadi", Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    Toast.makeText(context, "Joylashuvni aniqlab bo‘lmadi", Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener {
-                    Toast.makeText(context, "Joylashuvni olishda xatolik", Toast.LENGTH_SHORT).show()
-                }
+
+                // Endi locationCallback kerak emas — to‘xtatamiz
+                fusedLocationClient.removeLocationUpdates(this)
+            }
+        }
+
+        try {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
         } catch (e: SecurityException) {
             Toast.makeText(context, "Joylashuv uchun ruxsat yo‘q", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
 
@@ -386,6 +406,22 @@ class HomePage : Fragment(R.layout.page_home) {
         val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1000) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                getUserLocationAndSend()
+            } else {
+                Toast.makeText(requireContext(), "📍 Lokatsiya uchun ruxsat kerak", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun isLocationPermissionGranted(): Boolean {
         return ActivityCompat.checkSelfPermission(

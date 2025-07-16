@@ -1,8 +1,10 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.order
 
 import android.content.Intent
+import android.content.IntentSender
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -155,9 +158,11 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         }
 
         binding.gps.setOnClickListener {
+
             val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
                 priority = com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
             }
+
             val builder = com.google.android.gms.location.LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
 
@@ -171,7 +176,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                     if (location != null) {
                         val userLocation = Point(location.latitude, location.longitude)
                         mapView.map.move(
-                            CameraPosition(userLocation, 15.0f, 0.0f, 0.0f),
+                            CameraPosition(userLocation, 18.0f, 0.0f, 0.0f),
                             Animation(Animation.Type.SMOOTH, 1f),
                             null
                         )
@@ -185,7 +190,29 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                     }
                 }
             }
+
+            task.addOnFailureListener { exception ->
+                if (exception is com.google.android.gms.common.api.ResolvableApiException) {
+                    // GPSni yoqish oynasini ko'rsatish
+                    try {
+                        exception.startResolutionForResult(requireActivity(), 1001)
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        Toast.makeText(
+                            requireContext(),
+                            "GPSni yoqish muammosi yuz berdi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "GPSni yoqish talab qilinadi",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
+
 
 
 
@@ -205,26 +232,42 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
     }
 
+    private fun vectorToBitmap(@DrawableRes drawableId: Int, width: Int, height: Int): Bitmap? {
+        val drawable = ContextCompat.getDrawable(requireContext(), drawableId) ?: return null
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
+
 
     private fun addIcons() {
+
         // Kuryer
-        val startBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_kuryer)
-        val resizedStartBitmap = Bitmap.createScaledBitmap(startBitmap, 50, 50, false)
-        courierPlacemark = mapView.map.mapObjects.addPlacemark(startPoint)
-        courierPlacemark?.setIcon(ImageProvider.fromBitmap(resizedStartBitmap))
+        val startBitmap = vectorToBitmap(R.drawable.ic_bicycle_delivery, 50, 50)
+        startBitmap?.let {
+            courierPlacemark = mapView.map.mapObjects.addPlacemark(startPoint)
+            courierPlacemark?.setIcon(ImageProvider.fromBitmap(it))
+        }
 
         // Do‘kon
-        val shopBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery)
-        val resizedShopBitmap = Bitmap.createScaledBitmap(shopBitmap, 90, 90, false)
-        val shopPlacemark = mapView.map.mapObjects.addPlacemark(shopPoint)
-        shopPlacemark.setIcon(ImageProvider.fromBitmap(resizedShopBitmap))
+        val shopBitmap = vectorToBitmap(R.drawable.ic_shop_delivery, 50, 50)
+        shopBitmap?.let {
+            val shopPlacemark = mapView.map.mapObjects.addPlacemark(shopPoint)
+            shopPlacemark.setIcon(ImageProvider.fromBitmap(it))
+        }
 
         // Zakazchik
-        val endBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_zakaz_delivery)
-        val resizedEndBitmap = Bitmap.createScaledBitmap(endBitmap, 50, 50, false)
-        val endPlacemark = mapView.map.mapObjects.addPlacemark(endPoint)
-        endPlacemark.setIcon(ImageProvider.fromBitmap(resizedEndBitmap))
+        val endBitmap = vectorToBitmap(R.drawable.user_pin, 50, 50)
+        endBitmap?.let {
+            val endPlacemark = mapView.map.mapObjects.addPlacemark(endPoint)
+            endPlacemark.setIcon(ImageProvider.fromBitmap(it))
+        }
     }
+
+
 
     private fun getLastKnownLocation(callback: (android.location.Location?) -> Unit) {
         val fusedLocationClient =
