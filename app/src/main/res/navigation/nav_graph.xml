@@ -146,6 +146,20 @@
             android:name="id"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_addLocationScreen_to_orderUpdateScreen"
+            app:destination="@id/orderUpdateScreen" />
+        <action
+            android:id="@+id/action_addLocationScreen_to_orderRetryUpdateScreen"
+            app:destination="@id/orderRetryUpdateScreen" />
+        <argument
+            android:name="location"
+            app:argType="string"
+            android:defaultValue="location" />
+        <argument
+            android:name="orderId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/searchMapScreen"
@@ -201,6 +215,10 @@
         <action
             android:id="@+id/action_orderUpdateScreen_to_addLocationScreen"
             app:destination="@id/addLocationScreen" />
+        <argument
+            android:name="orderId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 
     <fragment
@@ -305,6 +323,10 @@
         <action
             android:id="@+id/action_orderRetryUpdateScreen_to_searchDeliveryScreen"
             app:destination="@id/searchDeliveryScreen" />
+        <argument
+            android:name="orderId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/orderCancelScreen"

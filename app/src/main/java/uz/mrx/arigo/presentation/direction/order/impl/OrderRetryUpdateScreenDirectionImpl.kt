@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class OrderRetryUpdateScreenDirectionImpl @Inject constructor(private val navigator: Navigator):OrderRetryUpdateScreenDirection{
 
-    override suspend fun openAddLocationScreen(id: Int) {
-        navigator.navigateTo(OrderRetryUpdateScreenDirections.actionOrderRetryUpdateScreenToAddLocationScreen(id))
+    override suspend fun openAddLocationScreen(id: Int, location:String, orderId:Int) {
+        navigator.navigateTo(OrderRetryUpdateScreenDirections.actionOrderRetryUpdateScreenToAddLocationScreen(id, location, orderId))
     }
 
     override suspend fun openCancelScreenDirection(id: Int) {

@@ -64,7 +64,7 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
         binding.icNext.setOnClickListener {
             if (locationId != -1){
                 Log.d("LLLLLLL", "onViewCreated: $locationId")
-                viewModel.openAddLocationScreen(locationId)
+                viewModel.openAddLocationScreen(locationId, "orderUpdate", args.orderId)
             }
         }
 
@@ -75,6 +75,8 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
             val damophone = binding.damophone.text.toString()
             val floor = binding.floor.text.toString().toIntOrNull() ?: 0
             val otherMessage = binding.otherMessage.text.toString()
+
+            Log.d("LLLLLLL", "onViewCreated: ${args.id}")
 
             if (args.id != -1){
                 viewModel.updateOrder(args.id, UpdateOrderRequest(houseNumber, appartmentNumer, floor, damophone, otherMessage))

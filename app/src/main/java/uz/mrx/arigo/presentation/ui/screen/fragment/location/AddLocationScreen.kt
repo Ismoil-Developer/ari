@@ -24,10 +24,20 @@ import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.ScreenPoint
 import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.*
+import com.yandex.mapkit.map.CameraListener
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.CameraUpdateReason
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.search.*
+import com.yandex.mapkit.map.MapObjectCollection
+import com.yandex.mapkit.map.PlacemarkMapObject
+import com.yandex.mapkit.search.Response
+import com.yandex.mapkit.search.SearchFactory
+import com.yandex.mapkit.search.SearchManager
+import com.yandex.mapkit.search.SearchManagerType
+import com.yandex.mapkit.search.SearchOptions
+import com.yandex.mapkit.search.Session
 import com.yandex.mapkit.search.Session.SearchListener
+import com.yandex.mapkit.search.ToponymObjectMetadata
 import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
@@ -46,7 +56,7 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     private val binding: ScreenLocationAddBinding by viewBinding(ScreenLocationAddBinding::bind)
     private val viewModel: AddLocationScreenViewModel by viewModels<AddLocationScreenViewModelImpl>()
 
-    private val args:AddLocationScreenArgs by navArgs()
+    private val args: AddLocationScreenArgs by navArgs()
 
     private var isMarkerRaised = false
 
@@ -59,10 +69,10 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (args.id != -1){
+        if (args.id != -1) {
             viewModel.locationDetail(args.id)
 
-        }else{
+        } else {
             getLastKnownLocation { location ->
                 if (location != null) {
                     val userLocation = Point(location.latitude, location.longitude)
@@ -72,7 +82,8 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                         null
                     )
                 } else {
-                    Toast.makeText(requireContext(), "Joylashuv aniqlanmadi", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Joylashuv aniqlanmadi", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -95,7 +106,11 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                                 null
                             )
                         } else {
-                            Toast.makeText(requireContext(), "Joylashuv ma'lumotlari noto‘g‘ri", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Joylashuv ma'lumotlari noto‘g‘ri",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
@@ -107,11 +122,19 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         }
 
         if (!isGpsEnabled()) {
-            Toast.makeText(requireContext(), "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "📍 GPS yoqilmagan! Iltimos, GPSni yoqing!",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         if (!isLocationPermissionGranted()) {
-            Toast.makeText(requireContext(), "🚫 GPS permission berilmagan! Iltimos, ruxsat bering!", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "🚫 GPS permission berilmagan! Iltimos, ruxsat bering!",
+                Toast.LENGTH_LONG
+            ).show()
             requestLocationPermission()
         }
 
@@ -134,10 +157,14 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
         // "Saqlash" tugmasi bosilganda APIga yuborish
         binding.btnContinueLn.setOnClickListener {
 
-            if (args.id != -1){
+            if (args.id != -1) {
                 val markerBottomPoint = getMarkerBottomPointCoordinates()
-                val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
-                Log.d("RRRRRRRR", "onViewCreated: ${markerBottomPoint.longitude} ${markerBottomPoint.latitude}")
+                val coordinates =
+                    "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
+                Log.d(
+                    "RRRRRRRR",
+                    "onViewCreated: ${markerBottomPoint.longitude} ${markerBottomPoint.latitude}"
+                )
                 val request = LocationCreateRequest(
                     custom_name = binding.edtLocName.text.toString(),
                     coordinates = coordinates,
@@ -147,9 +174,10 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
 
                 viewModel.postLocationIdActive(args.id, request)
 
-            }else{
+            } else {
                 val markerBottomPoint = getMarkerBottomPointCoordinates()
-                val coordinates = "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
+                val coordinates =
+                    "POINT(${markerBottomPoint!!.longitude} ${markerBottomPoint.latitude})"
                 val request = LocationCreateRequest(
                     custom_name = binding.edtLocName.text.toString(),
                     coordinates = coordinates,
@@ -166,15 +194,35 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.addLocationResponse.collectLatest {
-                        viewModel.openLocationScreen()
+
+                        Log.d("UUUUU", "onViewCreated: ${args.location}")
+
+                        if (args.location == "OrderRetryUpdate") {
+                            viewModel.openUpdateRetryScreen(args.orderId, args.orderId)
+                        } else if (args.location == "orderUpdate") {
+                            Log.d("UUUUU", "orderUpdate: ${args.orderId}")
+                            viewModel.openUpdateScreen(args.orderId, args.orderId)
+                        } else {
+                              viewModel.openLocationScreen()
+                        }
+
                     }
                 }
 
                 launch {
                     viewModel.postLocationActiveResponse.collectLatest {
-                        viewModel.openLocationScreen()
+                        Log.d("UUUUU", "onViewCreated: ${args.location}")
+                        if (args.location == "OrderRetryUpdate") {
+                            viewModel.openUpdateRetryScreen(args.orderId, args.orderId)
+                        } else if (args.location == "orderUpdate") {
+                            Log.d("UUUUU", "orderUpdate: ${args.orderId}")
+                            viewModel.openUpdateScreen(args.orderId, args.orderId)
+                        } else {
+                            viewModel.openLocationScreen()
+                        }
                     }
                 }
+
             }
         }
 

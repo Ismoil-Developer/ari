@@ -52,9 +52,9 @@ class OrderRetryUpdateScreenViewModelImpl @Inject constructor(private val orderU
     override val getOrderDetailResponse = flow<OrderDetailResponse>()
 
 
-    override fun openAddLocationScreen(id: Int) {
+    override fun openAddLocationScreen(id: Int, location:String, orderId:Int) {
         viewModelScope.launch {
-            direction.openAddLocationScreen(id)
+            direction.openAddLocationScreen(id, location, orderId)
         }
     }
 

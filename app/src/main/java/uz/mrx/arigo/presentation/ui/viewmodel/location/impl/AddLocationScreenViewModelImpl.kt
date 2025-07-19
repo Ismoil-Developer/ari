@@ -26,6 +26,18 @@ class AddLocationScreenViewModelImpl @Inject constructor(private val direction:A
         }
     }
 
+    override fun openUpdateScreen(id: Int, orderId:Int) {
+        viewModelScope.launch {
+            direction.openUpdateScreen(id, orderId)
+        }
+    }
+
+    override fun openUpdateRetryScreen(id: Int, orderId:Int) {
+        viewModelScope.launch {
+            direction.openUpdateRetryScreen(id, orderId)
+        }
+    }
+
     override fun addLocation(createRequest: LocationCreateRequest) {
         viewModelScope.launch {
             useCase.createLocation(createRequest).collectLatest {

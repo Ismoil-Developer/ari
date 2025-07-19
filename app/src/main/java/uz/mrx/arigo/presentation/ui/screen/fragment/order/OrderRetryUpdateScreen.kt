@@ -52,6 +52,8 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             findNavController().popBackStack()
         }
 
+        Log.d("UUUUUU", "onViewCreated: ${args.id}")
+
         if (args.id != -1){
             viewModel.getOrderDetail(args.id)
         }
@@ -85,11 +87,11 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
         }
 
         binding.locationChange.setOnClickListener {
+            Log.d("UUUUUU", "locationChange: location = $locationId orderId = ${args.id}")
             if (locationId != -1){
-                viewModel.openAddLocationScreen(locationId)
+                viewModel.openAddLocationScreen(locationId, "OrderRetryUpdate", args.id)
             }
         }
-
 
         binding.yes.setOnClickListener {
 
@@ -101,6 +103,7 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             val otherMessage = binding.otherMessage.text.toString()
 
             val request = UpdateOrderRetryRequest(orderItems, houseNumber, appartmentNumer, floor, damophone, otherMessage)
+            Log.d("LLLLLLL", "orderRetryUpdate: ${args.id}")
             if (args.id != -1){
                 viewModel.updateOrderRetry(args.id, request)
             }

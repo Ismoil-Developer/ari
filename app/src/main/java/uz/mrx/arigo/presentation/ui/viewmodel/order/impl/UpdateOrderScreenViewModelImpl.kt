@@ -60,9 +60,9 @@ class UpdateOrderScreenViewModelImpl @Inject constructor(private val useCaseLoc:
 
     override val updateResponse = flow<OrderResponse>()
 
-    override fun openAddLocationScreen(id: Int) {
+    override fun openAddLocationScreen(id: Int, location:String, orderId:Int) {
         viewModelScope.launch {
-            direction.openAddLocationScreen(id)
+            direction.openAddLocationScreen(id, location, orderId)
         }
     }
 }

@@ -15,6 +15,6 @@ interface UpdateOrderScreenViewModel {
 
     val getActiveAddress:Flow<ActiveAddressResponse>
 
-    fun openAddLocationScreen(id:Int)
+    fun openAddLocationScreen(id:Int, location:String, orderId:Int)
 
 }

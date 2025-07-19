@@ -10,7 +10,9 @@ interface AddLocationScreenViewModel {
 
     fun openLocationScreen()
 
-    fun openUpdateScreen()
+    fun openUpdateScreen(id: Int, orderId:Int)
+
+    fun openUpdateRetryScreen(id: Int, orderId:Int)
 
     fun addLocation(createRequest: LocationCreateRequest)
 
@@ -23,7 +25,5 @@ interface AddLocationScreenViewModel {
     fun postLocationIdActive(id: Int, createResponse: LocationCreateRequest)
 
     val postLocationActiveResponse: Flow<LocationActiveResponse>
-
-
 
 }

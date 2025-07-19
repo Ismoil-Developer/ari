@@ -4,6 +4,6 @@ interface UpdateOrderScreenDirection {
 
     suspend fun openSearchDeliveryScreen()
 
-    suspend fun openAddLocationScreen(id:Int)
+    suspend fun openAddLocationScreen(id:Int, location:String, orderId:Int)
 
 }
