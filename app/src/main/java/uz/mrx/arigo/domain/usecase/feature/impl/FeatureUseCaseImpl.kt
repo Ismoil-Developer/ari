@@ -5,6 +5,8 @@ import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
 import uz.mrx.arigo.data.remote.response.feature.role.ShopRoleResponse
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
@@ -39,6 +41,27 @@ class FeatureUseCaseImpl @Inject constructor(private val repository: FeatureRepo
         id: Int,
         query: String
     ): Flow<ResultData<List<ShopListResponse>>> = repository.getShopSearchList(id, query)
+
+
+    override suspend fun postFeedBack(
+        id: Int,
+        feedBackRequest: FeedBackRequest
+    ): Flow<ResultData<FeedBackResponse>> = repository.postFeedBack(id, feedBackRequest)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

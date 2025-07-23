@@ -57,6 +57,11 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
             }
         }
 
+        if (args.phonenumber.isNotEmpty()){
+            binding.phoneNumber.text = "Tasdiqlash kodi ${args.phonenumber} raqamiga yuborildi"
+        }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.errorToastMessage.collectLatest {
                 toast("Kod muddati tugagan yoki topilmadi.")

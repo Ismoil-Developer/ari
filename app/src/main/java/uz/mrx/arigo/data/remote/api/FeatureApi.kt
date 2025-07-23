@@ -1,13 +1,17 @@
 package uz.mrx.arigo.data.remote.api
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
 import uz.mrx.arigo.data.remote.response.feature.role.ShopRoleResponse
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
@@ -43,6 +47,23 @@ interface FeatureApi {
 
     @GET("/shop/advertising/")
     suspend fun getAdvertising():Response<List<AdvertisingResponse>>
+
+    @POST("/shop/shops/{id}/feedback/")
+    suspend fun postFeedBack(@Path("id") id: Int, @Body feedBackRequest: FeedBackRequest):Response<FeedBackResponse>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

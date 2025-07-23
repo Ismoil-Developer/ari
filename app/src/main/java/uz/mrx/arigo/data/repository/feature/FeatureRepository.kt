@@ -5,6 +5,8 @@ import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
 import uz.mrx.arigo.data.remote.response.feature.role.ShopRoleResponse
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
@@ -28,5 +30,6 @@ interface FeatureRepository {
 
     suspend fun getMapList(id: Int, radius:Int):Flow<ResultData<List<MapListResponse>>>
 
+    suspend fun postFeedBack(id: Int, feedBackRequest: FeedBackRequest):Flow<ResultData<FeedBackResponse>>
 
 }

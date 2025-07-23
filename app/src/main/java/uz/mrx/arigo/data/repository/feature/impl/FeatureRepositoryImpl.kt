@@ -9,6 +9,8 @@ import uz.mrx.arigo.data.remote.response.feature.RoleResponse
 import uz.mrx.arigo.data.remote.response.feature.advertising.AdvertisingResponse
 import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.feature.map.MapListResponse
 import uz.mrx.arigo.data.remote.response.feature.role.ShopRoleResponse
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
@@ -180,6 +182,41 @@ class FeatureRepositoryImpl @Inject constructor(private val api: FeatureApi):Fea
             trySend(ResultData.messageText(e.message.toString()))  // Catch any exceptions and send error message
         }
     }.catch { emit(ResultData.error(it)) }
+
+    override suspend fun postFeedBack(
+        id: Int,
+        feedBackRequest: FeedBackRequest
+    ) = channelFlow<ResultData<FeedBackResponse>> {
+        try {
+            val response = api.postFeedBack(id, feedBackRequest)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    trySend(ResultData.success(body))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

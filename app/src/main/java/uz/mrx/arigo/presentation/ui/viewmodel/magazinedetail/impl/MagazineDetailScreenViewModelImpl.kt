@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
+import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
@@ -20,6 +22,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MagazineDetailScreenViewModelImpl @Inject constructor(private val direction: MagazineDetailScreenDirection, private val useCase: FeatureUseCase, private val orderUseCase: OrderUseCase):MagazineDetailScreenViewModel, ViewModel() {
+
+
+    override fun postFeedBack(id: Int, feedBackRequest: FeedBackRequest) {
+        viewModelScope.launch {
+            useCase.postFeedBack(id, feedBackRequest).collectLatest {
+                it.onSuccess {
+                    feedBackResponse.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
+    override val feedBackResponse = flow<FeedBackResponse>()
 
     override fun openUpdateOrderScreen(id: Int) {
         viewModelScope.launch {
