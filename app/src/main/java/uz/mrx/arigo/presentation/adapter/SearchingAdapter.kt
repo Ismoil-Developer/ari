@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 import uz.mrx.arigo.databinding.ItemOrderBinding
 
-class PendingSearchAdapter(private var onItemClickListener: (OrderPendingSearchResponse) -> Unit) :
-    ListAdapter<OrderPendingSearchResponse, PendingSearchAdapter.ViewHolder>(OrderPendingSearchResponseDiffUtilCallback) {
+class SearchingAdapter(private var onItemClickListener: (OrderPendingSearchResponse) -> Unit) :
+    ListAdapter<OrderPendingSearchResponse, SearchingAdapter.ViewHolder>(OrderPendingSearchResponseDiffUtilCallback) {
 
     inner class ViewHolder(private val binding: ItemOrderBinding) :
         RecyclerView.ViewHolder(binding.root) {

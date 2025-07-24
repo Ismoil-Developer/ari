@@ -63,7 +63,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/orderContainer">
+                app:layout_constraintTop_toBottomOf="@id/activeOrder">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,12 +105,12 @@
                             <ImageView
                                 android:layout_width="170dp"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_apteka"
-                                app:layout_constraintStart_toStartOf="parent"
                                 android:layout_marginStart="80dp"
                                 android:layout_marginTop="10dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_apteka"
                                 app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -151,13 +151,13 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginEnd="-20dp"
                                 android:paddingTop="20dp"
                                 android:paddingBottom="5dp"
-                                android:layout_marginEnd="-20dp"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_markett"
                                 app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -254,8 +254,8 @@
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/font_family"
                         android:text="@string/yetkazish_manzili"
-                        android:textSize="14sp"
                         android:textColor="@color/text_color_bold"
+                        android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/yellowMoto"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -377,18 +377,6 @@
                 app:layout_constraintTop_toBottomOf="@id/seeAllPharmacy"
                 tools:listitem="@layout/item_magazine" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/orderContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="visible"
-                android:layout_marginTop="-5dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activeOrder"
-                tools:listitem="@layout/item_order" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/activeOrder"

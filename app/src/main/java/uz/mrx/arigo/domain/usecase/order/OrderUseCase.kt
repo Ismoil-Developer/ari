@@ -32,7 +32,9 @@ interface OrderUseCase {
 
     suspend fun updateOrderRetry(id: Int, request: UpdateOrderRetryRequest):Flow<ResultData<UpdateOrderRetryResponse>>
 
-    suspend fun getOrderPendingSearch():Flow<ResultData<List<OrderPendingSearchResponse>>>
+    suspend fun getOrderPending():Flow<ResultData<List<OrderPendingSearchResponse>>>
+
+    suspend fun getOrderSearch():Flow<ResultData<List<OrderPendingSearchResponse>>>
 
     suspend fun getOrderDetail(id: Int):Flow<ResultData<OrderDetailResponse>>
 

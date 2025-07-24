@@ -208,9 +208,9 @@ class OrderRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getOrderPendingSearch() = channelFlow<ResultData<List<OrderPendingSearchResponse>>> {
+    override suspend fun getOrderSearch() = channelFlow<ResultData<List<OrderPendingSearchResponse>>> {
         try {
-            val response = api.getOrderPendingSearch()
+            val response = api.getOrderSearch()
             if (response.isSuccessful) {
                 val newsResponse = response.body() as List<OrderPendingSearchResponse>
 
@@ -223,6 +223,24 @@ class OrderRepositoryImpl @Inject constructor(
             trySend(ResultData.messageText(e.message.toString()))
         }
     }.catch { emit(ResultData.error(it)) }
+
+    override suspend fun getOrderPending() = channelFlow<ResultData<List<OrderPendingSearchResponse>>> {
+        try {
+            val response = api.getOrderPending()
+            if (response.isSuccessful) {
+                val newsResponse = response.body() as List<OrderPendingSearchResponse>
+
+                trySend(ResultData.success(newsResponse))
+
+            } else {
+                trySend(ResultData.messageText(response.message()))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.messageText(e.message.toString()))
+        }
+    }.catch { emit(ResultData.error(it)) }
+
+
 
     override suspend fun getAssignedOrder() = channelFlow<ResultData<List<AssignedResponse>>> {
         try {

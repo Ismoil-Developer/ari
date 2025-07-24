@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/mainBgColor"
+    android:fitsSystemWindows="true"
     android:paddingTop="16dp">
 
     <ImageView
@@ -16,8 +16,7 @@
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/text_color_bold"
-        />
+        app:tint="@color/text_color_bold" />
 
     <TextView
         android:id="@+id/title"
@@ -34,18 +33,85 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/icBack" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+
+    <LinearLayout
+        android:id="@+id/containerActive"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        tools:listitem="@layout/item_order" />
+        app:layout_constraintTop_toBottomOf="@id/icBack"
+        >
+
+        <TextView
+            android:id="@+id/activeOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/font_family"
+            android:text="Faol Buyurtmalar"
+            android:textColor="@color/text_color_bold"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/icBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icBack" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_order" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerActive"
+        >
+
+        <TextView
+            android:id="@+id/disActiveOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/font_family"
+            android:text="Nofaol Buyurtmalar"
+            android:textColor="@color/text_color_bold"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/icBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icBack" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDisActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_order" />
+
+    </LinearLayout>
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

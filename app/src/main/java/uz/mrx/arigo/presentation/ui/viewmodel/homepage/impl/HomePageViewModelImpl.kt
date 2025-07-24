@@ -105,7 +105,7 @@ class HomePageViewModelImpl @Inject constructor(
 
     init {
         viewModelScope.launch {
-            orderUseCase.getOrderPendingSearch().collectLatest {
+            orderUseCase.getOrderSearch().collectLatest {
 
                 it.onSuccess {
                     getPendingSearchResponse.tryEmit(it)

@@ -45,7 +45,10 @@ class OrderUseCaseImpl @Inject constructor(
         request: UpdateOrderRetryRequest
     ): Flow<ResultData<UpdateOrderRetryResponse>> = repository.updateOrderRetry(id, request)
 
-    override suspend fun getOrderPendingSearch(): Flow<ResultData<List<OrderPendingSearchResponse>>> = repository.getOrderPendingSearch()
+    override suspend fun getOrderPending(): Flow<ResultData<List<OrderPendingSearchResponse>>> = repository.getOrderPending()
+
+    override suspend fun getOrderSearch(): Flow<ResultData<List<OrderPendingSearchResponse>>> = repository.getOrderSearch()
+
 
     override suspend fun getOrderDetail(id: Int): Flow<ResultData<OrderDetailResponse>> = repository.getOrderDetail(id)
 

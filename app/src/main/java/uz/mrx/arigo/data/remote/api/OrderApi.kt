@@ -40,8 +40,11 @@ interface OrderApi {
     @PATCH("/goo/orders/{id}/retry-update/")
     suspend fun retryUpdateOrder(@Path("id") id: Int, @Body updateOrderRetryResponse: UpdateOrderRetryRequest):Response<UpdateOrderRetryResponse>
 
-    @GET("/goo/orders/pending-searching/")
-    suspend fun getOrderPendingSearch():Response<List<OrderPendingSearchResponse>>
+    @GET("/goo/orders/pending/")
+    suspend fun getOrderPending():Response<List<OrderPendingSearchResponse>>
+
+    @GET("/goo/orders/searching/")
+    suspend fun getOrderSearch():Response<List<OrderPendingSearchResponse>>
 
     @GET("/goo/orders/{id}/")
     suspend fun getOrderDetail(@Path("id") id: Int):Response<OrderDetailResponse>

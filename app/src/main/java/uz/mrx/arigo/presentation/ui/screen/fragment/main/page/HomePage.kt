@@ -1,7 +1,6 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -27,7 +26,7 @@ import uz.mrx.arigo.databinding.PageHomeBinding
 import uz.mrx.arigo.presentation.adapter.AdvertisingAdapter
 import uz.mrx.arigo.presentation.adapter.AssignedAdapter
 import uz.mrx.arigo.presentation.adapter.MagazineAdapter
-import uz.mrx.arigo.presentation.adapter.PendingSearchAdapter
+import uz.mrx.arigo.presentation.adapter.PendingAdapter
 import uz.mrx.arigo.presentation.adapter.PharmacyAdapter
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.HomePageViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.homepage.impl.HomePageViewModelImpl
@@ -37,7 +36,6 @@ import com.yandex.mapkit.search.*
 import com.yandex.runtime.Error
 import com.yandex.runtime.network.NetworkError
 import com.yandex.runtime.network.RemoteError
-import android.location.Location
 import android.location.LocationManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -108,7 +106,6 @@ class HomePage : Fragment(R.layout.page_home) {
                 }
             })
 
-        binding.orderContainer.visibility = View.GONE
 
         MapKitFactory.initialize(requireContext())
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED)
@@ -174,20 +171,10 @@ class HomePage : Fragment(R.layout.page_home) {
         binding.activeOrder.adapter = adapterAssigned
 
 
-        val pendingAdapter = PendingSearchAdapter {
-            viewModel.openOrderDetailScreen(it.id)
-        }
+//        val pendingAdapter = PendingAdapter {
+//            viewModel.openOrderDetailScreen(it.id)
+//        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getPendingSearchResponse.collectLatest {
-                if (it.isNotEmpty()) {
-                    binding.orderContainer.visibility = View.VISIBLE
-                    pendingAdapter.submitList(it)
-                }
-            }
-        }
-
-        binding.orderContainer.adapter = pendingAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getActiveAddress.collectLatest {
