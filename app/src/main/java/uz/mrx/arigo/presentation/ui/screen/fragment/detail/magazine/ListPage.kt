@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.databinding.PageListBinding
+import uz.mrx.arigo.presentation.ui.dialog.FeatureDialogFragment
 import uz.mrx.arigo.presentation.ui.screen.fragment.detail.MagazineDetailScreenArgs
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
@@ -40,7 +41,15 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
             isChecked = true
             binding.imageQuestionsUnCheck.visibility = View.GONE
             binding.imageQuestionsCheck.visibility = View.VISIBLE
+
+            // isChecked true bo'lsa, dialog ochiladi
+            val dialog = FeatureDialogFragment(1)
+            dialog.show(parentFragmentManager, "FeatureDialog")
+
+            // Ma'lumotlarni olish
+
         }
+
 
         binding.repeatBtn.isEnabled = false
         binding.repeatBtn.setCardBackgroundColor(

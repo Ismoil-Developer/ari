@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.databinding.ScreenMagazineDetailBinding
-import uz.mrx.arigo.presentation.adapter.MagazineIndicatorAdapter
 import uz.mrx.arigo.presentation.adapter.viewpager.MagazineViewPager
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl

@@ -163,15 +163,17 @@ class HomePage : Fragment(R.layout.page_home) {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+
             viewModel.assignedResponse.collectLatest {
                 adapterAssigned.submitList(it)
             }
+
         }
 
         binding.activeOrder.adapter = adapterAssigned
 
 
-//        val pendingAdapter = PendingAdapter {
+//            val pendingAdapter = PendingAdapter {
 //            viewModel.openOrderDetailScreen(it.id)
 //        }
 

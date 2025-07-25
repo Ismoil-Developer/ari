@@ -9,9 +9,11 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
+import uz.mrx.arigo.data.remote.response.feature.all.ShopAllResponse
 import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
+import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
@@ -78,4 +80,22 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
         }
     }
 
+    override val getFeaturesResponse = flow<List<ShopListResponse>>()
+
+    override fun getFeaturesById(id: Int) {
+        viewModelScope.launch {
+            useCase.getShopList(id).collectLatest {
+
+                it.onSuccess {
+
+                    getFeaturesResponse.tryEmit(it)
+
+                }
+                it.onError {
+
+                }
+
+            }
+        }
+    }
 }
