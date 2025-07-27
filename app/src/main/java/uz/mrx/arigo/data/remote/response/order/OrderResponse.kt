@@ -6,6 +6,7 @@ data class OrderResponse(
     val id: Int,
     val user: String,
     val shop: Int,
+    val additional_shop:Int,
     val deliver: String?,
     val items: String,
     @SerializedName("allow_other_shops")

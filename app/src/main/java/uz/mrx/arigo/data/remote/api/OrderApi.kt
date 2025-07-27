@@ -14,6 +14,7 @@ import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryDetailResponse
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AdditionalShopResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
@@ -66,5 +67,9 @@ interface OrderApi {
 
     @GET("/goo/orders/history/{id}")
     suspend fun getHistoryById(@Path("id") id: Int):Response<OrderHistoryDetailResponse>
+
+    @GET("/shop/additional-shop/{id}/")
+    suspend fun getAdditionalShopById(@Path("id") id: Int):Response<AdditionalShopResponse>
+
 
 }

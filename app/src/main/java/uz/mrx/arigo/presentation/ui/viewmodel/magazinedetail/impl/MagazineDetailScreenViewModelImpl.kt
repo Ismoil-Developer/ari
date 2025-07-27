@@ -14,6 +14,7 @@ import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
+import uz.mrx.arigo.data.remote.response.order.AdditionalShopResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 import uz.mrx.arigo.domain.usecase.feature.FeatureUseCase
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
@@ -98,4 +99,20 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
             }
         }
     }
+
+    override fun getAdditionalShop(id: Int) {
+        viewModelScope.launch {
+            orderUseCase.getAdditionalShop(id).collectLatest {
+                it.onSuccess {
+                    additionalShopResponse.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
+    override val additionalShopResponse = flow<AdditionalShopResponse>()
+
 }

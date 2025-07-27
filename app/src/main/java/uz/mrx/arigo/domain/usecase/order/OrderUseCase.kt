@@ -9,6 +9,7 @@ import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryDetailResponse
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AdditionalShopResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
@@ -49,5 +50,7 @@ interface OrderUseCase {
     suspend fun getOrderHistory():Flow<ResultData<List<OrderHistoryResponse>>>
 
     suspend fun getOrderHistoryDetail(id: Int):Flow<ResultData<OrderHistoryDetailResponse>>
+
+    suspend fun getAdditionalShop(id: Int):Flow<ResultData<AdditionalShopResponse>>
 
 }

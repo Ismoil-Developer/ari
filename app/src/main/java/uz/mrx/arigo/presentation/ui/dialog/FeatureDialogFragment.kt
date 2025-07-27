@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collectLatest
@@ -16,7 +15,8 @@ import uz.mrx.arigo.presentation.adapter.ShopListAdapter
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
 
-class FeatureDialogFragment(private val id:Int) : BottomSheetDialogFragment() {
+class FeatureDialogFragment(private val id:Int,     private val onShopSelected: (Int) -> Unit // callback qo‘shamiz
+) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogFeaturesBinding
     private val viewModel: MagazineDetailScreenViewModel by activityViewModels<MagazineDetailScreenViewModelImpl>()
@@ -35,7 +35,8 @@ class FeatureDialogFragment(private val id:Int) : BottomSheetDialogFragment() {
         viewModel.getFeaturesById(id)
 
         shopListAdapter = ShopListAdapter { selectedShop ->
-            // Item click bo'lganda kerakli action
+            onShopSelected(selectedShop.id) // tanlangan do‘konning id sini qaytaramiz
+            dismiss() // dialogni yopamiz
         }
 
 

@@ -1,6 +1,5 @@
 package uz.mrx.arigo.data.repository.order.impl
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -8,7 +7,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onEach
 import uz.mrx.arigo.data.remote.api.OrderApi
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
@@ -17,8 +15,8 @@ import uz.mrx.arigo.data.remote.request.order.UpdateOrderRequest
 import uz.mrx.arigo.data.remote.request.order.UpdateOrderRetryRequest
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryDetailResponse
 import uz.mrx.arigo.data.remote.response.history.OrderHistoryResponse
-import uz.mrx.arigo.data.remote.response.location.LocationCreateResponse
 import uz.mrx.arigo.data.remote.response.order.ActiveOrderResponse
+import uz.mrx.arigo.data.remote.response.order.AdditionalShopResponse
 import uz.mrx.arigo.data.remote.response.order.AssignedResponse
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.OrderDetailResponse
@@ -313,4 +311,24 @@ class OrderRepositoryImpl @Inject constructor(
             trySend(ResultData.error(e))
         }
     }
+
+
+    override suspend fun getAdditionalShop(id: Int) = channelFlow<ResultData<AdditionalShopResponse>> {
+        try {
+            val response = api.getAdditionalShopById(id)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    trySend(ResultData.success(body))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
+
 }

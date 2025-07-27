@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
     private val viewModel: MagazineDetailScreenViewModel by viewModels<MagazineDetailScreenViewModelImpl>()
 
     private var isChecked = false
+    private var additionalShopId: Int? = null // bu tanlangan shopId ni saqlaydi
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,16 +39,30 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
 
         binding.edtOrder.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance())
 
+        if (id != -1){
+            viewModel.getAdditionalShop(id)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.additionalShopResponse.collectLatest {
+                    binding.title.text = it.title
+                    Glide.with(requireContext()).load(it.image).into(binding.lock)
+                }
+            }
+
+        }
+
         binding.imageQuestionsUnCheck.setOnClickListener {
             isChecked = true
             binding.imageQuestionsUnCheck.visibility = View.GONE
             binding.imageQuestionsCheck.visibility = View.VISIBLE
 
             // isChecked true bo'lsa, dialog ochiladi
-            val dialog = FeatureDialogFragment(1)
+            val dialog = FeatureDialogFragment(1) { selectedShopId ->
+                additionalShopId = selectedShopId
+            }
+
             dialog.show(parentFragmentManager, "FeatureDialog")
 
-            // Ma'lumotlarni olish
 
         }
 
@@ -95,9 +111,17 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
             if (!it.isEnabled) return@setOnClickListener
 
             val orderItems = binding.edtOrder.text.toString()
-            val request = OrderRequest(orderItems, isChecked)
+            val additionalShop = additionalShopId ?: 0 // hech narsa tanlanmagan bo‘lsa, yubormaslik
+
+            val request = OrderRequest(
+                items = orderItems,
+                allow_other_shops = isChecked,
+                additional_shop = additionalShop
+            )
+
             viewModel.createOrder(id, request)
         }
+
 
 
         viewLifecycleOwner.lifecycleScope.launch {

@@ -7,6 +7,7 @@ import uz.mrx.arigo.data.remote.response.feature.detail.FeatureDetailResponse
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackResponse
 import uz.mrx.arigo.data.remote.response.feature.shoplist.ShopListResponse
+import uz.mrx.arigo.data.remote.response.order.AdditionalShopResponse
 import uz.mrx.arigo.data.remote.response.order.OrderResponse
 
 interface MagazineDetailScreenViewModel {
@@ -28,5 +29,9 @@ interface MagazineDetailScreenViewModel {
     fun getFeaturesById(id: Int)
 
     val getFeaturesResponse:Flow<List<ShopListResponse>>
+
+    fun getAdditionalShop(id: Int)
+
+    val additionalShopResponse:Flow<AdditionalShopResponse>
 
 }
