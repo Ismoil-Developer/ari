@@ -39,7 +39,7 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
         super.onViewCreated(view, savedInstanceState)
 
         val token = sharedPreference.token
-        val url = "ws://ari.digitallaboratory.uz/ws/goo/connect/"
+        val url = "ws://ari-delivery.uz/ws/goo/connect/"
 
         clientWebSocketClient.connect(url, token)
 

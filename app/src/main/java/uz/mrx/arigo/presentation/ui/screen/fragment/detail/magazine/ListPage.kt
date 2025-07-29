@@ -63,11 +63,10 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
 
             dialog.show(parentFragmentManager, "FeatureDialog")
 
-
         }
 
-
         binding.repeatBtn.isEnabled = false
+
         binding.repeatBtn.setCardBackgroundColor(
             ContextCompat.getColor(requireContext(), R.color.buttonBgColorFalse)
         )
@@ -111,7 +110,7 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
             if (!it.isEnabled) return@setOnClickListener
 
             val orderItems = binding.edtOrder.text.toString()
-            val additionalShop = additionalShopId ?: 0 // hech narsa tanlanmagan bo‘lsa, yubormaslik
+            val additionalShop = additionalShopId ?: null // hech narsa tanlanmagan bo‘lsa, yubormaslik
 
             val request = OrderRequest(
                 items = orderItems,

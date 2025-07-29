@@ -42,15 +42,15 @@ class NetworkModule {
     fun provideClient(
         loggingInterceptor: HttpLoggingInterceptor,
         languageInterceptor: Interceptor,
-        requestInterceptor: RequestInterceptor // Qo‘shildi
+        requestInterceptor: RequestInterceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.HOURS) // Aloqa o‘rnatish uchun maksimal kutish vaqti
-            .readTimeout(1, TimeUnit.HOURS)    // Javobni o‘qish uchun maksimal kutish vaqti
+            .connectTimeout(1, TimeUnit.HOURS)
+            .readTimeout(1, TimeUnit.HOURS)
             .writeTimeout(1, TimeUnit.HOURS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(languageInterceptor)
-            .addInterceptor(requestInterceptor) // Qo‘shildi
+            .addInterceptor(requestInterceptor)
             .build()
 
     @Provides
@@ -61,7 +61,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient, gsonConverterFactory: GsonConverterFactory): Retrofit =
         Retrofit.Builder()
-            .baseUrl("http://ari.digitallaboratory.uz/")
+            .baseUrl("http://ari-delivery.uz/")
             .addConverterFactory(gsonConverterFactory)
             .client(client)
             .build()

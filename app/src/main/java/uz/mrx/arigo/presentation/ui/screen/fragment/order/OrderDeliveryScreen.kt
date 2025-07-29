@@ -86,7 +86,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
         mapView = binding.mapView
 
         val token = sharedPreference.token
-        val url = "ws://ari.digitallaboratory.uz/ws/goo/connect/"
+        val url = "ws://ari-delivery.uz/ws/goo/connect/"
 
         clientWebSocketClient.connect(url, token)
 
