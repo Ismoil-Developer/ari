@@ -34,6 +34,12 @@ class ShopListScreen : Fragment(R.layout.screen_list_shop) {
             viewModel.openShopDetailScreen(it.id)
         }
 
+        if (args.id == 1){
+            binding.title.setText(R.string.magazinlar)
+        }else{
+            binding.title.setText(R.string.dorihona)
+        }
+
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
         }

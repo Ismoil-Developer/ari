@@ -35,30 +35,53 @@ class OrderPage:Fragment(R.layout.page_order) {
         val adapterAssigned = AssignedAdapter {
             viewModel.openOrderDeliveryScreen(it.id)
         }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.assignedResponse.collectLatest {
-
-                adapterAssigned.submitList(it)
-                Log.d("RRRRRRRR", "onViewCreated: ${it.map { it.items }}")
-
-            }
-        }
-
         binding.rvActive.adapter = adapterAssigned
 
-        val pendingAdapter = PendingAdapter{
+        val pendingAdapter = PendingAdapter {
             viewModel.openOrderDetailScreen(it.id)
         }
+        binding.rvDisActive.adapter = pendingAdapter
 
+        var assignedListIsEmpty = true
+        var pendingListIsEmpty = true
+
+        // Assigned
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.orderPending.collectLatest {
-                pendingAdapter.submitList(it)
+            viewModel.assignedResponse.collectLatest { list ->
+                assignedListIsEmpty = list.isEmpty()
+                adapterAssigned.submitList(list)
+
+                binding.containerActive.visibility = if (list.isNotEmpty()) View.VISIBLE else View.GONE
+
+                // Har ikkalasini tekshir va visibility yangila
+                updateContainersVisibility(assignedListIsEmpty, pendingListIsEmpty)
             }
         }
 
-        binding.rvDisActive.adapter = pendingAdapter
+        // Pending
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.orderPending.collectLatest { list ->
+                pendingListIsEmpty = list.isEmpty()
+                pendingAdapter.submitList(list)
 
+                binding.containerDisActive.visibility = if (list.isNotEmpty()) View.VISIBLE else View.GONE
+
+                // Har ikkalasini tekshir va visibility yangila
+                updateContainersVisibility(assignedListIsEmpty, pendingListIsEmpty)
+            }
+        }
     }
 
+    private fun updateContainersVisibility(assignedEmpty: Boolean, pendingEmpty: Boolean) {
+        if (assignedEmpty && pendingEmpty) {
+            binding.containerEmpty.visibility = View.VISIBLE
+            binding.containerActive.visibility = View.GONE
+            binding.containerDisActive.visibility = View.GONE
+        } else {
+            binding.containerEmpty.visibility = View.GONE
+        }
+    }
+
+
 }
+

@@ -7,7 +7,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,18 +15,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp"
+        android:background="@drawable/back_dialog"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/back_dialog"
             >
 
             <TextView
                 android:id="@+id/tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="Baholang"
                 android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,13 +43,51 @@
                 android:layout_height="32dp"
                 android:numStars="5"
                 android:stepSize="1"
+                android:layout_marginTop="20dp"
                 android:progressDrawable="@drawable/rating_star_layer"
                 android:isIndicator="false"
                 app:layout_constraintTop_toBottomOf="@id/tv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 />
+
+
+            <TextView
+                android:id="@+id/no"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/radio_button_unchecked_background"
+                android:fontFamily="@font/font_family_medium"
+                android:gravity="center"
+                android:text="@string/bekor_qilish"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color_bold"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintEnd_toStartOf="@id/save"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+
+            <TextView
+                android:id="@+id/save"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/font_family_medium"
+                android:gravity="center"
+                android:background="@drawable/back_style_button"
+                android:text="@string/saqlash"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/no"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

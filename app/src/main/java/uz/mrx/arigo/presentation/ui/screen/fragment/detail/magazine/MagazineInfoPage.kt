@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.RatingBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,8 +17,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.remote.response.feature.feedback.FeedBackRequest
+import uz.mrx.arigo.databinding.DialogFeedBackBinding
 import uz.mrx.arigo.databinding.PageMagazineInfoBinding
 import uz.mrx.arigo.presentation.adapter.FeedBackAdapter
+import uz.mrx.arigo.presentation.ui.dialog.RatingDialogFragment
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
 
@@ -83,19 +86,10 @@ class MagazineInfoPage(
     }
 
     private fun showRatingDialog(comment: String) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_feed_back, null, false)
-        val ratingBar = dialogView.findViewById<RatingBar>(R.id.ratingBar)
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogView)
-            .setNegativeButton("Bekor qilish") { d, _ -> d.dismiss() }
-            .setPositiveButton("Yuborish") { _, _ ->
-                val r = ratingBar.rating.toInt().coerceAtLeast(1)
-                sendFeedback(comment, r)
-            }
-            .create()
-
-        dialog.show()
+        val dialog = RatingDialogFragment(comment) { rating ->
+            sendFeedback(comment, rating)
+        }
+        dialog.show(parentFragmentManager, "RatingDialog")
     }
 
     private fun sendFeedback(comment: String, rating: Int) {

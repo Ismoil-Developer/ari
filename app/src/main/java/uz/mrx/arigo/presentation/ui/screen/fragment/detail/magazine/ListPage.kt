@@ -45,7 +45,10 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.additionalShopResponse.collectLatest {
                     binding.title.text = it.title
-                    Glide.with(requireContext()).load(it.image).into(binding.lock)
+                    it.image.let {
+                        Glide.with(requireContext()).load(it).into(binding.otherShop)
+
+                    }
                 }
             }
 

@@ -42,6 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icBack"
+        android:visibility="gone"
         >
 
         <TextView
@@ -73,12 +74,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/containerDisActive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/containerActive"
+        android:visibility="gone"
         >
 
         <TextView
@@ -108,6 +111,55 @@
             tools:listitem="@layout/item_order" />
 
     </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/emptyHistory"
+            android:layout_width="234dp"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginTop="169dp"
+            android:src="@drawable/empty_estate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/emptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/font_family"
+            android:text="@string/sizning_ro_yhatingiz_bo_sh"
+            android:textColor="@color/text_color_bold"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emptyHistory" />
+
+        <TextView
+            android:id="@+id/emptyDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/font_family_medium"
+            android:text="@string/sizda_hozir_buyurtmalar_mavjud_emas"
+            android:gravity="center"
+            android:textColor="@color/text_color_bold"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emptyTitle" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

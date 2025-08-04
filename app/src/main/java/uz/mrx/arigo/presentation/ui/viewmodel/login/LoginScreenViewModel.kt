@@ -16,5 +16,6 @@ interface LoginScreenViewModel {
 
     val toastMessage: Flow<String>
 
+    val isLoading: Flow<Boolean>  // 🔥 loading holati
 
 }
