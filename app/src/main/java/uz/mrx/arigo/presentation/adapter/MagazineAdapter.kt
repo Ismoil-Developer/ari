@@ -20,7 +20,9 @@ class MagazineAdapter(private var onItemClickListener: (ShopData) -> Unit) :
             val shop = getItem(absoluteAdapterPosition)
 
             // Rasmni yuklash
-            Glide.with(binding.root.context).load(shop.image).into(binding.imageView)
+            shop.image.let {
+                Glide.with(binding.root.context).load(it).into(binding.imageView)
+            }
 
             // Nomi
             binding.title.text = shop.title

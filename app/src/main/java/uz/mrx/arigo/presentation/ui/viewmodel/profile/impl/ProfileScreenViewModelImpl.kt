@@ -110,4 +110,10 @@ class ProfileScreenViewModelImpl @Inject constructor(
         }
     }
 
+    override fun openLoginScreen() {
+        viewModelScope.launch {
+            direction.openLoginScreen()
+        }
+    }
+
 }

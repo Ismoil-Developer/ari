@@ -2,8 +2,11 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.auth.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,9 +32,36 @@ class LoginScreen : Fragment(R.layout.screen_login) {
 
     private val viewModel: LoginScreenViewModel by viewModels<LoginScreenViewModelImpl>()
 
+    private var doubleBackToExitPressedOnce = false
+
+
+
     @SuppressLint("ClickableViewAccessibility", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (doubleBackToExitPressedOnce) {
+                        requireActivity().finish()
+                    } else {
+                        doubleBackToExitPressedOnce = true
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.ilovadan_chiqish_uchun_yana_bir_marta_orqaga_tugmasini_bosing),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            doubleBackToExitPressedOnce = false
+                        }, 2000) // 2 second delay
+                    }
+                }
+            })
+
 
         binding.container.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
 

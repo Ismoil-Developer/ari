@@ -18,7 +18,11 @@ class PharmacyAdapter(private var onItemClickListener: (ShopData) -> Unit) :
         fun onBind() {
 
             val newsData = getItem(absoluteAdapterPosition)
-            Glide.with(binding.root.context).load(newsData.image).into(binding.imageView)
+
+            newsData.image.let {
+                Glide.with(binding.root.context).load(it).into(binding.imageView)
+
+            }
 
             binding.title.text = newsData.title
 

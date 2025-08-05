@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
+import uz.mrx.arigo.data.local.shp.MySharedPreference
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequestPhoto
 import uz.mrx.arigo.databinding.PageProfileBinding
 import uz.mrx.arigo.presentation.ui.dialog.ContactDialog
@@ -32,6 +33,7 @@ import uz.mrx.arigo.presentation.ui.dialog.LanguageDialog
 import uz.mrx.arigo.presentation.ui.dialog.LogoutDialog
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.ProfileScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.impl.ProfileScreenViewModelImpl
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfilePage:Fragment(R.layout.page_profile) {
@@ -41,6 +43,10 @@ class ProfilePage:Fragment(R.layout.page_profile) {
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+
+
+    @Inject
+    lateinit var shp:MySharedPreference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,9 +60,16 @@ class ProfilePage:Fragment(R.layout.page_profile) {
         }
 
         binding.logOut.setOnClickListener {
-            val dialog = LogoutDialog()
+            val dialog = LogoutDialog {
+
+                shp.token = ""
+
+                viewModel.openLoginScreen()
+
+            }
             dialog.show(parentFragmentManager, "LogoutDialog")
         }
+
 
         binding.edtLanguage.setOnClickListener {
             val dialog = LanguageDialog()

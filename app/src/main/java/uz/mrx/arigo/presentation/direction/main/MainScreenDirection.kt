@@ -22,5 +22,6 @@ interface MainScreenDirection {
 
     suspend fun openOrderDeliveryScreen(coordinates: String, id: Int)
 
+    suspend fun openLoginScreen()
 
 }

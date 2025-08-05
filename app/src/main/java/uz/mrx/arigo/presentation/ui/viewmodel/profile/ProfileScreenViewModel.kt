@@ -26,4 +26,6 @@ interface ProfileScreenViewModel {
 
     fun openChatScreen()
 
+    fun openLoginScreen()
+
 }

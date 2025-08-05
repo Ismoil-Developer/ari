@@ -1,5 +1,6 @@
 package uz.mrx.arigo.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContextWrapper
 import android.graphics.drawable.Drawable
@@ -17,10 +18,14 @@ import uz.mrx.arigo.databinding.ItemPlaceCardBinding
 class ShopListAdapter(private var onItemClickListener: (ShopListResponse) -> Unit) : ListAdapter<ShopListResponse, ShopListAdapter.ViewHolder>(ShopListResponseDiffUtilCallback) {
 
     inner class ViewHolder(private val binding: ItemPlaceCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun onBind() {
 
             val newsData = getItem(absoluteAdapterPosition)
-            Glide.with(binding.root.context).load(newsData.image).into(binding.imageViewBackground)
+
+            newsData.image.let {
+                Glide.with(binding.root.context).load(it).into(binding.imageViewBackground)
+            }
 
             binding.shopName.text = newsData.title
 

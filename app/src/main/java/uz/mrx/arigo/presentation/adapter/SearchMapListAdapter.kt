@@ -20,8 +20,6 @@ class SearchMapListAdapter(private var onItemClickListener: (MapListResponse) ->
             binding.marketName.text = newsData.title
             binding.yourLocation.text = newsData.locations
 
-
-
             itemView.setOnClickListener {
                 onItemClickListener.invoke(newsData)
             }

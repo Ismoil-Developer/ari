@@ -46,6 +46,17 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        binding.repeatBtn.isEnabled = false
+
+        binding.resend.setOnClickListener {
+            if (binding.resend.isEnabled) {
+                viewModel.postRegister(RegisterRequest(args.phonenumber))
+                startCountdown()
+            }
+        }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.confirmResponse.collectLatest {
                 if (it.access.isNotEmpty()) {
@@ -150,27 +161,36 @@ class ConfirmScreen : Fragment(R.layout.screen_confirm) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun startCountdown() {
-        countDownTimer?.cancel() // Eski taymerni bekor qilish
-        countDownTimer = object : CountDownTimer(120000, 1000) {
+        countDownTimer?.cancel()
 
+        // 🔒 Tugmani bosib bo‘lmasligi uchun `resend`ni disable qilamiz
+        binding.resend.isEnabled = false
+        binding.resend.isClickable = false
+        binding.repeatBtn.setCardBackgroundColor(resources.getColor(R.color.buttonBgColorFalse, null))
+
+        countDownTimer = object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
                 val minutes = secondsRemaining / 60
                 val seconds = secondsRemaining % 60
                 val timeString = String.format("%02d:%02d", minutes, seconds)
                 binding.imageRepeat.text = timeString
-
             }
 
             override fun onFinish() {
-                countDownTimer = null
-                Toast.makeText(requireContext(), "Vaqt tugadi", Toast.LENGTH_SHORT).show()
-            }
 
+                countDownTimer = null
+
+                // ✅ Tugma yana bosilishi mumkin bo‘ladi
+                binding.resend.isEnabled = true
+                binding.resend.isClickable = true
+                binding.repeatBtn.setCardBackgroundColor(resources.getColor(R.color.buttonBgColor, null))
+                binding.imageRepeat.text = ""
+            }
         }.start()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -319,14 +319,17 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
     }
 
     // Bitmaplarni birlashtirish (marker foni + shop.image)
-    private fun overlayImages(background: Bitmap?, foreground: Bitmap): Bitmap {
+    private fun overlayImages(background: Bitmap?, foreground: Bitmap): Bitmap? {
         if (background == null) return foreground
 
-        val result = Bitmap.createBitmap(background.width, background.height, background.config)
-        val canvas = Canvas(result)
+        val result =
+            background.config?.let { Bitmap.createBitmap(background.width, background.height, it) }
+        val canvas = result?.let { Canvas(it) }
 
         // Marker fonini chizish
-        canvas.drawBitmap(background, 0f, 0f, null)
+        if (canvas != null) {
+            canvas.drawBitmap(background, 0f, 0f, null)
+        }
 
         // Shop rasmni joylash
         val imageSize = background.width / 2
@@ -334,7 +337,9 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
         val y = (background.height - imageSize) / 2.5f
 
         val resizedForeground = Bitmap.createScaledBitmap(foreground, imageSize, imageSize, false)
-        canvas.drawBitmap(resizedForeground, x.toFloat(), y.toFloat(), null)
+        if (canvas != null) {
+            canvas.drawBitmap(resizedForeground, x.toFloat(), y.toFloat(), null)
+        }
 
         return result
     }
@@ -363,7 +368,6 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
     }
-
 
     override fun onStart() {
         super.onStart()
