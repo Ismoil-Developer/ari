@@ -378,15 +378,17 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     override fun onCameraPositionChanged(
         map: Map,
         cameraPosition: CameraPosition,
-        p2: CameraUpdateReason,
+        reason: CameraUpdateReason,
         finished: Boolean
     ) {
+        if (!isAdded || view == null || viewLifecycleOwner.lifecycle.currentState != Lifecycle.State.RESUMED) return
+
         if (!isMarkerRaised) raiseMarker()
 
         if (finished) {
             lowerMarker()
             val markerPoint = getMarkerBottomPointCoordinates()
-            getAddressFromCoordinates(markerPoint!!)
+            markerPoint?.let { getAddressFromCoordinates(it) }
         }
     }
 
@@ -399,13 +401,14 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     }
 
     private fun lowerMarker() {
+        if (!isAdded || view == null || viewLifecycleOwner.lifecycle.currentState != Lifecycle.State.RESUMED) return
+
         binding.marker.animate()
-            .translationY(0f) // Marker orqaga tushadi
+            .translationY(0f)
             .setDuration(200)
             .start()
         isMarkerRaised = false
     }
-
 
     private fun getAddressFromCoordinates(point: Point) {
         searchSession?.cancel()
@@ -444,16 +447,6 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
     }
 
 
-    // 📌 Marker yangilash (foydalanuvchi tanlagan joyda marker chiqarish)
-    private fun updateMarker(point: Point) {
-        if (selectedMarker != null) {
-            mapObjects.remove(selectedMarker!!)
-        }
-        selectedMarker = mapObjects.addPlacemark(
-            point,
-            ImageProvider.fromResource(requireContext(), R.drawable.ic_location_pin)
-        )
-    }
 
     private fun isGpsEnabled(): Boolean {
         val locationManager =

@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class SearchMapScreenDirectionImpl @Inject constructor(private val navigator: Navigator):SearchMapScreenDirection{
 
-    override suspend fun openSearchMapScreen(id: Int) {
-        navigator.navigateTo(SearchMapScreenDirections.actionSearchMapScreenToMagazineDetailScreen(id))
+    override suspend fun openSearchMapScreen(id: Int, roleId:Int) {
+        navigator.navigateTo(SearchMapScreenDirections.actionSearchMapScreenToMagazineDetailScreen(id, roleId))
     }
 
 }

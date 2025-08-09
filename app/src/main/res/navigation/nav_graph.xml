@@ -108,6 +108,10 @@
         <action
             android:id="@+id/action_magazineDetailScreen_to_orderUpdateScreen"
             app:destination="@id/orderUpdateScreen" />
+        <argument
+            android:name="roleid"
+            app:argType="integer"
+            android:defaultValue="-1" />
 
     </fragment>
     <fragment
@@ -174,6 +178,10 @@
         <action
             android:id="@+id/action_searchMapScreen_to_magazineDetailScreen"
             app:destination="@id/magazineDetailScreen" />
+        <argument
+            android:name="roleid"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/shopListScreen"

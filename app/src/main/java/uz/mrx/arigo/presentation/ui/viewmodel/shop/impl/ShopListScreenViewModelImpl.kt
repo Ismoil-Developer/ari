@@ -18,9 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ShopListScreenViewModelImpl @Inject constructor(private val direction: ShopListScreenDirection, private val useCase: FeatureUseCase):ShopListScreenViewModel, ViewModel() {
 
-    override fun openMapSearchScreen(id: Int) {
+    override fun openMapSearchScreen(id: Int, roleId: Int) {
         viewModelScope.launch {
-            direction.openMapSearchScreen(id)
+            direction.openMapSearchScreen(id, roleId)
         }
     }
 
@@ -39,10 +39,10 @@ class ShopListScreenViewModelImpl @Inject constructor(private val direction: Sho
 
     override val responseShopList = flow<List<ShopListResponse>>()
 
-    override fun openShopDetailScreen(id: Int) {
+    override fun openShopDetailScreen(id: Int, roleId:Int) {
 
         viewModelScope.launch {
-            direction.openShopDetailScreen(id)
+            direction.openShopDetailScreen(id, roleId)
         }
 
     }

@@ -44,7 +44,6 @@ class ProfilePage:Fragment(R.layout.page_profile) {
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
-
     @Inject
     lateinit var shp:MySharedPreference
 

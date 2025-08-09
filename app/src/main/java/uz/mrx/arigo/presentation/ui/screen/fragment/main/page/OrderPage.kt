@@ -1,7 +1,6 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,11 +34,13 @@ class OrderPage:Fragment(R.layout.page_order) {
         val adapterAssigned = AssignedAdapter {
             viewModel.openOrderDeliveryScreen(it.id)
         }
+
         binding.rvActive.adapter = adapterAssigned
 
         val pendingAdapter = PendingAdapter {
             viewModel.openOrderDetailScreen(it.id)
         }
+
         binding.rvDisActive.adapter = pendingAdapter
 
         var assignedListIsEmpty = true
@@ -82,6 +83,4 @@ class OrderPage:Fragment(R.layout.page_order) {
         }
     }
 
-
 }
-

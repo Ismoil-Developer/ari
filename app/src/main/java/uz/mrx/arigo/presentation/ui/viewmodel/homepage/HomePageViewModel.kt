@@ -12,7 +12,7 @@ import uz.mrx.arigo.data.remote.response.order.OrderPendingSearchResponse
 
 interface HomePageViewModel {
 
-    fun openMagazineDetailScreen(id:Int)
+    fun openMagazineDetailScreen(id:Int, roleId: Int)
 
     fun openLocationScreen()
 
@@ -27,7 +27,6 @@ interface HomePageViewModel {
     val getAdvertisingResponse:Flow<List<AdvertisingResponse>>
 
     val getPendingSearchResponse:Flow<List<OrderPendingSearchResponse>>
-
 
     fun openOrderDetailScreen(id: Int)
 

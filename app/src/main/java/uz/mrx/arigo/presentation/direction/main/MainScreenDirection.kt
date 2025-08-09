@@ -1,10 +1,9 @@
 package uz.mrx.arigo.presentation.direction.main
 
-import uz.mrx.arigo.data.remote.response.order.Coordinates
 
 interface MainScreenDirection {
 
-    suspend fun openMagazineDetailScreen(id:Int)
+    suspend fun openMagazineDetailScreen(id:Int, roleId:Int)
 
     suspend fun openLocationScreen()
 

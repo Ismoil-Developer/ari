@@ -1,17 +1,27 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.detail.magazine
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.MapObjectTapListener
+import com.yandex.mapkit.map.PlacemarkMapObject
+import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -32,12 +42,18 @@ class MagazineInfoPage(
     private val binding: PageMagazineInfoBinding by viewBinding(PageMagazineInfoBinding::bind)
     private val viewModel: MagazineDetailScreenViewModel by viewModels<MagazineDetailScreenViewModelImpl>()
 
+    private lateinit var mapView: MapView
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (id != -1) {
             viewModel.getFeaturesDetail(id)
         }
+
+        mapView = binding.mapView
+        MapKitFactory.initialize(requireContext())
 
         val adapter = FeedBackAdapter { /* click callback, if needed */ }
         binding.rvFeedBack.adapter = adapter
@@ -50,8 +66,34 @@ class MagazineInfoPage(
                 binding.workPhoneTxt.text = detail.phone_number
                 binding.resAboutTxt.text = detail.about
 
+
+
+
+                val coordinates = detail.coordinates.coordinates
+                if (coordinates.size >= 2) {
+                    val lon = coordinates[0]
+                    val lat = coordinates[1]
+                    val point = Point(lat, lon)
+
+                    mapView.map.move(
+                        CameraPosition(point, 16.0f, 0.0f, 0.0f)
+                    )
+
+                    val placemark: PlacemarkMapObject = mapView.map.mapObjects.addPlacemark(
+                        point,
+                        ImageProvider.fromResource(requireContext(), R.drawable.icon_maps_b) // O‘zingni marker ikonkang
+                    )
+
+                    placemark.addTapListener(MapObjectTapListener { _, _ ->
+                        openNavigationChooser(lat, lon)
+                        true
+                    })
+                }
+
+                detail.coordinates.coordinates
                 adapter.submitList(detail.feedbacks)
                 setRatingStars(detail.rating)
+
             }
         }
 
@@ -123,4 +165,61 @@ class MagazineInfoPage(
             imageView.setImageResource(drawableRes)
         }
     }
+
+
+    private fun openNavigationChooser(lat: Double, lon: Double) {
+        val uri = Uri.parse("geo:$lat,$lon?q=$lat,$lon(Manzil)")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+
+        // Telefon ichidagi barcha navigatsiya ilovalari ro'yxati
+        val packageManager = requireContext().packageManager
+        val activities = packageManager.queryIntentActivities(intent, 0)
+
+        if (activities.isEmpty()) {
+            Toast.makeText(requireContext(), "Hech qanday navigator ilovasi topilmadi", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Navigatsiya ilovalarini tanlash dialogi
+        val appNames = activities.map {
+            val appLabel = it.loadLabel(packageManager).toString()
+            val packageName = it.activityInfo.packageName
+            Triple(appLabel, packageName, it) // (nomi, package, ResolveInfo)
+        }
+
+        val appLabels = appNames.map { it.first }.toTypedArray()
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Xaritani tanlang")
+            .setItems(appLabels) { _, which ->
+                val (_, packageName, resolveInfo) = appNames[which]
+
+                val chosenIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+                    setPackage(packageName)
+                    setClassName(packageName, resolveInfo.activityInfo.name)
+                }
+
+                try {
+                    startActivity(chosenIntent)
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Ilovani ochib bo‘lmadi", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .show()
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        binding.mapView.onStart()
+        MapKitFactory.getInstance().onStart()
+    }
+
+    override fun onStop() {
+        binding.mapView.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
+
+
 }

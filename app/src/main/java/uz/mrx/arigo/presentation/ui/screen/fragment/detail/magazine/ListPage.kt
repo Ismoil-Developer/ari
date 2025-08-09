@@ -24,7 +24,7 @@ import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScree
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
 
 @AndroidEntryPoint
-class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
+class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.page_list) {
 
     private val binding: PageListBinding by viewBinding(PageListBinding::bind)
 
@@ -54,15 +54,26 @@ class ListPage(private val id: Int) : Fragment(R.layout.page_list) {
 
         }
 
+        Log.d("ROLEID", "onViewCreated: $roleId")
+        val hintResId = when (roleId) {
+            1 -> R.string.hint_magazine_order
+            2 -> R.string.hint_pharmacy_order
+            else -> R.string.hechnima // yoki boshqa default hint
+        }
+
+        binding.edtOrder.setHint(hintResId)
+
         binding.imageQuestionsUnCheck.setOnClickListener {
             isChecked = true
             binding.imageQuestionsUnCheck.visibility = View.GONE
             binding.imageQuestionsCheck.visibility = View.VISIBLE
 
             // isChecked true bo'lsa, dialog ochiladi
-            val dialog = FeatureDialogFragment(1) { selectedShopId ->
+            val dialog = FeatureDialogFragment(roleId) { selectedShopId ->
                 additionalShopId = selectedShopId
             }
+
+            Log.d("ADDITIONAL", "onViewCreated: $roleId")
 
             dialog.show(parentFragmentManager, "FeatureDialog")
 

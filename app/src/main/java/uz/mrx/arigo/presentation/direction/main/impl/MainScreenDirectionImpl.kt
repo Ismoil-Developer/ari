@@ -9,8 +9,8 @@ import javax.inject.Inject
 class MainScreenDirectionImpl @Inject constructor(private val navigator: Navigator) :
     MainScreenDirection{
 
-    override suspend fun openMagazineDetailScreen(id:Int) {
-        navigator.navigateTo(MainScreenDirections.actionScreenMainToMagazineDetailScreen(id))
+    override suspend fun openMagazineDetailScreen(id:Int, roleId:Int) {
+        navigator.navigateTo(MainScreenDirections.actionScreenMainToMagazineDetailScreen(id, roleId))
     }
 
     override suspend fun openLocationScreen() {

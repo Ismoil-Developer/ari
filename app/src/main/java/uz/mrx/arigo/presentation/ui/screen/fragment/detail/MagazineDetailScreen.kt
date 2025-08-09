@@ -59,7 +59,7 @@ class MagazineDetailScreen:Fragment(R.layout.screen_magazine_detail) {
             }
         }
 
-        binding.viewPager.adapter = MagazineViewPager(requireActivity(), args.id)
+        binding.viewPager.adapter = MagazineViewPager(requireActivity(), args.id, args.roleid)
 
         binding.viewPager.isUserInputEnabled = false
 

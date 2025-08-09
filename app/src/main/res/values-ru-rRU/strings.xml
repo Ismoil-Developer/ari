@@ -88,5 +88,14 @@
     <string name="tez">Быстрый</string>
     <string name="yetkazish_manzili">Адрес доставки</string>
     <string name="ilovadan_chiqish_uchun_yana_bir_marta_orqaga_tugmasini_bosing">Нажмите «Назад» еще раз, чтобы выйти из приложения</string>
+    <string name="hint_magazine_order">
+        Например: 2 кг картошки (красной), 3 литра молока (3%), 10 штук яиц, 0.5 кг колбасы extra. Укажите название товара, количество и марку.
+    </string>
+
+    <!-- Подсказка для аптеки -->
+    <string name="hint_pharmacy_order">
+        Например: Парацетамол 500 мг (для взрослых), 10 штук. Укажите название лекарства, дозировку, количество и для кого оно (взрослые или дети).
+    </string>
+    <string name="hechnima"> </string>
 
 </resources>

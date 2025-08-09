@@ -35,7 +35,7 @@ class App : Application() {
 
         // WebSocket connect qilish
         val token = sharedPreference.token
-        val url = "ws://ari-delivery.uz/ws/goo/connect/"
+        val url = "wss://ari-delivery.uz/ws/goo/connect/"
 
         if (token.isNotEmpty()) {
             webSocketClient.connect(url, token)

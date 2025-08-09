@@ -251,11 +251,11 @@ class HomePage : Fragment(R.layout.page_home) {
         })
 
         val magazineAdapter = MagazineAdapter {
-            viewModel.openMagazineDetailScreen(it.id)
+            viewModel.openMagazineDetailScreen(it.id, 1)
         }
 
         val pharmacyAdapter = PharmacyAdapter {
-            viewModel.openMagazineDetailScreen(it.id)
+            viewModel.openMagazineDetailScreen(it.id, 2)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

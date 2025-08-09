@@ -39,6 +39,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:fontFamily="@font/font_family_medium"
             android:text=""
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="18sp"
             android:textColor="@color/text_color_medium"
             app:layout_constraintStart_toStartOf="parent"

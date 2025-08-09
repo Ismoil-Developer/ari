@@ -9,6 +9,6 @@ interface SearchMapScreenViewModel {
 
     val searchMapListResponse: Flow<List<MapListResponse>>
 
-    fun openShopDetail(id:Int)
+    fun openShopDetail(id:Int, roleId:Int)
 
 }

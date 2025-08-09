@@ -89,5 +89,9 @@
     <string name="tez">Tez</string>
     <string name="yetkazish_manzili">Yetkazish manzili</string>
     <string name="ilovadan_chiqish_uchun_yana_bir_marta_orqaga_tugmasini_bosing">Ilovadan chiqish uchun yana bir marta \'Orqaga\' tugmasini bosing</string>
+    <string name="hint_magazine_order">Masalan: 2 kg kartoshka (qizil), 3 litr sut (3%), 10 dona tuxum, 0.5 kg extra kolbasa. Mahsulot nomi, miqdori va markasini yozing</string>
+    <string name="hint_pharmacy_order">Masalan: Paratsetamol 500 mg (kattalar uchun), 10 dona. Dori nomi, dozasi, miqdori va kim uchun (kattalar yoki bolalar) ekanligini yozing</string>
+    <string name="hechnima"> </string>
+
 
 </resources>

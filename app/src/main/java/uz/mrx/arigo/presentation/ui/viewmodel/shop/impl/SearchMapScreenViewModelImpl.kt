@@ -30,9 +30,9 @@ class SearchMapScreenViewModelImpl @Inject constructor(private val direction:Sea
 
     override val searchMapListResponse = flow<List<MapListResponse>>()
 
-    override fun openShopDetail(id: Int) {
+    override fun openShopDetail(id: Int, roleId:Int) {
         viewModelScope.launch {
-            direction.openSearchMapScreen(id)
+            direction.openSearchMapScreen(id, roleId)
         }
     }
 

@@ -3,6 +3,7 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.shop
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -31,12 +32,13 @@ class ShopListScreen : Fragment(R.layout.screen_list_shop) {
         super.onViewCreated(view, savedInstanceState)
         
         val adapter = ShopListAdapter {
-            viewModel.openShopDetailScreen(it.id)
+            viewModel.openShopDetailScreen(it.id, args.id)
         }
 
         if (args.id == 1){
             binding.title.setText(R.string.magazinlar)
-        }else{
+        }
+        else if (args.id == 2){
             binding.title.setText(R.string.dorihona)
         }
 
@@ -81,12 +83,12 @@ class ShopListScreen : Fragment(R.layout.screen_list_shop) {
             }
         })
 
-        // Handle Map Search Click
+
+        Log.d("ROLEID", "onViewCreated: searchid = ${args.id}")
         binding.map.setOnClickListener {
-            viewModel.openMapSearchScreen(args.id)
+            viewModel.openMapSearchScreen(args.id, args.id)
         }
 
-        // Initially load the shop list
         viewModel.openShopList(args.id)
 
     }

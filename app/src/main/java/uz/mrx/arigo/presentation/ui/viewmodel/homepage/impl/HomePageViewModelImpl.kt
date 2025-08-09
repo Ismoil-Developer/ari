@@ -30,9 +30,9 @@ class HomePageViewModelImpl @Inject constructor(
     private val orderUseCase: OrderUseCase
 ) : HomePageViewModel, ViewModel() {
 
-    override fun openMagazineDetailScreen(id: Int) {
+    override fun openMagazineDetailScreen(id: Int, roleId: Int) {
         viewModelScope.launch {
-            direction.openMagazineDetailScreen(id)
+            direction.openMagazineDetailScreen(id, roleId)
         }
     }
 

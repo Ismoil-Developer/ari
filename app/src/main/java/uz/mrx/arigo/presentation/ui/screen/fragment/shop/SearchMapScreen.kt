@@ -58,6 +58,15 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        if (args.id == 1){
+            binding.title.setText(R.string.magazinlar)
+        }
+        else if (args.id == 2){
+            binding.title.setText(R.string.dorihona)
+        }
+
         if (!isGpsEnabled()) {
             Toast.makeText(
                 requireContext(),
@@ -114,7 +123,7 @@ class SearchMapScreen : Fragment(R.layout.screen_map_search) {
         })
 
         val searchMapListAdapter = SearchMapListAdapter {
-            viewModel.openShopDetail(it.id)
+            viewModel.openShopDetail(it.id, args.roleid)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
