@@ -63,21 +63,21 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
 
         binding.edtOrder.setHint(hintResId)
 
-        binding.imageQuestionsUnCheck.setOnClickListener {
-            isChecked = true
-            binding.imageQuestionsUnCheck.visibility = View.GONE
-            binding.imageQuestionsCheck.visibility = View.VISIBLE
-
-            // isChecked true bo'lsa, dialog ochiladi
-            val dialog = FeatureDialogFragment(roleId) { selectedShopId ->
-                additionalShopId = selectedShopId
-            }
-
-            Log.d("ADDITIONAL", "onViewCreated: $roleId")
-
-            dialog.show(parentFragmentManager, "FeatureDialog")
-
-        }
+//        binding.imageQuestionsUnCheck.setOnClickListener {
+//            isChecked = true
+//            binding.imageQuestionsUnCheck.visibility = View.GONE
+//            binding.imageQuestionsCheck.visibility = View.VISIBLE
+//
+//            // isChecked true bo'lsa, dialog ochiladi
+//            val dialog = FeatureDialogFragment(roleId) { selectedShopId ->
+//                additionalShopId = selectedShopId
+//            }
+//
+//            Log.d("ADDITIONAL", "onViewCreated: $roleId")
+//
+//            dialog.show(parentFragmentManager, "FeatureDialog")
+//
+//        }
 
         binding.repeatBtn.isEnabled = false
 
@@ -112,11 +112,11 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
         })
 
 
-        binding.imageQuestionsCheck.setOnClickListener {
-            isChecked = false
-            binding.imageQuestionsUnCheck.visibility = View.VISIBLE
-            binding.imageQuestionsCheck.visibility = View.GONE
-        }
+//        binding.imageQuestionsCheck.setOnClickListener {
+//            isChecked = false
+//            binding.imageQuestionsUnCheck.visibility = View.VISIBLE
+//            binding.imageQuestionsCheck.visibility = View.GONE
+//        }
 
 
 
