@@ -8,6 +8,7 @@ interface SearchDeliveryScreenDirection {
 
     suspend fun openCancelScreen(id: Int)
 
+    suspend fun openMainScreen()
 
 
 }

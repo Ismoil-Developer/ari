@@ -5,46 +5,71 @@
     android:background="@color/mainBgColor"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/imgDelivery"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="411dp"
-        android:src="@drawable/picture_creera"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_height="match_parent"
+        >
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
-    <TextView
-        android:id="@+id/searchDeliveryTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/font_family"
-        android:text="@string/sizga_eng_yaqin_kuryer_nqidirilmoqda"
-        android:textColor="@color/text_color_bold"
-        android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imgDelivery" />
+            <ImageView
+                android:id="@+id/imgDelivery"
+                android:layout_width="match_parent"
+                android:layout_height="411dp"
+                android:src="@drawable/picture_creera"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
-    <TextView
-        android:id="@+id/searchDeliveryTxtDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/font_family_medium"
-        android:text="@string/biz_ommaviy_hamkorlik_asosida_ishlaymiz_buyurtma_berganingizda_tizim_sizga_eng_mos_kuryerni_avtomatik_tanlaydi"
-        android:textColor="@color/gray500"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="56dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/searchDeliveryTxt" />
+            <TextView
+                android:id="@+id/searchDeliveryTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/font_family"
+                android:text="@string/sizga_eng_yaqin_kuryer_nqidirilmoqda"
+                android:textColor="@color/text_color_bold"
+                android:textSize="26sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/imgDelivery" />
 
+            <TextView
+                android:id="@+id/searchDeliveryTxtDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/font_family_medium"
+                android:text="@string/biz_ommaviy_hamkorlik_asosida_ishlaymiz_buyurtma_berganingizda_tizim_sizga_eng_mos_kuryerni_avtomatik_tanlaydi"
+                android:textColor="@color/gray500"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="56dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintTop_toBottomOf="@id/searchDeliveryTxt" />
+
+            <ImageView
+                android:id="@+id/icBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/text_color_bold" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
@@ -63,6 +88,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="20dp"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,18 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.order
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -20,6 +24,7 @@ import uz.mrx.arigo.databinding.ScreenSearchDeliveryBinding
 import uz.mrx.arigo.presentation.ui.dialog.OrderDialogRetry
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.SearchDeliveryScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.searchdelivery.impl.SearchDeliveryScreenViewModelImpl
+import uz.mrx.arigo.utils.toast
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,6 +33,8 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
     private val binding: ScreenSearchDeliveryBinding by viewBinding(ScreenSearchDeliveryBinding::bind)
 
     private val viewModel: SearchDeliveryScreenViewModel by viewModels<SearchDeliveryScreenViewModelImpl>()
+
+    private val args:SearchDeliveryScreenArgs by navArgs()
 
     @Inject
     lateinit var clientWebSocketClient: ClientWebSocketClient
@@ -38,6 +45,10 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.icBack.setOnClickListener {
+            viewModel.openMainScreen()
+        }
+
         val token = sharedPreference.token
         val url = "wss://ari-delivery.uz/ws/goo/connect/"
 
@@ -46,7 +57,11 @@ class SearchDeliveryScreen : Fragment(R.layout.screen_search_delivery) {
         observeWebSocketEvents()
 
         binding.btnContinue.setOnClickListener {
-            Toast.makeText(requireContext(), "Kutish rejimi...", Toast.LENGTH_SHORT).show()
+            if (args.id != -1){
+                viewModel.orderCancelScreen(args.id)
+            }else{
+                toast("Qayta urinib ko'ring")
+            }
         }
 
     }

@@ -21,9 +21,9 @@ import uz.mrx.arigo.presentation.ui.viewmodel.order.impl.UpdateOrderScreenViewMo
 class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
     private val binding: ScreenOrderUpdateBinding by viewBinding(ScreenOrderUpdateBinding::bind)
-    private val viewModel:UpdateOrderScreenViewModel by viewModels<UpdateOrderScreenViewModelImpl>()
+    private val viewModel: UpdateOrderScreenViewModel by viewModels<UpdateOrderScreenViewModelImpl>()
 
-    private val args:OrderUpdateScreenArgs by navArgs()
+    private val args: OrderUpdateScreenArgs by navArgs()
 
     var locationId = -1
 
@@ -62,7 +62,7 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
         }
 
         binding.icNext.setOnClickListener {
-            if (locationId != -1){
+            if (locationId != -1) {
                 Log.d("LLLLLLL", "onViewCreated: $locationId")
                 viewModel.openAddLocationScreen(locationId, "orderUpdate", args.orderId)
             }
@@ -78,14 +78,16 @@ class OrderUpdateScreen : Fragment(R.layout.screen_order_update) {
 
             Log.d("LLLLLLL", "onViewCreated: ${args.id}")
 
-            if (args.id != -1){
-                viewModel.updateOrder(args.id, UpdateOrderRequest(houseNumber, appartmentNumer, floor, damophone, otherMessage))
+            if (args.id != -1) {
+                viewModel.updateOrder(
+                    args.id,
+                    UpdateOrderRequest(houseNumber, appartmentNumer, floor, damophone, otherMessage)
+                )
             }
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.updateResponse.collectLatest {
-
-                    viewModel.openSearchScreenViewModel()
+                    viewModel.openSearchScreenViewModel(it.id)
 
                 }
             }

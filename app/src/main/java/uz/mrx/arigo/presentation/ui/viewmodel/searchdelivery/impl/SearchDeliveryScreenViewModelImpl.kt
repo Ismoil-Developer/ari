@@ -118,6 +118,12 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
         }
     }
 
+    override fun openMainScreen() {
+        viewModelScope.launch {
+            direction.openMainScreen()
+        }
+    }
+
 
 
 

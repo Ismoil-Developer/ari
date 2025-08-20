@@ -31,4 +31,7 @@ interface SearchDeliveryScreenViewModel {
 
     fun orderCancelScreen(id: Int)
 
+    fun openMainScreen()
+
+
 }

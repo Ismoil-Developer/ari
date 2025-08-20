@@ -130,6 +130,13 @@
         <action
             android:id="@+id/action_searchDeliveryScreen_to_orderCancelScreen"
             app:destination="@id/orderCancelScreen" />
+        <action
+            android:id="@+id/action_searchDeliveryScreen_to_screenMain"
+            app:destination="@id/screenMain" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/locationScreen"

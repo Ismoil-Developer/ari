@@ -20,10 +20,10 @@ import javax.inject.Inject
 @HiltViewModel
 class UpdateOrderScreenViewModelImpl @Inject constructor(private val useCaseLoc:LocationUseCase, private val useCase: OrderUseCase, private val direction:UpdateOrderScreenDirection):UpdateOrderScreenViewModel, ViewModel(){
 
-    override fun openSearchScreenViewModel() {
+    override fun openSearchScreenViewModel(id: Int) {
 
         viewModelScope.launch {
-            direction.openSearchDeliveryScreen()
+            direction.openSearchDeliveryScreen(id)
         }
 
     }

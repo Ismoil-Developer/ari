@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,8 +17,6 @@ import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
 import uz.mrx.arigo.databinding.PageListBinding
-import uz.mrx.arigo.presentation.ui.dialog.FeatureDialogFragment
-import uz.mrx.arigo.presentation.ui.screen.fragment.detail.MagazineDetailScreenArgs
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
 
@@ -40,11 +37,14 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
         binding.edtOrder.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance())
 
         if (id != -1){
+
             viewModel.getAdditionalShop(id)
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.additionalShopResponse.collectLatest {
+
                     binding.title.text = it.title
+
                     it.image.let {
                         Glide.with(requireContext()).load(it).into(binding.otherShop)
 
