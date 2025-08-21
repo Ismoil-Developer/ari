@@ -15,7 +15,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <size android:height="4dp"/>
-                <solid android:color="#FF9800"/> <!-- Yorqin orange -->
+                <solid android:color="#FFCC00"/> <!-- Yorqin orange -->
                 <corners android:radius="2dp"/>
             </shape>
         </clip>
