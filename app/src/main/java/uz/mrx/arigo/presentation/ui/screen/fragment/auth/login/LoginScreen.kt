@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -61,6 +62,13 @@ class LoginScreen : Fragment(R.layout.screen_login) {
                     }
                 }
             })
+
+
+        binding.textOfferta.setOnClickListener {
+            findNavController().navigate(R.id.action_loginScreen_to_privacyScreen)
+        }
+
+
 
 
         binding.container.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {

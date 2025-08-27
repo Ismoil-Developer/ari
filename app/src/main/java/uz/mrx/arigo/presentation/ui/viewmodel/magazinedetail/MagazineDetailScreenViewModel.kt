@@ -34,4 +34,8 @@ interface MagazineDetailScreenViewModel {
 
     val additionalShopResponse:Flow<AdditionalShopResponse>
 
+    fun queryAddShop(id: Int, excludeId: Int)
+
+    val queryAddShopResponse:Flow<List<ShopListResponse>>
+
 }

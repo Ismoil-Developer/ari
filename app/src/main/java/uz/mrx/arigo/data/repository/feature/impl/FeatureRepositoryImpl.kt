@@ -204,21 +204,22 @@ class FeatureRepositoryImpl @Inject constructor(private val api: FeatureApi):Fea
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    override suspend fun queryAdditionalShop(id: Int, excludeId: Int) = channelFlow<ResultData<List<ShopListResponse>>> {
+        try {
+            val response = api.queryAdditionalShop(id, excludeId)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    trySend(ResultData.success(body))
+                } else {
+                    trySend(ResultData.messageText("Response body is null"))
+                }
+            } else {
+                trySend(ResultData.messageText("Error ${response.code()}: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            trySend(ResultData.error(e))
+        }
+    }
 
 }

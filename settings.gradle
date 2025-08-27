@@ -16,11 +16,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
+        gradlePluginPortal()
+        maven { url = uri("https://jitpack.io") }
+        maven { url 'https://maven.google.com' }
         maven { url 'https://maven.yandex.ru/' }
-        mavenCentral {
-            url("https://jitpack.io/")
-        }
+        maven { url "https://jcenter.bintray.com"}
+        maven { url "https://repository.liferay.com/nexus/content/repositories/public/" }
     }
+
 }
 
 

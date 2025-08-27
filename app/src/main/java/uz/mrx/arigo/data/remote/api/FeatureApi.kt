@@ -51,6 +51,11 @@ interface FeatureApi {
     @POST("/shop/shops/{id}/feedback/")
     suspend fun postFeedBack(@Path("id") id: Int, @Body feedBackRequest: FeedBackRequest):Response<FeedBackResponse>
 
+    @GET("/shop/shop-list/{id}/")
+    suspend fun queryAdditionalShop(
+        @Path("id") id: Int,
+        @Query("exclude_shop_id") excludeId: Int
+    ): Response<List<ShopListResponse>>
 
 
 

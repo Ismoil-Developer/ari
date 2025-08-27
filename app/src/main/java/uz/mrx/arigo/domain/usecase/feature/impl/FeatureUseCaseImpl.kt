@@ -48,20 +48,9 @@ class FeatureUseCaseImpl @Inject constructor(private val repository: FeatureRepo
         feedBackRequest: FeedBackRequest
     ): Flow<ResultData<FeedBackResponse>> = repository.postFeedBack(id, feedBackRequest)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    override suspend fun queryAdditionalShop(
+        id: Int,
+        excludeId: Int
+    ): Flow<ResultData<List<ShopListResponse>>> = repository.queryAdditionalShop(id, excludeId)
 
 }

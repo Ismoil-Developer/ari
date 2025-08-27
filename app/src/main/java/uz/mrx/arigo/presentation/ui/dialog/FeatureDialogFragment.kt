@@ -15,7 +15,7 @@ import uz.mrx.arigo.presentation.adapter.ShopListAdapter
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.MagazineDetailScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl.MagazineDetailScreenViewModelImpl
 
-class FeatureDialogFragment(private val id:Int,     private val onShopSelected: (Int) -> Unit // callback qo‘shamiz
+class FeatureDialogFragment(private val id:Int,   private val magazineId:Int,  private val onShopSelected: (Int) -> Unit // callback qo‘shamiz
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogFeaturesBinding
@@ -32,7 +32,7 @@ class FeatureDialogFragment(private val id:Int,     private val onShopSelected: 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.getFeaturesById(id)
+        viewModel.queryAddShop(id, magazineId)
 
         shopListAdapter = ShopListAdapter { selectedShop ->
             onShopSelected(selectedShop.id) // tanlangan do‘konning id sini qaytaramiz
@@ -41,8 +41,7 @@ class FeatureDialogFragment(private val id:Int,     private val onShopSelected: 
 
 
         lifecycleScope.launch {
-            viewModel.getFeaturesResponse.collectLatest { shopList ->
-                Log.d("SSSSSSSSSSSSSSSS", "onViewCreated: $shopList")
+            viewModel.queryAddShopResponse.collectLatest { shopList ->
                 shopListAdapter.submitList(shopList)
             }
         }

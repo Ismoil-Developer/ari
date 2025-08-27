@@ -119,11 +119,16 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
                 order.deliver_user.avatar?.let { avatarUrl ->
                     if (avatarUrl.isNotEmpty()) {
-                        Glide.with(requireContext())
+                        Glide.with(binding.prfDelivery.context)
                             .load(avatarUrl)
+                            .placeholder(R.drawable.profile)
+                            .error(R.drawable.profile)
                             .into(binding.prfDelivery)
+
                     }
                 }
+
+                binding.cost.text = order.delivery_price.toString()
 
                 binding.orderTime.text = order.delivery_duration_min.toString()
                 startPoint = Point(order.courier_location.latitude, order.courier_location.longitude)

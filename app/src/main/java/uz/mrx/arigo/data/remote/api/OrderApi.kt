@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.request.order.OrderFeedBackRequest
 import uz.mrx.arigo.data.remote.request.order.OrderRequest
@@ -70,6 +71,8 @@ interface OrderApi {
 
     @GET("/shop/additional-shop/{id}/")
     suspend fun getAdditionalShopById(@Path("id") id: Int):Response<AdditionalShopResponse>
+
+
 
 
 }

@@ -32,4 +32,6 @@ interface FeatureRepository {
 
     suspend fun postFeedBack(id: Int, feedBackRequest: FeedBackRequest):Flow<ResultData<FeedBackResponse>>
 
+    suspend fun queryAdditionalShop(id: Int, excludeId: Int): Flow<ResultData<List<ShopListResponse>>>
+
 }

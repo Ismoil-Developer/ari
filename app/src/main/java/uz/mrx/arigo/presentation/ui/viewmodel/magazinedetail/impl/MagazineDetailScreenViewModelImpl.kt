@@ -1,5 +1,7 @@
 package uz.mrx.arigo.presentation.ui.viewmodel.magazinedetail.impl
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -115,4 +117,18 @@ class MagazineDetailScreenViewModelImpl @Inject constructor(private val directio
 
     override val additionalShopResponse = flow<AdditionalShopResponse>()
 
+    override fun queryAddShop(id: Int, excludeId: Int) {
+        viewModelScope.launch {
+            useCase.queryAdditionalShop(id, excludeId).collectLatest {
+                it.onSuccess {
+                    queryAddShopResponse.tryEmit(it)
+                }
+                it.onError {
+                    Log.d("ADDSHOPERROR", "queryAddShop: ${it.message}")
+                }
+            }
+        }
+    }
+
+    override val queryAddShopResponse = flow<List<ShopListResponse>>()
 }
