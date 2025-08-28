@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,8 +29,8 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
     private val viewModel: MagazineDetailScreenViewModel by viewModels<MagazineDetailScreenViewModelImpl>()
 
     private var isChecked = false
-    private var additionalShopId: Int? = null // bu tanlangan shopId ni saqlaydi
 
+    private var additionalShopId: Int? = null // bu tanlangan shopId ni saqlaydi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +45,11 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
 
                 viewModel.additionalShopResponse.collectLatest {
 
+                    it.image.let {
+                        Glide.with(requireContext()).load(it).into(binding.imageView)
+                    }
+
+                    binding.title.text = it.title
                 }
 
             }
