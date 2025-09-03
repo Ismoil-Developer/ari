@@ -125,15 +125,11 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
             viewModel.createOrder(id, request)
         }
 
-
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.createOrderResponse.collectLatest { response ->
                 viewModel.openUpdateOrderScreen(response.id)
             }
         }
-
-
 
     }
 

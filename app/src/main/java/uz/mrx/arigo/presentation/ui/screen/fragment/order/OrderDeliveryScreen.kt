@@ -136,7 +136,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
                 shopPoint = Point(order.shop_location.latitude, order.shop_location.longitude )
                 binding.courierName.text = order.deliver_user.full_name
 
-                if (order.direction == "arrived_to_customer"){
+                if (order.direction == "handed_over"){
                     viewModel.openOrderCompletedScreen(order.id)
                 }
 
