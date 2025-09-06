@@ -37,24 +37,6 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
 
         binding.edtOrder.setMovementMethod(android.text.method.ScrollingMovementMethod.getInstance())
 
-        if (id != -1){
-
-            viewModel.getAdditionalShop(id)
-
-            viewLifecycleOwner.lifecycleScope.launch {
-
-                viewModel.additionalShopResponse.collectLatest {
-
-                    it.image.let {
-                        Glide.with(requireContext()).load(it).into(binding.imageView)
-                    }
-
-                    binding.title.text = it.title
-                }
-
-            }
-
-        }
 
         Log.d("ROLEID", "onViewCreated: $roleId")
         val hintResId = when (roleId) {
@@ -65,17 +47,29 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
 
         binding.edtOrder.setHint(hintResId)
 
-        binding.addShop.setOnClickListener {
 
+        binding.addShop.setOnClickListener {
             val dialog = FeatureDialogFragment(roleId, id) { selectedShopId ->
                 additionalShopId = selectedShopId
+                viewModel.getAdditionalShop(selectedShopId) // ✅ tanlangandan keyin chaqiriladi
             }
 
-            Log.d("ADDITIONAL", "onViewCreated: $roleId")
-
             dialog.show(parentFragmentManager, "FeatureDialog")
-
         }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.additionalShopResponse.collectLatest { response ->
+                Log.d("ADDITIONAL", "onViewCreated: ${response.image} ")
+
+                Glide.with(requireContext())
+                    .load(response.image)
+                    .into(binding.imageView)
+
+                binding.title.text = response.title
+            }
+        }
+
 
         binding.repeatBtn.isEnabled = false
 
@@ -111,6 +105,7 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
         })
 
         binding.repeatBtn.setOnClickListener {
+
             if (!it.isEnabled) return@setOnClickListener
 
             val orderItems = binding.edtOrder.text.toString()

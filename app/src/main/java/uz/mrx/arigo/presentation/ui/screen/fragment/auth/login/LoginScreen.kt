@@ -42,6 +42,34 @@ class LoginScreen : Fragment(R.layout.screen_login) {
         super.onViewCreated(view, savedInstanceState)
 
 
+        // Dastlab tugma disable bo'lsin
+        binding.btnContinue.isEnabled = false
+        binding.btnContinue.alpha = 0.5f
+
+        // falseCheck bosilganda
+        binding.falseCheck.setOnClickListener {
+            binding.falseCheck.visibility = View.GONE
+            binding.trueCheck.visibility = View.VISIBLE
+
+            binding.btnContinue.isEnabled = true
+            binding.btnContinue.alpha = 1f
+        }
+
+        // trueCheck bosilganda
+        binding.trueCheck.setOnClickListener {
+            binding.trueCheck.visibility = View.GONE
+            binding.falseCheck.visibility = View.VISIBLE
+
+            binding.btnContinue.isEnabled = false
+            binding.btnContinue.alpha = 0.5f
+        }
+
+        // Offerta matniga bosilganda ham privacyScreen ochiladi
+        binding.textOfferta.setOnClickListener {
+            findNavController().navigate(R.id.action_loginScreen_to_privacyScreen)
+        }
+
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -64,12 +92,6 @@ class LoginScreen : Fragment(R.layout.screen_login) {
             })
 
 
-        binding.textOfferta.setOnClickListener {
-            findNavController().navigate(R.id.action_loginScreen_to_privacyScreen)
-        }
-
-
-
 
         binding.container.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
 
@@ -85,52 +107,54 @@ class LoginScreen : Fragment(R.layout.screen_login) {
 
 
         binding.btnContinue.setSafeOnClickListener {
-            val phoneNumber = binding.phoneNumberEditText.text.toString().trim()
 
-            val phoneNumber_ = "+998$phoneNumber"
+            if (binding.trueCheck.visibility == View.VISIBLE) {
+                val phoneNumber = binding.phoneNumberEditText.text.toString().trim()
+                val phoneNumber_ = "+998$phoneNumber"
 
+                if (phoneNumber_.isEmpty()) {
+                    Toast.makeText(requireContext(), "Iltimos, telefon raqamingizni kiriting", Toast.LENGTH_SHORT).show()
+                    return@setSafeOnClickListener
+                }
 
-            if (phoneNumber_.isEmpty()) {
-                Toast.makeText(requireContext(), "Iltimos, telefon raqamingizni kiriting", Toast.LENGTH_SHORT).show()
-                return@setSafeOnClickListener
-            }
+                if (!phoneNumber_.startsWith("+998") || phoneNumber_.length != 13) {
+                    Toast.makeText(requireContext(), "Raqam formati xato. Namuna: +998991234567", Toast.LENGTH_SHORT).show()
+                    return@setSafeOnClickListener
+                }
 
-            if (!phoneNumber_.startsWith("+998") || phoneNumber_.length != 13) {
-                Toast.makeText(requireContext(), "Raqam formati xato. Namuna: +998991234567", Toast.LENGTH_SHORT).show()
-                return@setSafeOnClickListener
-            }
+                // Hamma shartlar to'g'ri bo'lsa:
+                viewModel.postRegister(RegisterRequest(phoneNumber_))
 
-            // Hamma shartlar to'g'ri bo'lsa:
-            viewModel.postRegister(RegisterRequest(phoneNumber_))
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.registerResponse.collectLatest { message ->
-                        if (message.detail == "Kod yuborildi.") {
-                            viewModel.openConfirmScreen(phoneNumber_, "")
-                        } else {
-                            Toast.makeText(requireContext(), "Xatolik yuz berdi", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        viewModel.registerResponse.collectLatest { message ->
+                            if (message.detail == "Kod yuborildi.") {
+                                viewModel.openConfirmScreen(phoneNumber_, "")
+                            } else {
+                                Toast.makeText(requireContext(), "Xatolik yuz berdi", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }
-            }
 
-            lifecycleScope.launchWhenStarted {
-                viewModel.isLoading.collectLatest { isLoading ->
-                    binding.btnContinue.isEnabled = !isLoading
-                    binding.btnContinue.alpha = if (isLoading) 0.5f else 1f
-                    binding.btnContinue.text = if (isLoading) "Yuklanmoqda..." else "Davom etish"
-                }
-            }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                lifecycleScope.launchWhenStarted {
                     viewModel.isLoading.collectLatest { isLoading ->
-                        binding.btnContinue.setLoading(isLoading, "Yuklanmoqda...")
+                        binding.btnContinue.isEnabled = !isLoading
+                        binding.btnContinue.alpha = if (isLoading) 0.5f else 1f
+                        binding.btnContinue.text = if (isLoading) "Yuklanmoqda..." else "Davom etish"
                     }
                 }
-            }
 
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        viewModel.isLoading.collectLatest { isLoading ->
+                            binding.btnContinue.setLoading(isLoading, "Yuklanmoqda...")
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(requireContext(), "Davom etish uchun ommaviy offertaga rozilik bildiring", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

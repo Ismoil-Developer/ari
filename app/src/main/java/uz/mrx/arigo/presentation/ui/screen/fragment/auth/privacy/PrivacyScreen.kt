@@ -51,12 +51,6 @@ class PrivacyScreen : Fragment(R.layout.screen_privacy) {
 
         renderer.close()
 
-        // Toolbar back bosilganda orqaga qaytish
-        binding.toolbar.setNavigationIcon(R.drawable.ic_back)
-
-        binding.toolbar.setNavigationOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-
     }
+
 }

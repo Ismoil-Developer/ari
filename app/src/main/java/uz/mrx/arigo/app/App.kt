@@ -33,17 +33,17 @@ class App : Application() {
 
         instance = this
 
-        // WebSocket connect qilish
-        val token = sharedPreference.token
-        val url = "wss://ari-delivery.uz/ws/goo/connect/"
+        // Lingver init (til sozlash)
+        val languageCode = sharedPreference.language.ifEmpty { "uz" }
+        Lingver.init(this, languageCode)
 
-        if (token.isNotEmpty()) {
+        // ✅ Token bo'lsa ulanish
+        val token = sharedPreference.token
+
+        if (token.isNotBlank()) {
+            val url = "wss://ari-delivery.uz/ws/goo/connect/"
             webSocketClient.connect(url, token)
         }
 
-        val languageCode = sharedPreference.language // "uz", "en", "ru", etc.
-        Lingver.init(this, languageCode)
-
     }
-
 }

@@ -26,7 +26,7 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (sharedPreferences.token.isNotEmpty()){
+        if (sharedPreferences.token.isNotBlank()){
             Log.d("AAAAAA", "onViewCreated: ${sharedPreferences.token}")
             viewModel.openMainScreen()
         }else{

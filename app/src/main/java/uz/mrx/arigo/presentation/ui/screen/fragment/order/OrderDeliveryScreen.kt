@@ -3,7 +3,6 @@ package uz.mrx.arigo.presentation.ui.screen.fragment.order
 import android.content.Intent
 import android.content.IntentSender
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
@@ -19,7 +18,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
@@ -218,9 +216,6 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
             }
         }
 
-
-
-
         binding.icBack.setOnClickListener {
             viewModel.openMainScreen()
         }
@@ -377,6 +372,7 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
     }
 
     private fun updateDeliverySteps(status: String) {
+
         val activeColor = ContextCompat.getColor(requireContext(), R.color.buttonBgColor)
         val inactiveColor = Color.parseColor("#DDDDDD")
 
@@ -392,14 +388,17 @@ class OrderDeliveryScreen:Fragment(R.layout.screen_order_delivery),  DrivingSess
 
         // Holatga qarab aktivlashtiramiz
         when (status) {
+
             "arrived_at_store" -> {
                 binding.arrivedAtStore.setColorFilter(activeColor)
             }
+
             "picked_up" -> {
                 binding.arrivedAtStore.setColorFilter(activeColor)
                 binding.line.setBackgroundColor(activeColor)
                 binding.pickedUp.setColorFilter(activeColor)
             }
+
             "en_route_to_customer" -> {
                 binding.arrivedAtStore.setColorFilter(activeColor)
                 binding.line.setBackgroundColor(activeColor)

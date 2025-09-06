@@ -47,6 +47,9 @@ class ClientWebSocketClient @Inject constructor() {
 
     fun connect(url: String, token: String) {
 
+
+        if (token.isBlank()) return // ❌ Token bo‘sh bo‘lsa ulanish yo‘q
+
         if (webSocket != null) return
 
         currentUrl = url
@@ -175,7 +178,8 @@ class ClientWebSocketClient @Inject constructor() {
                 "order_direction_update" -> {
                     val event = WebSocketGooEvent.OrderDirectionUpdate(
                         order_id = json.getInt("order_id"),
-                        direction = json.getString("direction")
+                        direction = json.getString("direction"),
+                        direction_additional = json.getString("direction_additional")
                     )
                     ResultData.success(event)
                 }

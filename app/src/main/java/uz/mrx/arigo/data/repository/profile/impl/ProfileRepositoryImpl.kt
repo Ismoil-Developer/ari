@@ -38,7 +38,6 @@ class ProfileRepositoryImpl @Inject constructor(private val api: ProfileApi, @Ap
             } else {
                 val errorMessage = "Error ${response.code()}: ${response.message()}"
                 Log.e("API_ERROR", errorMessage)
-                close(Exception(errorMessage))
             }
         } catch (e: Exception) {
             Log.e("API_EXCEPTION", "Exception while fetching data by ID: ${e.message}")

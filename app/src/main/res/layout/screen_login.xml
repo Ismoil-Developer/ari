@@ -137,28 +137,30 @@
                 <LinearLayout
                     android:id="@+id/offerta"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
-
                     <ImageView
                         android:id="@+id/falseCheck"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:checked="false"
                         android:src="@drawable/ic_check_box_false"
+                        app:tint="@color/buttonBgColor"
                         />
 
                     <ImageView
                         android:id="@+id/trueCheck"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:checked="false"
                         android:src="@drawable/ic_check_box_true"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:tint="@color/buttonBgColor"
+                        />
 
                     <TextView
                         android:id="@+id/textOfferta"
@@ -168,7 +170,7 @@
                         android:gravity="center_vertical|start"
                         android:padding="10dp"
                         android:text="Ommaviy offerta shartlariga roziman"
-                        android:textColor="@color/text_color_bold" />
+                        android:textColor="@color/buttonBgColor" />
 
                 </LinearLayout>
 

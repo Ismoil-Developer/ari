@@ -30,7 +30,8 @@ sealed class WebSocketGooEvent {
 
     data class OrderDirectionUpdate(
         val order_id: Int,
-        val direction: String
+        val direction: String,
+        val direction_additional: String?
     ) : WebSocketGooEvent()
 
     data class LocationUpdate(
