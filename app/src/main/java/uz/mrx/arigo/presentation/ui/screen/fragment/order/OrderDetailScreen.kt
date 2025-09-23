@@ -91,16 +91,15 @@ class OrderDetailScreen : Fragment(R.layout.screen_order_detail) {
                 binding.appartmentNumber.text = "Podyezd: " + it.apartment_number
                 binding.houseNumber.text = "Uy raqami: " + it.house_number
 
-                Glide.with(requireContext()).load(it.shop.image).into(binding.viewPagerRes)
-
-                if (it.allow_other_shops) {
-                    binding.imageQuestionsCheck.visibility = View.VISIBLE
-                    binding.imageQuestionsUnCheck.visibility = View.GONE
-                } else {
-                    binding.imageQuestionsCheck.visibility = View.GONE
-                    binding.imageQuestionsUnCheck.visibility = View.VISIBLE
+                if(it.shop.image.isNotEmpty()){
+                    Glide.with(requireContext()).load(it.shop.image).into(binding.viewPagerRes)
                 }
 
+                it.additional_shop.image.let {
+                    Glide.with(requireContext()).load(it).into(binding.imageView)
+
+                }
+                
             }
         }
     

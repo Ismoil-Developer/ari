@@ -25,6 +25,7 @@ class AssignedAdapter(private var onItemClickListener: (AssignedResponse) -> Uni
                 onItemClickListener.invoke(shop)
             }
 
+
         }
 
     }

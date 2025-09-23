@@ -1,13 +1,13 @@
 package uz.mrx.arigo.utils
 
 import android.content.Context
-
-
 sealed class ResultData<out T> {
+    object Loading : ResultData<Nothing>()
     data class Success<T>(val data: T) : ResultData<T>()
     data class Error<T>(val error: Throwable) : ResultData<T>()
     data class Message<T>(val message: MessageDataR) : ResultData<T>()
 
+    val isLoading = this is Loading
     val isSuccess = this is Success<T>
     val isError = this is Error
     val isMessage = this is Message
@@ -28,6 +28,7 @@ sealed class ResultData<out T> {
     }
 
     companion object {
+        fun <T> loading() = Loading
         fun <T> success(value: T) = Success(value)
         fun <T> error(value: Throwable) = Error<T>(value)
         fun <T> messageText(value: String) = Message<T>(MessageDataR.Text(value))
@@ -35,6 +36,7 @@ sealed class ResultData<out T> {
         fun <T> message(value: MessageDataR.Text) = Message<T>(value)
     }
 }
+
 
 sealed class MessageDataR {
     data class Text(val text: String) : MessageDataR()

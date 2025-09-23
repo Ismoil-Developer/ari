@@ -1,6 +1,7 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.profile
 
 import android.Manifest
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,82 +28,70 @@ import uz.mrx.arigo.databinding.ScreenProfileInfoBinding
 import uz.mrx.arigo.presentation.ui.dialog.ProgressDialogFragment
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.ProfileScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.impl.ProfileScreenViewModelImpl
+import java.io.File
 
 @AndroidEntryPoint
-class ProfileInfoScreen:Fragment(R.layout.screen_profile_info) {
+class ProfileInfoScreen : Fragment(R.layout.screen_profile_info) {
 
     private val binding: ScreenProfileInfoBinding by viewBinding(ScreenProfileInfoBinding::bind)
     private val viewModel: ProfileScreenViewModel by viewModels<ProfileScreenViewModelImpl>()
 
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var getContentLauncher: ActivityResultLauncher<String>
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
+
     private var selectedImageUri: Uri? = null
     private var progressDialog: ProgressDialogFragment? = null
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    if (permissions[Manifest.permission.READ_MEDIA_IMAGES] == true) {
-                        openGallery()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Galereyaga kirish uchun ruxsat kerak",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    if (permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true) {
-                        openGallery()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Galereyaga kirish uchun ruxsat kerak",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-
+        // Galereya launcher
         getContentLauncher = registerForActivityResult(
             ActivityResultContracts.GetContent()
         ) { uri: Uri? ->
             uri?.let {
                 selectedImageUri = it
-                binding.profileImg.setImageURI(it) // ✅ Galereyadan tanlangandan so‘ng rasmni ko‘rsatish
+                setImageProfile(it)
                 viewModel.putProfileImage(ProfileRequestPhoto(it))
             }
         }
 
+        // Kamera launcher
+        cameraLauncher = registerForActivityResult(
+            ActivityResultContracts.TakePicture()
+        ) { success ->
+            if (success) {
+                imageUri?.let {
+                    setImageProfile(it)
+                    viewModel.putProfileImage(ProfileRequestPhoto(it))
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Profile ma'lumotlarini kuzatish
         viewLifecycleOwner.lifecycleScope.launch {
-
             viewModel.profileResponse.collectLatest { response ->
                 response.avatar?.let { uri ->
                     Glide.with(requireContext())
                         .load(uri)
                         .apply(
-                            RequestOptions().skipMemoryCache(true)
+                            RequestOptions()
+                                .skipMemoryCache(true)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                         )
                         .into(binding.profileImg)
                 }
-
                 binding.edtName.setText(response.full_name)
                 binding.edtNumber.setText(response.phone_number)
-
             }
         }
 
-
+        // Profile yangilash natijasi
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.putProfile.collectLatest {
                 val isAvatarValid = it.avatar?.isNotEmpty() == true
@@ -115,45 +105,60 @@ class ProfileInfoScreen:Fragment(R.layout.screen_profile_info) {
         }
 
         binding.apply {
+            icBack.setOnClickListener { findNavController().popBackStack() }
 
-            icBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-
-            binding.edtImg.setOnClickListener {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    requestPermissionLauncher.launch(arrayOf(Manifest.permission.READ_MEDIA_IMAGES))
-                } else {
-                    requestPermissionLauncher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE))
-                }
-            }
+            // ✅ Dialog orqali tanlash
+            edtImg.setOnClickListener { showImageSourceDialog() }
 
             btnUpdate.setOnClickListener {
                 showProgressDialog()
-
                 val fullName = edtName.text.toString()
                 val phone = edtNumber.text.toString()
-
                 viewModel.putProfile(ProfileRequest(fullName, phone))
-
             }
-
         }
 
-        selectedImageUri?.let {
-            binding.profileImg.setImageURI(it)
-        }
-
+        selectedImageUri?.let { setImageProfile(it) }
     }
 
-    private fun openGallery() {
+    // ✅ Dialog
+    private fun showImageSourceDialog() {
+        val options = arrayOf("Kamera", "Galereya")
+        AlertDialog.Builder(requireContext())
+            .setTitle("Rasm tanlash")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> openCameraProfile()
+                    1 -> openGalleryProfile()
+                }
+            }
+            .show()
+    }
+
+    private fun openGalleryProfile() {
         getContentLauncher.launch("image/*")
     }
 
+    private fun openCameraProfile() {
+        val photoFile = File.createTempFile("profile_", ".jpg", requireContext().cacheDir)
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            photoFile
+        )
+        imageUri = uri
+        cameraLauncher.launch(uri)
+    }
+
+    private fun setImageProfile(uri: Uri) {
+        Glide.with(requireContext())
+            .load(uri)
+            .placeholder(R.drawable.loading)
+            .into(binding.profileImg)
+    }
+
     private fun showProgressDialog() {
-        progressDialog = ProgressDialogFragment(100) {
-            // Progress dialog dismiss qilish uchun callback
-        }
+        progressDialog = ProgressDialogFragment(100) {}
         progressDialog?.show(parentFragmentManager, "progressDialog")
 
         viewLifecycleOwner.lifecycleScope.launch {

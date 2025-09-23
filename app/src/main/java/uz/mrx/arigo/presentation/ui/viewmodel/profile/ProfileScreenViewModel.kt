@@ -5,6 +5,7 @@ import uz.mrx.arigo.data.remote.request.profile.ProfileRequest
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequestPhoto
 import uz.mrx.arigo.data.remote.response.profile.ContactResponse
 import uz.mrx.arigo.data.remote.response.profile.ProfileResponse
+import uz.mrx.arigo.utils.ResultData
 
 interface ProfileScreenViewModel {
 
@@ -19,6 +20,9 @@ interface ProfileScreenViewModel {
     fun putProfileImage(profileRequestPhoto: ProfileRequestPhoto)
 
     fun openMainScreen()
+
+
+    fun getProfile()
 
     fun openProfileScreen()
 

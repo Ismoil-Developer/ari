@@ -98,6 +98,19 @@ class ProfileScreenViewModelImpl @Inject constructor(
         }
     }
 
+    override fun getProfile() {
+        viewModelScope.launch {
+            profileUseCase.getProfile().collectLatest {
+                it.onSuccess {
+                    profileResponse.tryEmit(it)
+                }
+                it.onError {
+
+                }
+            }
+        }
+    }
+
     override fun openProfileScreen() {
         viewModelScope.launch {
             direction.openProfileInfoScreen()

@@ -1,220 +1,198 @@
 package uz.mrx.arigo.presentation.ui.screen.fragment.main.page
 
-import android.Manifest
-import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.R
-import uz.mrx.arigo.data.local.shp.MySharedPreference
 import uz.mrx.arigo.data.remote.request.profile.ProfileRequestPhoto
 import uz.mrx.arigo.databinding.PageProfileBinding
 import uz.mrx.arigo.presentation.ui.dialog.ContactDialog
 import uz.mrx.arigo.presentation.ui.dialog.LanguageDialog
 import uz.mrx.arigo.presentation.ui.dialog.LogoutDialog
+import uz.mrx.arigo.presentation.ui.dialog.ProgressDialogFragment
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.ProfileScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.impl.ProfileScreenViewModelImpl
-import javax.inject.Inject
+import uz.mrx.arigo.utils.ResultData
+import java.io.File
 
 @AndroidEntryPoint
-class ProfilePage:Fragment(R.layout.page_profile) {
+class ProfilePage : Fragment(R.layout.page_profile) {
 
-    private val binding:PageProfileBinding by viewBinding(PageProfileBinding::bind)
+    private val binding: PageProfileBinding by viewBinding(PageProfileBinding::bind)
     private val viewModel: ProfileScreenViewModel by viewModels<ProfileScreenViewModelImpl>()
-    private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
-    private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
-    @Inject
-    lateinit var shp:MySharedPreference
+    private lateinit var galleryLauncher: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
+
+    private var progressDialog: ProgressDialogFragment? = null
+    private var imageUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnEdt.setOnClickListener {
-            viewModel.openProfileScreen()
-        }
+        setupActivityResultLaunchers()
 
-        binding.icBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        binding.btnEdt.setOnClickListener { viewModel.openProfileScreen() }
+        binding.icBack.setOnClickListener { findNavController().popBackStack() }
 
         binding.logOut.setOnClickListener {
-            val dialog = LogoutDialog {
-
-                shp.token = ""
-
-                viewModel.openLoginScreen()
-
-            }
-            dialog.show(parentFragmentManager, "LogoutDialog")
+            LogoutDialog { }.show(parentFragmentManager, "LogoutDialog")
         }
 
-
         binding.edtLanguage.setOnClickListener {
-            val dialog = LanguageDialog()
-            dialog.show(parentFragmentManager, "LanguageDialog")
+            LanguageDialog().show(parentFragmentManager, "LanguageDialog")
         }
 
         binding.edtContactUs.setOnClickListener {
             val dialog = ContactDialog(
                 onCallClick = { number ->
-                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
-                    startActivity(intent)
+                    startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number")))
                 },
                 onTelegramClick = { link ->
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-                    startActivity(intent)
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
                 },
-                onChatClick = {
-                    viewModel.openChatScreen()
-                }
+                onChatClick = { viewModel.openChatScreen() }
             )
-
-            // ViewModel orqali maʼlumot olib, dialogga yuboriladi
             lifecycleScope.launch {
-                viewModel.getContact.collectLatest { response ->
-                    dialog.setContactData(response.phone_number, response.telegram_link)
+                viewModel.getContact.collectLatest {
+                    dialog.setContactData(it.phone_number, it.telegram_link)
                 }
             }
-
             dialog.show(parentFragmentManager, "ContactDialog")
         }
 
+        binding.edtImg.setOnClickListener { showImageSourceDialog() }
 
-        setupActivityResultLaunchers()
-
-        binding.edtImg.setOnClickListener {
-            requestPermissionsProfileImage()
-        }
-
+        // lifecycle-aware collectors
         viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-            viewModel.profileResponse.collectLatest { response ->
+                launch {
+                    viewModel.profileResponse.collectLatest { response ->
+                        binding.profileName.text = response.full_name ?: ""
+                        binding.profileNumber.text = response.phone_number ?: ""
 
-                response.full_name?.let {
-                    binding.profileName.text = it
+                        response.avatar?.let { avatarUrl ->
+                            Glide.with(requireContext())
+                                .load(avatarUrl)
+                                .into(binding.profileImg)
+                        }
+                        Log.d("PPPPPPPPPPP", "onViewCreated: ${response.avatar} kirdi getProfile")
+
+
+                    }
                 }
 
-                response.phone_number?.let {
-                    binding.profileNumber.text = it
+                launch {
+
+                    viewModel.profilePhotoResponse.collectLatest { response ->
+                        binding.profileName.text = response.full_name ?: ""
+                        binding.profileNumber.text = response.phone_number ?: ""
+
+                        response.avatar?.let { avatarUrl ->
+                            Glide.with(requireContext())
+                                .load(avatarUrl)
+                                .into(binding.profileImg)
+                        }
+                        Log.d("PPPPPPPPPPP", "onViewCreated: ${response.avatar} kirdi getProfile")
+
+                    }
+
                 }
 
-                response.avatar?.let { uri ->
-                    Glide.with(requireContext())
-                        .load(uri)
-                        .apply(
-                            RequestOptions().skipMemoryCache(true)
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        )
-                        .into(binding.profileImg)
-                }
 
             }
         }
     }
 
     private fun setupActivityResultLaunchers() {
-        requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    if (permissions[Manifest.permission.READ_MEDIA_IMAGES] == true) {
-                        openGalleryProfile()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Galereyaga ruxsat kerak",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    if (permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true) {
-                        openGalleryProfile()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Galereyaga ruxsat kerak",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-
+        // Gallery
         galleryLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val imageUri: Uri? = result.data?.data
-                    imageUri?.let { uri ->
-                        setImageProfile(uri)
-                        viewModel.putProfileImage(
-                            ProfileRequestPhoto(
-                                uri
-                            )
-                        )
-                        Log.d("GalleryLauncher", "Image selected: $uri")
-                    } ?: Log.e("GalleryLauncher", "Image URI is null")
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                uri?.let {
+                    setImageProfile(it)
+                    viewModel.putProfileImage(ProfileRequestPhoto(it))
                 }
             }
 
+        // Camera
         cameraLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val imageBitmap = result.data?.extras?.get("data") as? Bitmap
-                    imageBitmap?.let { bitmap ->
-                        setImageProfile(bitmap)
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                if (success) {
+                    imageUri?.let {
+                        setImageProfile(it)
+                        viewModel.putProfileImage(ProfileRequestPhoto(it))
                     }
                 }
             }
-
     }
 
-    private fun requestPermissionsProfileImage() {
-        requestPermissionLauncher.launch(
-            arrayOf(
-                Manifest.permission.CAMERA,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    Manifest.permission.READ_MEDIA_IMAGES
-                } else {
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+    private fun showProgressDialog() {
+        progressDialog = ProgressDialogFragment(100) {}
+        progressDialog?.show(parentFragmentManager, "progressDialog")
+    }
+
+    private fun dismissProgressDialog() {
+        progressDialog?.dismiss()
+    }
+
+    private fun showImageSourceDialog() {
+        val options = arrayOf("Kamera", "Galereya")
+        AlertDialog.Builder(requireContext())
+            .setTitle("Rasm tanlash")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> openCameraProfile()
+                    1 -> openGalleryProfile()
                 }
-            )
-        )
+            }
+            .show()
     }
 
     private fun openGalleryProfile() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryLauncher.launch(intent)
+        galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun openCameraProfile() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(intent)
+        val photoFile = File.createTempFile("profile_", ".jpg", requireContext().cacheDir)
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            photoFile
+        )
+        imageUri = uri
+        cameraLauncher.launch(uri)
     }
 
-    private fun setImageProfile(imageData: Any) {
-        when (imageData) {
-            is Uri -> binding.profileImg.setImageURI(imageData)
-            is Bitmap -> binding.profileImg.setImageBitmap(imageData)
-        }
+
+    private fun setImageProfile(uri: Uri) {
+        Glide.with(requireContext())
+            .load(uri)
+            .placeholder(R.drawable.loading)
+            .into(binding.profileImg)
     }
+
+
 
 }

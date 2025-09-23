@@ -15,5 +15,4 @@ object WebSocketModule {
         return ClientWebSocketClient()
     }
 
-
 }

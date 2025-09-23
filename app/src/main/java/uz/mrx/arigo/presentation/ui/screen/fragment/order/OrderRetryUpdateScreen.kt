@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,18 +32,6 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.imageQuestionsCheck.setOnClickListener {
-            isChecked = false
-            binding.imageQuestionsUnCheck.visibility = View.VISIBLE
-            binding.imageQuestionsCheck.visibility = View.GONE
-        }
-
-        binding.imageQuestionsUnCheck.setOnClickListener {
-            isChecked = true
-            binding.imageQuestionsUnCheck.visibility = View.GONE
-            binding.imageQuestionsCheck.visibility = View.VISIBLE
-        }
-
         binding.no.setOnClickListener {
             Log.d("NNNNNNNNN", "onViewCreated: bosildi ${args.id}")
             viewModel.openCancelScreen(args.id)
@@ -63,25 +52,25 @@ class OrderRetryUpdateScreen:Fragment(R.layout.screen_order_retry_update) {
             viewModel.getOrderDetailResponse.collectLatest {
 
                 binding.edtOrder.setText(it.items)
-                binding.floor.setText(it.floor)
+                binding.floor.setText(it.floor.toString()) // ✅ toString() qildik
                 binding.damophone.setText(it.intercom_code)
                 binding.houseNumber.setText(it.house_number)
                 binding.otherMessage.setText(it.additional_note)
                 binding.appartmentNumber.setText(it.apartment_number)
-                binding.title.text = it.shop.title
-
+                binding.title.text = it.shop.title ?: "" // null bo'lishi mumkin, shuning uchun safe call
                 binding.address.text = it.user.active_location.address
                 binding.customName.text = it.user.phone_number
 
-                locationId = it.user.active_location.id
 
-                if (it.allow_other_shops){
-                    binding.imageQuestionsCheck.visibility = View.VISIBLE
-                    binding.imageQuestionsUnCheck.visibility = View.GONE
-                }else{
-                    binding.imageQuestionsCheck.visibility = View.GONE
-                    binding.imageQuestionsUnCheck.visibility = View.VISIBLE
+                it.additional_shop.image.let {
+                    Glide.with(requireContext()).load(it).into(binding.imageView)
                 }
+
+                if(it.additional_shop.title.isNotEmpty()){
+                    binding.shopTitle.text = it.additional_shop.title
+                }
+
+                locationId = it.user.active_location.id
 
             }
         }
