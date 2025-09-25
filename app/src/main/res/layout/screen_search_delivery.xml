@@ -80,7 +80,7 @@
         android:layout_marginEnd="27dp"
         android:background="@drawable/back_style_button_delivery"
         android:fontFamily="@font/font_family_medium"
-        android:text="@string/davom_etish"
+        android:text="@string/bekor_qilish"
         android:textAllCaps="false"
         android:textColor="@color/text_color_bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -18,9 +18,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,7 +30,6 @@ import uz.mrx.arigo.presentation.ui.dialog.LogoutDialog
 import uz.mrx.arigo.presentation.ui.dialog.ProgressDialogFragment
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.ProfileScreenViewModel
 import uz.mrx.arigo.presentation.ui.viewmodel.profile.impl.ProfileScreenViewModelImpl
-import uz.mrx.arigo.utils.ResultData
 import java.io.File
 
 @AndroidEntryPoint
@@ -127,7 +123,7 @@ class ProfilePage : Fragment(R.layout.page_profile) {
     }
 
     private fun setupActivityResultLaunchers() {
-        // Gallery
+            // Gallery
         galleryLauncher =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 uri?.let {

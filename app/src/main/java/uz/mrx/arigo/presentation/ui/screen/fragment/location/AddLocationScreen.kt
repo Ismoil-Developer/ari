@@ -430,11 +430,7 @@ class AddLocationScreen : Fragment(R.layout.screen_location_add), CameraListener
                     binding.edtYourLoc.setText(address)
 
                     val coordinatesText = "Lat: ${point.latitude}, Lng: ${point.longitude}"
-                    Toast.makeText(
-                        requireContext(),
-                        "Koordinata: $coordinatesText\nManzil: $address",
-                        Toast.LENGTH_LONG
-                    ).show()
+
                 }
 
                 override fun onSearchError(p0: Error) {

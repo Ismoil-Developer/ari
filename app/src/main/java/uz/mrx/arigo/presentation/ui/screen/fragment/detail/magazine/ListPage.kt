@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -108,13 +109,18 @@ class ListPage(private val id: Int, private val roleId:Int) : Fragment(R.layout.
 
             if (!it.isEnabled) return@setOnClickListener
 
+            if (additionalShopId == null) {
+                // ⚠️ Agar shop tanlanmagan bo‘lsa
+                Toast.makeText(requireContext(), "Iltimos, avval qo‘shimcha magazin tanlang", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val orderItems = binding.edtOrder.text.toString()
-            val additionalShop = additionalShopId ?: null // hech narsa tanlanmagan bo‘lsa, yubormaslik
 
             val request = OrderRequest(
                 items = orderItems,
                 allow_other_shops = isChecked,
-                additional_shop = additionalShop
+                additional_shop = additionalShopId // ✅ endi null bo‘lishi mumkin emas
             )
 
             viewModel.createOrder(id, request)
