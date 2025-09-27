@@ -64,4 +64,5 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
     open fun onSwipeLeft() {}
     open fun onSwipeTop() {}
     open fun onSwipeBottom() {}
+
 }
