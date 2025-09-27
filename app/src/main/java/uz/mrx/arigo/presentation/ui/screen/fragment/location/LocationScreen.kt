@@ -59,6 +59,7 @@ class LocationScreen : Fragment(R.layout.screen_location) {
                         active = true
                     )
                 ) },
+
             edtClickListener = { location ->
                 val dialog = LocationEdtDialog(
                     location = location,
