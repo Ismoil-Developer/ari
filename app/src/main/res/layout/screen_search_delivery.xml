@@ -19,7 +19,8 @@
                 android:id="@+id/imgDelivery"
                 android:layout_width="match_parent"
                 android:layout_height="411dp"
-                android:src="@drawable/picture_creera"
+
+                android:src="@drawable/picture_courier"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

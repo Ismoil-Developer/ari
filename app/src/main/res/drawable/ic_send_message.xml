@@ -11,7 +11,7 @@
         android:strokeLineJoin="round"
         android:strokeWidth="1.5"
         android:fillColor="#00000000"
-        android:strokeColor="#FF9431"
+        android:strokeColor="#FFCC00"
         android:strokeLineCap="round"/>
   </group>
   <group>
@@ -22,7 +22,7 @@
         android:strokeLineJoin="round"
         android:strokeWidth="1.5"
         android:fillColor="#00000000"
-        android:strokeColor="#FF9431"
+        android:strokeColor="#FFCC00"
         android:strokeLineCap="round"/>
   </group>
 </vector>
