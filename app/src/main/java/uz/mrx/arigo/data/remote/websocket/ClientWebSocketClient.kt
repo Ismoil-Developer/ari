@@ -1,13 +1,20 @@
 package uz.mrx.arigo.data.remote.websocket
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import okhttp3.*
 import org.json.JSONObject
 import uz.mrx.arigo.utils.ResultData
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class ClientWebSocketClient @Inject constructor() {
@@ -18,11 +25,19 @@ class ClientWebSocketClient @Inject constructor() {
 
     private var webSocket: WebSocket? = null
 
-    private val _deliveryAccepted = MutableSharedFlow<WebSocketGooEvent.DeliveryAccepted>(replay = 1)
-    val deliveryAccepted: SharedFlow<WebSocketGooEvent.DeliveryAccepted> = _deliveryAccepted
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private val _courierNotFound = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>(replay = 1)
+    private val _deliveryAccepted =
+        MutableSharedFlow<WebSocketGooEvent.DeliveryAccepted>(replay = 1)
+    val deliveryAccepted = _deliveryAccepted.asSharedFlow()
+
+
+    private val _courierNotFound = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>(
+        replay = 1,                      // oxirgi eventni eslab turadi
+        extraBufferCapacity = 64
+    )
     val courierNotFound: SharedFlow<WebSocketGooEvent.CourierNotFound> = _courierNotFound
+
 
     private val _orderDirectionUpdate = MutableSharedFlow<WebSocketGooEvent.OrderDirectionUpdate>(replay = 1)
     val orderDirectionUpdate: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate> = _orderDirectionUpdate
@@ -40,10 +55,18 @@ class ClientWebSocketClient @Inject constructor() {
     val durationUpdate: SharedFlow<WebSocketGooEvent.DurationUpdate> = _durationUpdate
 
 
-
-
     private var currentUrl: String? = null
     private var currentToken: String? = null
+
+
+
+    suspend fun emitDeliveryAccepted(event: WebSocketGooEvent.DeliveryAccepted) {
+        Log.d("WebSocketFlow", "🚀 Emit qilishdan oldin: ${event.order_id}")
+        _deliveryAccepted.emit(event)
+        Log.d("WebSocketFlow", "✅ Emit qilindi: ${event.order_id}")
+    }
+
+
 
     fun connect(url: String, token: String) {
 
@@ -71,12 +94,20 @@ class ClientWebSocketClient @Inject constructor() {
 
                         is WebSocketGooEvent.CourierNotFound -> {
                             Log.d("GooWebSocket", "CourierNotFound: ${event.id}")
-                            _courierNotFound.tryEmit(event)
+                            scope.launch {
+                                _courierNotFound.emit(event) // ✅ endi to‘g‘ri ishlaydi
+
+                            }
+
                         }
 
                         is WebSocketGooEvent.DeliveryAccepted -> {
-                            Log.d("GooWebSocket", "DeliveryAccepted: ${event.order_id}")
-                            _deliveryAccepted.tryEmit(event)
+                            Log.d("GooWebSocket", "✅ DeliveryAccepted: ${event.order_id} — EMIT boshlanmoqda")
+                            scope.launch {
+                                Log.d("GooWebSocket", "🚀 Emit qilishdan oldin replayCache: ${_deliveryAccepted.replayCache}")
+                                _deliveryAccepted.emit(event)
+                                Log.d("GooWebSocket", "✅ DeliveryAccepted: ${event.order_id} — EMIT bajarildi. replayCache after: ${_deliveryAccepted.replayCache}")
+                            }
                         }
 
                         is WebSocketGooEvent.OrderDirectionUpdate -> {
@@ -129,9 +160,21 @@ class ClientWebSocketClient @Inject constructor() {
         })
     }
 
-    fun sendMessage(message: String) {
-        webSocket?.send(message)
+    fun sendMessage(action: String, orderId: Int? = null) {
+        val json = JSONObject().apply {
+            put("action", action)
+            if (orderId != null) put("order_id", orderId)
+        }
+        val message = json.toString()
+
+        try {
+            webSocket?.send(message)
+            Log.d("WebSocketClient", "📤 Sent: $message")
+        } catch (e: Exception) {
+            Log.e("WebSocketClient", "❌ Send error: ${e.message}")
+        }
     }
+
 
     fun disconnect() {
         webSocket?.close(1000, "Client closed")

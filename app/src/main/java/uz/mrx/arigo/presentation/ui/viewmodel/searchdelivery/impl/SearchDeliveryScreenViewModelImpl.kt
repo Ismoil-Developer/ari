@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.mrx.arigo.data.remote.request.order.OrderCancelRequest
 import uz.mrx.arigo.data.remote.response.order.OrderCancelResponse
 import uz.mrx.arigo.data.remote.response.order.RetryOrderResponse
+import uz.mrx.arigo.data.remote.websocket.ClientWebSocketClient
 import uz.mrx.arigo.data.remote.websocket.WebSocketGooEvent
 import uz.mrx.arigo.domain.usecase.order.OrderUseCase
 import uz.mrx.arigo.presentation.direction.searchdelivery.SearchDeliveryScreenDirection
@@ -19,23 +22,98 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchDeliveryScreenViewModelImpl @Inject constructor(
     private val direction: SearchDeliveryScreenDirection,
-    private val useCase: OrderUseCase
-) : SearchDeliveryScreenViewModel, ViewModel() {
+    private val useCase: OrderUseCase,
+    private val clientWebSocketClient: ClientWebSocketClient
+) : ViewModel(), SearchDeliveryScreenViewModel {
 
-    private val _deliveryAcceptedFlow = MutableSharedFlow<WebSocketGooEvent.DeliveryAccepted>()
+    // 🔥 WebSocket event flow'lar
+    private val _deliveryAcceptedFlow = MutableSharedFlow<WebSocketGooEvent.DeliveryAccepted>(replay = 1)
     override val deliveryAcceptedFlow: SharedFlow<WebSocketGooEvent.DeliveryAccepted> = _deliveryAcceptedFlow
 
-    private val _courierNotFoundFlow = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>()
+    private val _courierNotFoundFlow = MutableSharedFlow<WebSocketGooEvent.CourierNotFound>(replay = 1)
     override val courierNotFoundFlow: SharedFlow<WebSocketGooEvent.CourierNotFound> = _courierNotFoundFlow
 
-    private val _searchingFlow = MutableSharedFlow<WebSocketGooEvent.Searching>()
+    private val _searchingFlow = MutableSharedFlow<WebSocketGooEvent.Searching>(replay = 1)
     override val searchingFlow: SharedFlow<WebSocketGooEvent.Searching> = _searchingFlow
 
-    private val _directionUpdateFlow = MutableSharedFlow<WebSocketGooEvent.OrderDirectionUpdate>()
+    private val _directionUpdateFlow = MutableSharedFlow<WebSocketGooEvent.OrderDirectionUpdate>(replay = 1)
     override val directionUpdateFlow: SharedFlow<WebSocketGooEvent.OrderDirectionUpdate> = _directionUpdateFlow
 
-    override val retryOrder = flow<RetryOrderResponse>()
 
+    // --- Order API flow'lar ---
+    override val retryOrder = flow<RetryOrderResponse>()
+    override val cancelResponse = flow<OrderCancelResponse>()
+
+
+    init {
+        // 🔥 WebSocket eventlarini kuzatish
+        observeWebSocketEvents()
+    }
+
+    private fun observeWebSocketEvents() {
+
+        Log.d("SearchDeliveryVM", "🧩 ViewModel created, clientWebSocketClient hash: ${clientWebSocketClient.hashCode()}")
+
+
+        // ✅ DeliveryAccepted
+        viewModelScope.launch {
+            clientWebSocketClient.deliveryAccepted.collectLatest {
+                Log.d("SearchDeliveryVM", "💥 DeliveryAccepted keldi: ${it.order_id}")
+                _deliveryAcceptedFlow.emit(it)
+            }
+        }
+
+        // ✅ CourierNotFound
+        viewModelScope.launch {
+            clientWebSocketClient.courierNotFound.collectLatest {
+                Log.d("SearchDeliveryVM", "⚠️ CourierNotFound: ${it.id}")
+                _courierNotFoundFlow.emit(it)
+            }
+        }
+
+        // ✅ Searching
+        viewModelScope.launch {
+            clientWebSocketClient.searching.collectLatest {
+                Log.d("SearchDeliveryVM", "🔎 Searching: ${it.shop_title}")
+                _searchingFlow.emit(it)
+            }
+        }
+
+        // ✅ OrderDirectionUpdate
+        viewModelScope.launch {
+            clientWebSocketClient.orderDirectionUpdate.collectLatest {
+                Log.d("SearchDeliveryVM", "📍 Direction update: ${it.direction}")
+                _directionUpdateFlow.emit(it)
+            }
+        }
+    }
+
+
+    // --- API funksiyalar ---
+    override fun retryOrder(id: Int) {
+        viewModelScope.launch {
+            useCase.retryOrder(id).collectLatest {
+                it.onSuccess { data -> retryOrder.tryEmit(data) }
+                it.onError { err ->
+                    Log.e("RetryOrder", "❌ Error: ${err.message}")
+                }
+            }
+        }
+    }
+
+    override fun cancelOrder(id: Int, request: OrderCancelRequest) {
+        viewModelScope.launch {
+            useCase.cancelOrder(id, request).collectLatest {
+                it.onSuccess { cancelResponse.tryEmit(it) }
+                it.onError { err ->
+                    Log.e("CancelOrder", "❌ Error: ${err.message}")
+                }
+            }
+        }
+    }
+
+
+    // --- Navigatsiyalar ---
     override fun openOrderDeliveryScreen(coordinates: String, id: Int) {
         viewModelScope.launch {
             direction.openOrderDeliveryScreen(coordinates, id)
@@ -48,70 +126,6 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
         }
     }
 
-    override fun retryOrder(id: Int) {
-        viewModelScope.launch {
-            useCase.retryOrder(id).collectLatest {
-                it.onSuccess { data -> retryOrder.tryEmit(data) }
-                it.onError { err -> Log.e("RetryOrder", "Error: ${err.message}") }
-            }
-        }
-    }
-
-    private suspend fun handleIncomingMessage(message: WebSocketGooEvent) {
-        when (message) {
-            is WebSocketGooEvent.DeliveryAccepted -> {
-                _deliveryAcceptedFlow.emit(message)
-            }
-
-            is WebSocketGooEvent.CourierNotFound -> {
-                _courierNotFoundFlow.emit(message)
-            }
-
-            is WebSocketGooEvent.Searching -> {
-                _searchingFlow.emit(message)
-            }
-
-            is WebSocketGooEvent.OrderDirectionUpdate -> {
-                _directionUpdateFlow.emit(message)
-            }
-            is WebSocketGooEvent.OrderPrice -> {
-
-            }
-
-            is WebSocketGooEvent.UnknownMessage -> {
-                Log.w("WebSocket", "Unknown message: ${message.raw_message}")
-            }
-
-            is WebSocketGooEvent.LocationUpdate -> {
-
-                Log.w("WebSocket", "Location update: ${message.timestamp}")
-            }
-
-
-            is WebSocketGooEvent.DurationUpdate -> {
-                Log.d("GooWebSocket", "DuractionMinute: ${message.duration_min}")
-
-            }
-
-        }
-
-    }
-
-    override fun cancelOrder(id: Int, request: OrderCancelRequest) {
-        viewModelScope.launch {
-            useCase.cancelOrder(id, request).collectLatest {
-                it.onError {
-
-                }
-                it.onSuccess {
-                    cancelResponse.tryEmit(it)
-                }
-            }
-        }
-    }
-
-    override val cancelResponse = flow<OrderCancelResponse>()
-
     override fun orderCancelScreen(id: Int) {
         viewModelScope.launch {
             direction.openCancelScreen(id)
@@ -123,8 +137,4 @@ class SearchDeliveryScreenViewModelImpl @Inject constructor(
             direction.openMainScreen()
         }
     }
-
-
-
-
 }
